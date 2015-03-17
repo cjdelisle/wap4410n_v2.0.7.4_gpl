@@ -1,0 +1,47 @@
+#!/bin/sh
+####################################################################
+## ath_VAP_make
+##
+## This script is used to creat a VAP, or if you want complete
+## destruction, specify all.
+##
+##
+## Examples:
+##      ath_VAP_make ath01 ap
+##
+###################################################################
+
+if [ "${1}" = "" -o "${2}" = "" ]; then
+    echo "    ath_VAP_make usage"
+    echo "    ath_VAP_make [ ATH ] [ mode ] "
+    exit
+fi
+
+##
+## SPE-profing
+## Check to see if ath_VAP_down is already running.  If so, exit, because you should only
+## be doing one at a time
+##
+
+SPEPROOF=`ps | grep -c ath_VAP_make`
+if [ $SPEPROOF -gt 3 ]; then
+   ps
+   echo "Too much makeing!!  Give peace a chance!!"
+   exit
+fi
+
+vapstr=`ifconfig | grep $1 | cut -b 1-5`
+if [ "${vapstr}" = "" ]; then
+	unit=`echo $1 | cut -b 4`
+	if [ "${2}" = "ap" ]; then
+	    wlanconfig $1 create wlandev wifi$unit wlanmode ap
+	fi
+	if [ "${2}" = "wds" ]; then
+	    wlanconfig $1 create wlandev wifi$unit wlanmode ap nosbeacon
+	fi
+	if [ "${2}" = "sta" ]; then
+	    wlanconfig $1 create wlandev wifi$unit wlanmode sta nosbeacon
+	fi
+else
+    echo " ${1} is exist."
+fi

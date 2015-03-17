@@ -1,0 +1,318 @@
+/* Copyright 2009 Cisco Systems. All rights reserved. */
+
+/* Constains tab styles for navigation elements.  The navigator defines two main boxes. */
+/* The first contains first and secondary tabs and the second, the contents of the */
+/* navigator (the box that contains the results of the currently selected tab.) */
+/* Separation and indent boxes are defined as well. */
+
+/* import the corporate styles. */
+@import url(base.css);
+
+
+/* separates last (bottom-most) tab and bottom of navigator. */
+.bottom-separator {
+        border-right: 1px solid #000000;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        width: 5px;
+}
+
+/* elememnt wihtin a collapsable tab group.  either a second level tab */
+/* or separator that is part of a collapsable group of tabs.   note, to */
+/* modify the image used for the collapse functionality, edit collapse.gif
+/* and/or expand.gif */
+.collapsable {
+}
+
+/* content box. */
+.nav-content {
+ /*       background: #cbd1d8; */
+	border: 8px solid /* #cbd1d8 */;
+        height: 100%;
+        margin: 0px;
+        /* padding-right: 0px; */
+        text-align: left;
+        vertical-align: top;
+        width: 100%;
+	/* filter: alpha(opacity=67); */
+}
+
+/* container for nav-content. */
+.nav-content-container {
+        /* background: #cbd1d8; */
+		border-color: #000000 #000000 #000000 #000000;
+	border-width: 0px 1px 1px 1px;
+	border-style: none solid solid solid;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+        text-align: left;
+        vertical-align: top;
+        width: 100%;
+	/* filter: alpha(opacity=67); */
+	/* opacity: 0.67; */
+}
+
+.nav-client-content {
+	padding: 0px;
+	padding-right: 50px;
+}
+
+/* box containing tabs. */
+.navigator {
+        /* vertical-align: top; */
+}
+
+.tabs {
+        /* vertical-align: middle; */
+        border-color: 0xffffff;
+        border-style: none;
+        border-width: 1px;
+        border-radius: 3em;
+	height: 23px;
+    width: 100%;
+}
+.wiz-tabs {
+        /* vertical-align: middle; */
+        border-color: #ffffff;
+        border-style: none;
+        border-width: 1px;
+        /* border-radius: 3em; */
+	height: 23px;
+    width: 100%;
+}
+/* defines an unselected top level navigation tab. */
+.tab1 {
+        background-position: left top;
+        border-color: transparent;
+        border-style: none;
+        border-width: 1px;
+        border-radius: 3px;
+        cursor: pointer;
+        margin: 0px;
+	padding: 0px 6px 0px 6px;
+        text-align: center;
+        vertical-align: middle;
+	height: 23px;
+	width: auto;
+        text-transform: capitalize;
+        line-height: normal;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+}
+.wiz-tab1 {
+        background-position: left top;
+        border-color: transparent;
+        border-style: none;
+        border-width: 1px;
+/* 	border-radius: 3px; */
+        margin: 0px;
+	padding: 0px 0px 0px 0px;
+	text-align: left;
+        vertical-align: middle;
+	height: 22px;
+	width: auto;
+        text-transform: capitalize;
+        line-height: normal;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+	color: #8E8E8E;
+}
+.step-div-header-class {
+	margin: 0px;
+	text-align: left;
+	vertical-align: middle;
+	height: 24px;
+	text-transform: capitalize;
+	line-height: normal;
+	font-size: 15px;
+	font-weight: normal;
+	font-family: arial;
+	display: table-cell;
+	position: relative;
+	color: #8E8E8E;
+}
+.step-div-footer-class {
+	margin: 0px;
+	text-align: left;
+	vertical-align: middle;
+/* 	height: 30px; */
+/*	text-transform: capitalize; */
+	line-height: normal;
+	font-size: 15px;
+	font-weight: normal;
+	font-family: arial;
+  font-color:
+	display: table-cell; 
+	position: absolute; 
+	color: #000000;
+	top:343px;
+}
+
+.step-div-header-padding-class {
+	height: 15px;
+}
+
+/* style of links contained within first level tabs. */
+.wiz-tab1 a:link, .wiz-tab1 a:visited {
+        color: #000000;
+        text-decoration: none;
+        white-space: nowrap;
+}
+/* style of links contained within first level tabs. */
+.tab1 a:link, .tab1 a:visited {
+        color: #000000;
+        text-decoration: none;
+        white-space: nowrap;
+}
+
+.tab1:hover {
+        background: #60E4FB;
+}
+
+/* defines a selected top level navigation tab. */
+.tab1-selected {
+	background: #ffffff;
+	background-position: left top;
+	/* background-repeat: no-repeat; */
+	border-color: #000000;
+	/* border-style: top right bottom left; */
+	border-style: solid solid solid solid;
+        border-width: 1px 1px 1px 1px;
+	color: #000000;
+	cursor: pointer;
+	margin: 0px;
+	padding: 0px 6px 0px 6px;
+	text-align: center;
+	/* vertical-align: middle; */
+	/* white-space: nowrap; */
+	height: 23px;
+	width: auto;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: arial;
+}
+
+/* style of links contained within a selected first level tab. */
+.tab1-selected a:link, .tab1-selected a:visited {
+        color: #000000;
+        text-align: left;
+        text-decoration: none;
+        vertical-align: middle;
+        white-space: nowrap;
+}
+
+/* defines an unselected second level navigation tab. */
+.tab2 {
+		background: #DFE5F3;
+        background-position: left top;
+        border-color: #000000 #000000 #000000 #000000;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 3em;
+        cursor: pointer;
+        margin: 0px;
+		padding: 3px 6px 3px 6px;
+        vertical-align: middle;
+        white-space: nowrap;
+        height: 23px;
+        line-height:normal;
+        text-align:center;
+        width:auto;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+}
+
+/* style of links contained within secondary tabs. */
+.tab2 a:link, .tab2 a:visited {
+        color: #000000;
+        text-align: left;
+        text-decoration: none;
+        vertical-align: middle;
+        white-space: nowrap;
+}
+
+/* defines a selected second level navigation tab. */
+.tab2-selected {
+        background-color: #8db71f;
+        background-position: left top;
+        /* background-repeat: no-repeat; */
+        border-color: #8499a2;
+        border-width: 1px 1px 1px 1px;
+        border-style: solid solid solid solid;
+        color: #ffffff;
+        cursor: pointer;
+        margin: 0px;
+		padding: 3px 6px 3px 6px;
+        line-height:normal;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        height: 23px;
+        width: auto;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: arial;
+}
+
+/* style of links contained within a selected secondary tab. */
+.tab2-selected a:link, .tab2-selected a:visited {
+        color: #000000;
+        text-decoration: none;
+        white-space: nowrap;
+}
+
+/* defines the indent for secondary tabs. */
+.tab-indent {
+        line-height: 0px;
+        width: 20%;
+}
+
+/* tab separator within a group of tabs. */
+.tab-separator {
+		border-color: #000000;
+		border-width: 1px;
+        border-right: 1px solid #000000;
+        line-height: 2px;
+        margin: 0px;
+        padding: 0px 0px 0px 3px;
+}
+
+/* separator between tab groups. */
+.tabgroup-separator {
+        border-right: 1px solid #000000;
+        line-height: 8px;
+        margin: 0px;
+        padding: 0px 0px 0px 3px;
+        width: 5px;
+}
+.wiz-tabgroup-separator {
+	line-height: 8px;
+	margin: 0px;
+	padding: 0px 0px 0px 3px;
+	width: 5px;
+}
+.tabselected-separator {
+		background-position: left top;
+		background-repeat: no-repeat;
+		border-color: #000000;
+        border-right: 2px solid #000000;
+        border-width: 0px 1px 0px 0px;
+        line-height: 8px;
+        margin: 0px;
+        padding: 0px;
+}
+
+/* separates first (top-most) tab and top of the navigator. */
+.top-separator {
+        border-right: 1px solid #000000;
+        line-height: 8px;
+        margin: 0px;
+        padding: 0px;
+        width: 5px;
+}

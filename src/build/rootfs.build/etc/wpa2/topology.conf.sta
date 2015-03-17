@@ -1,0 +1,17 @@
+bridge none
+{
+}
+bridge br0
+{
+    interface ath04
+    #couldbe# interface ath1
+    interface eth0
+}
+radio wifi0
+{
+    sta ath04
+    {
+        config /var/wpasupp.cfg
+    }
+}
+

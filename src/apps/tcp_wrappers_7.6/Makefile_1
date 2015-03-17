@@ -1,0 +1,31 @@
+# @(#) Makefile 1.23 97/03/21 19:27:20
+
+
+#include ../../rules.mk
+
+# Protection against weird shells or weird make programs.
+
+#SHELL	= /bin/sh
+TABLES	= -DHOSTS_DENY=\"/etc/hosts.deny\" -DHOSTS_ALLOW=\"/etc/hosts.allow\"
+
+CFLAGS += -Os -Wall -s $(TABLES)
+CFLAGS += -I$(INC_APPS_PATH)
+LDFLAGS = -L$(INSTALLROOT)/lib
+LIB_OBJ= hosts_access.o options.o shell_cmd.o rfc931.o eval.o \
+	hosts_ctl.o refuse.o percent_x.o clean_exit.o $(AUX_OBJ) \
+	$(FROM_OBJ) fix_options.o socket.o tli.o workarounds.o \
+	update.o misc.o diag.o percent_m.o myvsyslog.o
+
+
+all: libwrap.so 
+
+libwrap.so: $(LIB_OBJ)
+	$(CC) $(LDFLAGS) -o libwrap.so $(OBJS) $(LIBS)
+	$(STRIP) libwrap.so
+	
+install:
+#	cp -f libwrap.so $(KERNEL_INSTALL_ROOT)/usr/sbin
+	
+clean:
+	rm -f *.o libwrap.so 
+	

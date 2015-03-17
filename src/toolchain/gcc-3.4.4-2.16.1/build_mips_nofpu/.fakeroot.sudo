@@ -1,0 +1,1 @@
+make -j1 DESTDIR=/home/shearer/Projects/WAP4410N/gpl/wap4410n_v2.0.5.1_gpl/src/toolchain/gcc-3.4.4-2.16.1/build_mips_nofpu/root -C /home/shearer/Projects/WAP4410N/gpl/wap4410n_v2.0.5.1_gpl/src/toolchain/gcc-3.4.4-2.16.1/build_mips_nofpu/sudo-1.6.8p9 install

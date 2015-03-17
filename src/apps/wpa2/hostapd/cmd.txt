@@ -1,0 +1,40 @@
+#! /bin/sh
+insmod /lib/modules/2.6.15/net/ath_hal.ko
+insmod /lib/modules/2.6.15/net/wlan.ko
+insmod /lib/modules/2.6.15/net/ath_rate_atheros.ko
+insmod /lib/modules/2.6.15/net/ath_dfs.ko
+insmod /lib/modules/2.6.15/net/ath_dev.ko
+insmod /lib/modules/2.6.15/net/ath_ahb.ko
+insmod /lib/modules/2.6.15/net/wlan_xauth.ko
+insmod /lib/modules/2.6.15/net/wlan_ccmp.ko
+insmod /lib/modules/2.6.15/net/wlan_tkip.ko
+insmod /lib/modules/2.6.15/net/wlan_wep.ko
+insmod /lib/modules/2.6.15/net/wlan_acl.ko
+insmod /lib/modules/2.6.15/net/wlan_me.ko
+insmod /lib/modules/2.6.15/net/wlan_scan_ap.ko
+
+iwpriv wifi0 setCountryID 392
+
+wlanconfig ath create wlandev wifi0 wlanmode ap
+iwpriv ath0 bgscan 0
+iwpriv wifi0 HALDbg 0x0
+iwpriv wifi0 ATHDebug 0x0
+iwpriv ath0 dbgLVL 0x100
+ifconfig ath0 txqueuelen 1000
+ifconfig wifi0 txqueuelen 1000
+iwpriv ath0 shortgi 1
+iwpriv ath0 mode 11NGHT40PLUS
+iwpriv wifi0 ForBiasAuto 1
+iwpriv ath0 extoffset 1
+iwpriv ath0 cwmmode 1
+iwpriv wifi0 AMPDU 1
+iwpriv wifi0 AMPDUFrames 32
+iwpriv wifi0 AMPDULim 50000
+iwpriv ath0 pureg 0
+iwpriv ath0 puren 0
+iwpriv ath0 pureg 0
+iwpriv ath0 puren 0
+iwconfig ath0 essid Atheros_XSpan_2G mode master freq 6
+
+ifconfig ath0 up
+brctl addif br0 ath0

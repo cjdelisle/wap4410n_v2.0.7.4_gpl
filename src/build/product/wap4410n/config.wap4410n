@@ -1,0 +1,30 @@
+#
+# Cross infomation
+#
+CROSS_COMPILE  = $(TOOLPREFIX)
+AS		= $(CROSS_COMPILE)as
+LD		= $(CROSS_COMPILE)ld
+CC		= $(CROSS_COMPILE)gcc
+CPP		= $(CROSS_COMPILE)g++
+AR		= $(CROSS_COMPILE)ar
+NM		= $(CROSS_COMPILE)nm
+STRIP		= $(CROSS_COMPILE)strip
+OBJCOPY		= $(CROSS_COMPILE)objcopy
+OBJDUMP		= $(CROSS_COMPILE)objdump 
+
+export AS LD CC CPP AR NM STRIP OBJCOPY OBJDUMP 
+
+#
+# Define the Features Here
+#
+export OEM_TYPE = linksys
+export WAP4410N = 1
+export WSC = 1
+export IPV6 = 1
+export RASIUSACL = 1
+export SSHD = 1
+export LLTD = 1
+export LOADBALANCE = 1
+export HTTPREDIRECT = 1
+
+export CFLAGS = -DLINKSYS -DWAP4410N -DLINUX_WSC -DSC_RADIUS_ACL -DWSC_UPNP

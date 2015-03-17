@@ -1,0 +1,141 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML><HEAD><TITLE>ヘルプ - ワイヤレス セキュリティ</TITLE>
+
+<meta name="description" content="Cisco WAP4410N">
+
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+
+
+
+
+<link REL="stylesheet" TYPE="text/css" HREF="help.css">
+
+<script language="javascript" type="text/javascript">
+
+</SCRIPT></HEAD>
+
+<BODY class="hbody">
+<div align="center" class="HAllPane">
+	
+  <div align="center" class="HFormPane"> 
+    <div align="center" class="XFormPane">
+      <form name="dummy">
+        <TABLE cellSpacing="0" cellpadding="0" border="0" class="hTable">
+          <TR> <td> 
+            <div align="CENTER"> 
+              <!-- Start Help Content -->
+              <h1> ワイヤレス セキュリティ </h1>
+              <BR>
+              <p></p>
+              <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+                <tr > 
+                  <td colspan="2"> <p class="STYLE1"> 使用するワイヤレス セキュリティ モードとして、WPA-Personal、WPA2-Personal、WPA2- 
+                      Personal Mixed、WPA-Enterprise、WPA2-Enterprise、WPA2-Enterprise 
+                      Mixed、RADIUS、または WEP を選択します （WPA は Wi-Fi Protected Access 
+                      の略称です。これは、WEP 暗号化よりも強力なセキュリティ規格で、IEEE 802.11e との上位互換性を持ちます。また、WEP 
+                      は Wired Equivalent Privacy（有線と同等のプライバシー）の略称で、RADIUS は Remote 
+                      Authentication Dial- In User Service の略称です）。認証の種類と SSID 
+                      相互運用性設定を選択した後で、下の説明を参照してください。<BR>
+                      <BR>
+                    </p></td>
+                </tr>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[SSIDを選択] </strong></td>
+                  <td class="rightstyle" valign="top"> ワイヤレス セキュリティ モードを設定する SSID 
+                    を選択します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[ワイヤレスの分離:<BR>
+                    (SSID間)] </strong></td>
+                  <td class="rightstyle" valign="top"> この機能はデフォルトで有効になります。複数の 
+                    VLAN を設定する場合、それぞれ異なる SSID に関連付けられている PC は互いを認識できません。互いに認識できるようにする場合は、このオプションを無効にします。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[ワイヤレスの分離:<BR>
+                    (SSID内)] </strong></td>
+                  <td class="rightstyle" valign="top"> SSID 内でのワイヤレスの分離です。無効にすると、同じネットワーク名（SSID）に関連付けられているワイヤレス 
+                    PC が、互いを認識してファイルをやり取りできます。この機能を有効にすると、ワイヤレス PC は互いを認識できません。この機能は、ワイヤレス 
+                    ホットスポットを設定するときに便利です。デフォルトでは無効になります。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WEP] </strong></td>
+                  <td class="rightstyle" valign="top"> WEP 暗号化には 64 ビットと 128 ビットの 
+                    2 つのレベルがあります。暗号化ビットの値が高いほどネットワークのセキュリティが強化されますが、通信速度が低下します。WEP 
+                    を使用するには、暗号化ビットを選択し、パスフレーズまたは 16 進形式の WEP キーを入力します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WPA-Personal] </strong></td>
+                  <td class="rightstyle" valign="top"> WPA-Personal には、TKIP と 
+                    AES という 2 つの暗号化オプションがあります。TKIP は Temporal Key Integrity Protocol 
+                    の略称です。TKIP では動的キーを使用し、Message Integrity Code（MIC; メッセージ完全性符号）を組み込んで、ハッカーからの攻撃から保護します。AES 
+                    は Advanced Encryption System の略称であり、対称 128 ビット ブロック データ暗号化を使用します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WPA2-Personal] </strong></td>
+                  <td class="rightstyle" valign="top"> WPA2 ではデータ暗号化に必ず AES を使用します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WPA2-Personal Mixed] 
+                    </strong></td>
+                  <td class="rightstyle" valign="top"> このセキュリティ モードは、WPA-Personal 
+                    から WPA2-Personal への移行をサポートします。WPA-Personal と WPA2-Personal 
+                    のどちらのモードを使用するクライアント デバイスでも使用できます。アクセス ポイントは、それぞれのクライアント デバイスで使用する暗号化アルゴリズムを自動的に選択します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WPA-Enterprise] 
+                    </strong></td>
+                  <td class="rightstyle" valign="top"> WPA-Enterprise では、外部 RADIUS 
+                    サーバを TKIP または AES と組み合わせて、ユーザ認証を行います。WPA-Enterprise を使用するには、RADIUS 
+                    サーバの IP アドレス、RADIUS ポート（デフォルトでは 1812）、および RADIUS サーバの共有暗号キーを入力します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WPA2-Enterprise] 
+                    </strong></td>
+                  <td class="rightstyle" valign="top"> このオプションでは、WPA2 を RADIUS 
+                    サーバと連携させてクライアント認証を行います （このオプションは、RADIUS サーバがアクセス ポイントに接続されているときにだけ使用してください）。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WPA2-Enterprise 
+                    Mixed] </strong></td>
+                  <td class="rightstyle" valign="top"> このセキュリティ モードは、WPA-Enterprise 
+                    から WPA2-Enterprise への移行をサポートします。WPA-Enterprise と WPA2-Enterprise 
+                    のどちらのモードを使用するクライアント デバイスでも使用できます。アクセス ポイントは、それぞれのクライアント デバイスで使用する暗号化アルゴリズムを自動的に選択します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[RADIUS] </strong></td>
+                  <td class="rightstyle" valign="top"> RADIUS モードでは、RADIUS サーバを使用して認証を行い、WEP 
+                    キーの動的生成を使用してデータ暗号化を行います。RADIUS モードを使用するには、RADIUS サーバの IP アドレス、RADIUS 
+                    サーバ ポート（デフォルトでは 1812）、および RADIUS サーバの共有暗号キーを入力します。RADIUS モード用の手動 
+                    WEP キーは、セキュリティ上の脆弱性があるためサポートされなくなりました。<BR>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- End Help Content -->
+            </div> </td>
+          </TR>
+        </TABLE>
+      </FORM>
+    </div>
+  </div>
+
+<div id="HCopyright" class="HCopyright"  >
+      © 2010 Cisco Systems, Inc. All rights reserved.</div>
+
+
+
+
+</div></BODY></HTML>

@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+parent.document.title=titl_wAdv;
+strHtml='<title>'+titl_wAdv+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+	
+<!-- Start Script
+
+var ssidList="@r_ssidNo#";
+//var ssidList="2";
+function init()
+{
+	var cf = document.forms[0];
+
+	parent.parent_menu_clk("2-6");
+	ScreenClean();
+	dataToVisible(document.forms[0]);
+	ChangeBalance();
+	InitItem();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+function InitItem()
+{
+    var cf = document.forms[0];
+    if(cf.r_h_sta_mode.value == 1)
+    {
+        cf.wl_htbw.selectedIndex == 0;
+        cf.wl_htbw.disabled = true;
+        cf.wl_guardinterval.disabled = true;
+    }
+    else
+    {
+        cf.wl_htbw.disabled = false;
+        cf.wl_guardinterval.disabled = false;
+    }
+    if(cf.wl_htbw.selectedIndex == 1)
+        cf.wl_guardinterval.disabled = true;
+    else
+        cf.wl_guardinterval.disabled = false;
+}
+function ChannelBandwithSelection(value)
+{
+    var cf = document.forms[0];
+    if(value == 0)
+        cf.wl_guardinterval.disabled = true;
+    else
+        cf.wl_guardinterval.disabled = false;
+}
+function GuardIntervalSelection(value)
+{
+    var cf = document.forms[0];
+}
+function ChangeBalance()
+{
+	var cf = document.forms[0];
+	var flag ;
+	var i;
+	var ssidArr = ssidList.split(" ");
+	
+	if(cf.wl_balance[1].checked)
+	    flag = true;
+	
+	for(i = 0; i<ssidArr.length; i++)
+	{
+	    eval("cf.ssid_threshold" + ssidArr[i]).disabled = flag;
+	}
+}
+
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg = "";
+    var msg1 = "";
+    var balance;
+    
+    msg1 = checkInt(cf.wg_dtim,msg_DTIM_invalid,1,255,1);
+    if(msg1.length>0)
+       msg+=msg_DTIM_invalid;
+    msg1 = checkInt(cf.wg_fragth,msg_Frag_invalid,256,2346,1)
+    if(msg1.length>0)
+       msg+=msg_Frag_invalid;    
+    msg1 = checkInt(cf.wg_rts,msg_RTS_invalid,1,2347,1)
+    if(msg1.length>0)
+       msg+=msg_RTS_invalid;  
+    msg1 = checkInt(cf.wg_beacon,msg_Beacon_invalid,20,1000,1)
+    if(msg1.length>0)
+       msg+=msg_Beacon_invalid; 
+    
+    if(cf.wl_balance[0].checked)
+        for(i=0; i<4; i++)
+    	{
+    	    if(eval("cf.ssid_threshold" + i).disabled == true)
+    	        continue;
+    	    if(eval("cf.ssid_threshold" + i).value.length == 0)
+    	     {
+    	     	   msg +=  addstr(msg_not_blank, (i+1).toString());
+    	     }
+    	    balance = Number(eval("cf.ssid_threshold" + i).value);
+    	    if(isNaN(balance))
+    	        msg += msg_Balance_invalid;
+    	    if(balance < 0 || balance > 100)
+    	        msg += msg_Balance_invalid;
+    	}
+        
+    if(msg.length > 1)
+    {
+    	ALERT(parent, "CON", titl_warn, "AdvancedWSettings.htm", "Warn",msg , "", ABBtnOK, "");
+
+    	return false;
+    }
+    dataToHidden(cf); 
+    cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+    return true;
+}
+
+function showHelp()
+{
+	openHelpWin('help/h_AdvWSettings.htm');
+}
+// End Script -->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+
+
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(wa_type1);
+			</script>
+	</div>
+<br>
+<form method="POST" action="setup.cgi?next_file=AdvancedWSettings.htm">
+<!--FormPane begin--> 
+<div id="formpane" class="RFormPane">
+       <div class="TitleofGroupBox" >
+ 	<script language="javascript" type="text/javascript">
+				dw(wa_subtype1);
+			</script>
+</div>
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+        <td valign="top" width="50%">
+        <table border="0px" cellpadding="0" cellspacing="0" >
+         <tr class=ContentCrlHeight>
+      		<td width="160"  nowrap>
+      			<script language="javascript" type="text/javascript">
+					dw(wa_country);
+				</script>
+      	 	</td>
+     		 <td nowrap>
+     		 	<select name="wl_country" onChange="" style="width:155px;" class="SelectStd">
+     			 @wl_country#
+     			 </select>
+       		</td>
+    	 </tr>
+    	  <tr class=ContentCrlHeight>
+      		<td    nowrap>
+      			<script language="javascript" type="text/javascript">
+				dw(wa_11d);
+				</script>
+			</td>
+      		<td nowrap>
+      			
+      		<INPUT type=radio value="Enable" name="wl_wld"  class="RadioLeftIE">
+			<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+      	  <input type=radio value="Disable" name="wl_wld"  class="RadioRightIE" >
+		 	<script language="javascript" type="text/javascript">
+				dw(disable);
+			</script>
+			
+      			
+      		</td>
+   		 </tr>
+   		 <tr class=ContentCrlHeight>
+      		<td    nowrap>
+      			<script language="javascript" type="text/javascript">
+				dw(wa_chanband);
+			</script></td>
+      		<td nowrap>
+      			<select name="wl_htbw" onChange="ChannelBandwithSelection(this.value)"  class="SelectStd" style="width:155px;margin-right: 8px;">
+          <option value="1"><script language="javascript" type="text/javascript">
+				dw(wa_s_au);
+			</script></option>
+          <option value="0"><script language="javascript" type="text/javascript">
+				dw(wa_s_20);
+			</script></option>
+          <option value="2"><script language="javascript" type="text/javascript">
+				dw(wa_s_40);
+			</script></option>
+       		 </select>
+         		<script language="javascript" type="text/javascript">
+				dw(wa_de_20mhz);
+			</script>
+			
+			 </td>
+    	</tr>
+    	<tr class=ContentCrlHeight>
+      <td     nowrap>
+      	<script language="javascript" type="text/javascript">
+				dw(wa_guard);
+			</script></td>
+      <td nowrap><select name="wl_guardinterval" onChange="GuardIntervalSelection(this.value)" class="SelectStd" style="width:155px;margin-right: 8px;">
+          <option value="1"><script language="javascript" type="text/javascript">
+				dw(wa_s_au);
+			</script></option>
+          <option value="0"><script language="javascript" type="text/javascript">
+				dw(wa_s_short);
+			</script></option>
+          <option value="2"><script language="javascript" type="text/javascript">
+				dw(wa_s_long);
+			</script></option>
+        </select>
+          <script language="javascript" type="text/javascript">
+				dw(wa_de_auto);
+			</script> </td>
+    </tr>
+    	 <tr class=ContentCrlHeight>
+      <td    nowrap>
+      	<script language="javascript" type="text/javascript">
+				dw(wa_cts);
+			</script></td>
+      <td nowrap>
+      	<select name="wl_cts_protect" class="SelectStd" style="width:155px;margin-right: 8px;">
+          <option value="0"><script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></option>
+          <option value="1"><script language="javascript" type="text/javascript">
+				dw(wa_s_au);
+			</script></option>
+        </select>
+          <script language="javascript" type="text/javascript">
+				dw(wa_de_disable);
+			</script> </td>
+    </tr>
+      <tr class=ContentCrlHeight>
+     <td    nowrap>
+     	<script language="javascript" type="text/javascript">
+				dw(wa_beacon);
+			</script></td>
+     <td nowrap>
+     	<input type="text" name="wg_beacon" value="@wg_beacon#" class="num" maxlength=4 size="5" style="margin-right: 8px;">
+ 			<script language="javascript" type="text/javascript">
+				dw(wa_de_beacon);
+			</script></td>
+   </tr>
+    <tr class=ContentCrlHeight>
+     <td   nowrap>
+     	<script language="javascript" type="text/javascript">
+				dw(wa_dtim);
+			</script></td>
+     <td><input type="text" name="wg_dtim" value="@wg_dtim#" class="num" maxlength=5 size="5" style="margin-right: 8px;">
+			 <script language="javascript" type="text/javascript">
+				dw(wa_de_dtim);
+			</script></td>
+   </tr>
+   <tr class=ContentCrlHeight>
+     <td    nowrap>
+     	<script language="javascript" type="text/javascript">
+				dw(wa_rts);
+			</script></td>
+     <td><input type="text" name="wg_rts" value="@wg_rts#" class="num" maxlength=5 size="5" style="margin-right: 8px;">
+        <script language="javascript" type="text/javascript">
+				dw(wa_de_rts);
+			</script></td>
+   </tr>
+     <tr class=ContentCrlHeight>
+     <td    nowrap>
+     	<script language="javascript" type="text/javascript">
+				dw(wa_frag);
+			</script></td>
+     <td><input type="text" name="wg_fragth" value="@wg_fragth#" class="num" maxlength=5 size="5" style="margin-right: 8px;">
+         <script language="javascript" type="text/javascript">
+				dw(wa_de_frag);
+			</script></td>
+   </tr>
+
+   </table>
+ </td>
+</tr>
+</table>
+
+<hr class="stdHRGrp">
+    <div class="TitleofGroupBox" style="height:25px;">
+ 	<script language="javascript" type="text/javascript">
+				dw(wa_type2);
+			</script>
+</div>
+	<table border="0" cellpadding="0" cellspacing="0">
+		
+	<tr>
+		<td valign="top" width="50%">
+			<table border="0" cellpadding="0" cellspacing="0" >
+        <tr class=ContentCrlHeight>
+     <td width="150"   >
+     	<script language="javascript" type="text/javascript">
+				dw(wa_balance);
+			</script>
+     	</td>
+     	 <td width="10" nowrap align="center">&nbsp;</td>
+     <td >
+     	 	<INPUT type=radio value="1" name="wl_balance" onClick="ChangeBalance();" class="RadioLeftIE">
+			<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+      	  <input type=radio value="0" name="wl_balance" onClick="ChangeBalance();" class="RadioRightIE" >
+		 	<script language="javascript" type="text/javascript">
+				dw(disable);
+			</script>
+			
+	</td>
+   </tr>
+    <tr>
+        <td height="20" nowrap align="center">&nbsp;</td>
+        <td nowrap align="center">&nbsp;</td>
+        <td height="20" nowrap align="center">&nbsp;</td>
+      </tr>
+      
+   
+	<tr class=ContentCrlHeight> 
+        <td   nowrap ><strong><script language="javascript" type="text/javascript">
+				dw(wa_ssid);
+			</script></strong></td>
+			 <td   nowrap align="center">&nbsp;</td>
+        <td   nowrap align="left" ><strong><script language="javascript" type="text/javascript">
+				dw(wa_uthre);
+			</script></strong> </td>
+      </tr>
+  <tr class=ContentCrlHeight>
+        <td  nowrap ><script language="javascript" type="text/javascript">
+				dw(wa_ssid);
+			</script> 1:</td>
+			 <td   nowrap align="center">&nbsp;</td>
+        <td  nowrap align="left"><input type="text" name="ssid_threshold0" value="@ssid_threshold0#" size="5" disabled>
+&nbsp;% </td>
+      </tr>
+       <tr class=ContentCrlHeight>
+        <td  nowrap ><script language="javascript" type="text/javascript">
+				dw(wa_ssid);
+			</script> 2:</td>
+        <td nowrap align="center">&nbsp;</td>
+        <td  nowrap align="left"><input type="text" name="ssid_threshold1" value="@ssid_threshold1#" size="5" disabled>
+&nbsp;% </td>
+      </tr>
+       <tr class=ContentCrlHeight>
+        <td  nowrap ><script language="javascript" type="text/javascript">
+				dw(wa_ssid);
+			</script> 3:</td>
+        <td nowrap align="center">&nbsp;</td>
+        <td  nowrap align="left"><input type="text" name="ssid_threshold2" value="@ssid_threshold2#" size="5" disabled>
+&nbsp;% </td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td  nowrap ><script language="javascript" type="text/javascript">
+				dw(wa_ssid);
+			</script> 4:</td>
+        <td nowrap align="center">&nbsp;</td>
+        <td  nowrap align="left"><input type="text" name="ssid_threshold3" value="@ssid_threshold3#" size="5" disabled>
+&nbsp;% </td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td  nowrap align="center">&nbsp;</td>
+        <td nowrap align="center">&nbsp;</td>
+        <td  nowrap align="center">&nbsp;</td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td  nowrap ><script language="javascript" type="text/javascript">
+				dw(wa_cuti);
+			</script></td>
+        <td nowrap align="left">&nbsp;</td>
+        <td  nowrap align="left">@Crt_utilization#&nbsp;%</td>
+      </tr>
+     
+ </table></td>
+ 
+</tr>
+
+
+</table>
+<br style="15px">
+
+</div>
+
+
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("AdvancedWSettings.htm");
+  </script>
+ 
+ </div>
+</div>
+
+<input type="hidden" name="h_wl_country" value="@h_wl_country#">
+<input type="hidden" name="h_wl_wld" value="@h_wl_wld#">
+<input type="hidden" name="h_wl_htbw" value="@h_wl_htbw#">
+<input type="hidden" name="h_wl_guardinterval" value="@h_wl_guardinterval#">
+<input type="hidden" name="h_wl_cts_protect" value="@h_wl_cts_protect#">
+<input type="hidden" name="h_wl_balance" value="@h_wl_balance#">
+<input type="hidden" name="r_h_sta_mode" value="@r_h_sta_mode#">
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="AdvancedWSettings.htm">
+<input type="hidden" name="next_file" value="AdvancedWSettings.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+</form>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  
+</body>
+
+</html>

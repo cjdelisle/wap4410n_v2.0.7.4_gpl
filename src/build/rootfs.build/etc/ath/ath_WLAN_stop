@@ -1,0 +1,88 @@
+#!/bin/sh
+####################################################################
+## ath_WLAN_stop
+##
+## This script is used to stop a VAP, or if you want complete
+## destruction, specify all.
+##
+## The form of the command is
+##
+## activateVAP <VAP>
+##
+## Where VAP is the name of the VAP (e.g. ath00).  Specifying "ALL"
+## for the VAP will cause all VAPs of radiu to be stoped
+##
+## Examples:
+##      ath_WLAN_stop 0 unload
+##      ath_WLAN_stop 0
+##
+###################################################################
+
+if [ "${1}" = "" ]; then
+    echo "    ath_WLAN_stop usage"
+    echo "    ath_WLAN_stop [ unit]  [ unload ] "
+    exit
+fi
+
+##
+## SPE-profing
+## Check to see if ath_WLAN_stop is already running.  If so, exit, because you should only
+## be doing one at a time
+##
+
+SPEPROOF=`ps | grep -c ath_WLAN_stop`
+if [ $SPEPROOF -gt 3 ]; then
+   ps
+   echo "Too much stoping!!  Give peace a chance!!"
+   exit
+fi
+
+#Stop rogue ap 
+ROGUEAP=`ps | grep rogueap | cut -b 1-5`
+if [ "${ROGUEAP}" != "" ]; then
+    for i in $ROGUEAP ; do
+         echo "killing $i"
+         kill -9 $i
+     done
+fi
+
+#Stop loadbalance
+rc balance stop
+
+/etc/ath/ath_VAP_stop ALL $1
+
+if [ "${2}" = "unload" ]; then
+    #Unload all modules
+    #make sure all modules is unload
+    
+    rmmod wlan_us
+    rmmod wlan_wds
+    rmmod wlan_wds_vlan
+    rmmod wlan_loadbalance
+    
+    rmmod wlan_scan_ap
+    rmmod wlan_scan_sta
+    rmmod ath_pktlog
+    rmmod wlan_me 
+    sleep 1
+    rmmod wlan_acl
+    rmmod wlan_wep
+    rmmod wlan_tkip
+    rmmod wlan_ccmp
+    rmmod wlan_xauth
+    sleep 1
+    rmmod ath_ahb
+    sleep 1
+    rmmod ath_dev
+    rmmod ath_dfs
+    rmmod ath_rate_atheros
+    rmmod wlan
+    rmmod ath_hal
+    rmmod kwsc_mod
+    #
+    # Let's try WEP/WLAN one more time to be sure
+    #
+    sleep 1
+    rmmod wlan_wep
+    rmmod wlan
+fi

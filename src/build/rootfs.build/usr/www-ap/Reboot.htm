@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="ajax.js"></script>
+
+<script language="javascript" type="text/javascript">
+<!-- hide script from old browsers
+parent.document.title=titl_reb;
+strHtml='<title>'+titl_reb+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!-- hide script from old browsers
+function showHelp()
+{
+	openHelpWin('help/h_Reboot.htm');
+}
+
+function checkData()
+{
+	var cf = document.forms[0];
+	if(cf.DeviceReboot[0].checked){
+		return true;
+	}
+	else
+		return false;
+}
+function init()
+{
+	parent.parent_menu_clk("4-6");
+    ScreenClean();
+	return 0;
+}
+//
+//-->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(ar_type);
+			</script></div>
+<br> 
+
+<form name="reboot" method="POST" action="setup.cgi?next_file=Reboot.htm">
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+
+
+
+<table border="0" cellpadding="0" cellspacing="0" >
+ <tr class="ContentCrlHeight" >
+  <td class="NormalText" >
+  	<script language="javascript" type="text/javascript">
+				dw(ar_devre);
+			</script>
+		</td>
+			<td width="8px">&nbsp;</td> <td>
+		
+			<input type="radio" name="DeviceReboot" value="1" class="RadioLeftIE">
+    <script language="javascript" type="text/javascript">
+				dw(ar_yes);
+			</script>
+			<input type="radio" name="DeviceReboot" value="0" checked="checked" class="RadioRightIE">
+     <script language="javascript" type="text/javascript">
+				dw(ar_no);
+			</script>
+			</td>
+ </tr>
+
+</table>
+
+<!--FormPane end-->
+</div>
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("Reboot.htm");
+  </script>
+</div>
+<input type="hidden" name="todo" value="restart">
+<input type="hidden" name="this_file" value="Reboot.htm">
+<input type="hidden" name="next_file" value="Reboot.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+</form>
+<!--contentArea end-->
+</div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  </body>
+
+</html>

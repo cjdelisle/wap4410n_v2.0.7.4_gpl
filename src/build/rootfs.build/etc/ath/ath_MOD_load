@@ -1,0 +1,42 @@
+#!/bin/sh
+####################################################################
+## ath_MOD_load
+##
+## This script is used to load the modules.
+##
+## Examples:
+##      ath_MOD_load    countrycode   use_eeprom 
+##
+###################################################################
+
+MODLIST=`lsmod | grep ath_hal | cut -f1,0 -d" "`
+
+if [ "${MODLIST}" = "ath_hal" ]; then
+	echo "Module is already loaded."
+	exit
+fi
+
+#
+# insert the modules
+#
+
+/sbin/insmod /lib/modules/kwsc_mod.ko iechange=0
+/sbin/insmod /lib/modules/2.6.15/net/ath_hal.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan.ko
+/sbin/insmod /lib/modules/2.6.15/net/ath_rate_atheros.ko
+/sbin/insmod /lib/modules/2.6.15/net/ath_dfs.ko
+/sbin/insmod /lib/modules/2.6.15/net/ath_dev.ko
+/sbin/insmod /lib/modules/2.6.15/net/ath_ahb.ko 
+/sbin/insmod /lib/modules/2.6.15/net/wlan_xauth.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_wep.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_ccmp.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_tkip.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_acl.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_me.ko
+/sbin/insmod /lib/modules/2.6.15/net/ath_pktlog.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_scan_ap.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_scan_sta.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_us.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_wds.ko
+/sbin/insmod /lib/modules/2.6.15/net/wlan_wds_vlan.ko        
+

@@ -1,0 +1,25 @@
+support email
+
+usage:
+
+	syslog -f /etc/syslog.conf
+
+config file example
+
+/* if you want enable someone ,only need set value=1 */
+/* attention when mail send success all log message sill be clean */
+/* now only support log auth, syslog and local0(kern) */
+/* mail only support kill -HUP syslogd and mail_keyword */
+/* keyword define in syslogd.h */
+
+mail_enable=1
+mail_log_full=1
+mail_server=msa.hinet.net
+mail_sender=ron_lian@sercomm.com
+mail_receiver=ron_lian@sercomm.com
+mail_subject=WAG54GS
+mail_keyword=[Firewall-DOS] [Firewall-PORT SCAN]
+
+log_syslog=1
+log_auth=1
+log_local0=1

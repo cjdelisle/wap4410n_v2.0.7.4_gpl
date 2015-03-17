@@ -1,0 +1,559 @@
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/types.h:209,
+                 from snmp_transport.c:9:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/select.h:52: warning: `__NFDBITS' redefined
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/linux/posix_types.h:22: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/select.h:54: warning: `__FDMASK' redefined
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/linux/posix_types.h:34: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/select.h:83: warning: `FD_SET' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:106: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/select.h:84: warning: `FD_CLR' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:107: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/select.h:85: warning: `FD_ISSET' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:108: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/select.h:86: warning: `FD_ZERO' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:109: warning: this is the location of the previous definition
+In file included from ../include/net-snmp/types.h:21,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/time.h:95: warning: `ITIMER_REAL' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:115: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/time.h:98: warning: `ITIMER_VIRTUAL' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:116: warning: this is the location of the previous definition
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/time.h:102: warning: `ITIMER_PROF' redefined
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:117: warning: this is the location of the previous definition
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/types.h:143,
+                 from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:35,
+                 from snmp_transport.c:3:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/pthreadtypes.h:48: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/pthreadtypes.h:48: warning: no semicolon at end of struct or union
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/pthreadtypes.h:51: parse error before `__stacksize'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/pthreadtypes.h:51: warning: data definition has no type or storage class
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/pthreadtypes.h:52: warning: data definition has no type or storage class
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/_G_config.h:44,
+                 from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:30,
+                 from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:64,
+                 from snmp_transport.c:3:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:71: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:84: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:93: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:169: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:169: warning: no semicolon at end of struct or union
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:172: parse error before `}'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/gconv.h:172: warning: data definition has no type or storage class
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:30,
+                 from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:64,
+                 from snmp_transport.c:3:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/_G_config.h:47: field `__cd' has incomplete type
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/_G_config.h:50: field `__cd' has incomplete type
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:64,
+                 from snmp_transport.c:3:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:342: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:351: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:459: parse error before `_IO_sgetn'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:459: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/libio.h:459: warning: data definition has no type or storage class
+In file included from snmp_transport.c:3:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:258: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:264: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:292: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:296: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:458: parse error before `fread'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:458: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:459: warning: data definition has no type or storage class
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:461: parse error before `fwrite'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:461: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:462: warning: data definition has no type or storage class
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:466: parse error before `fread_unlocked'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:466: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:467: warning: data definition has no type or storage class
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:468: parse error before `fwrite_unlocked'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:468: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdio.h:469: warning: data definition has no type or storage class
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/types.h:126,
+                 from snmp_transport.c:9:
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:10: parse error before `time_t'
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:10: warning: no semicolon at end of struct or union
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:12: parse error before `}'
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:89: parse error before `time_t'
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:89: warning: no semicolon at end of struct or union
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:90: warning: type defaults to `int' in declaration of `tv_usec'
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:90: warning: data definition has no type or storage class
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:120: field `it_interval' has incomplete type
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:121: field `it_value' has incomplete type
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:125: field `it_interval' has incomplete type
+../../../linux-dist/arm-linux-2.4.19/include/linux/time.h:126: field `it_value' has incomplete type
+In file included from snmp_transport.c:12:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:133: parse error before `__ctype_get_mb_cur_max'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:133: warning: data definition has no type or storage class
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:408: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:437: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:528: parse error before `__size'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:530: parse error before `__nmemb'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:537: parse error before `size_t'
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:547,
+                 from snmp_transport.c:12:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/alloca.h:33: parse error before `__size'
+In file included from snmp_transport.c:12:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:552: parse error before `__size'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:691: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:695: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:757: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:760: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:764: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:767: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:774: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:777: parse error before `*'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:781: parse error before `wchar_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:785: parse error before `mbstowcs'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:785: parse error before `*'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:786: warning: data definition has no type or storage class
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:788: parse error before `wcstombs'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:789: parse error before `*'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/stdlib.h:790: warning: data definition has no type or storage class
+In file included from ../include/net-snmp/types.h:21,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/time.h:57: redefinition of `struct timezone'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/time.h:94: parse error before `0'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/time.h:108: redefinition of `struct itimerval'
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/netinet/in.h:212,
+                 from ../include/net-snmp/types.h:38,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/socket.h:226: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/socket.h:226: warning: no semicolon at end of struct or union
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/socket.h:232: parse error before `}'
+In file included from ../include/net-snmp/definitions.h:23,
+                 from ../include/net-snmp/types.h:75,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/snmp_api.h:88: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:88: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_api.h:97: parse error before `community_len'
+../include/net-snmp/library/snmp_api.h:97: warning: type defaults to `int' in declaration of `community_len'
+../include/net-snmp/library/snmp_api.h:97: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:103: parse error before `enterprise_length'
+../include/net-snmp/library/snmp_api.h:103: warning: type defaults to `int' in declaration of `enterprise_length'
+../include/net-snmp/library/snmp_api.h:103: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:112: parse error before `contextEngineIDLen'
+../include/net-snmp/library/snmp_api.h:112: warning: type defaults to `int' in declaration of `contextEngineIDLen'
+../include/net-snmp/library/snmp_api.h:112: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:114: parse error before `contextNameLen'
+../include/net-snmp/library/snmp_api.h:114: warning: type defaults to `int' in declaration of `contextNameLen'
+../include/net-snmp/library/snmp_api.h:114: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:116: parse error before `securityEngineIDLen'
+../include/net-snmp/library/snmp_api.h:116: warning: type defaults to `int' in declaration of `securityEngineIDLen'
+../include/net-snmp/library/snmp_api.h:116: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:118: parse error before `securityNameLen'
+../include/net-snmp/library/snmp_api.h:118: warning: type defaults to `int' in declaration of `securityNameLen'
+../include/net-snmp/library/snmp_api.h:118: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:128: parse error before `}'
+../include/net-snmp/library/snmp_api.h:128: warning: type defaults to `int' in declaration of `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:128: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:134: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:136: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:155: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:170: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:170: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_api.h:172: warning: type defaults to `int' in declaration of `rcvMsgMaxSize'
+../include/net-snmp/library/snmp_api.h:172: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:173: parse error before `sndMsgMaxSize'
+../include/net-snmp/library/snmp_api.h:173: warning: type defaults to `int' in declaration of `sndMsgMaxSize'
+../include/net-snmp/library/snmp_api.h:173: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:180: parse error before `contextEngineIDLen'
+../include/net-snmp/library/snmp_api.h:180: warning: type defaults to `int' in declaration of `contextEngineIDLen'
+../include/net-snmp/library/snmp_api.h:180: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:184: parse error before `contextNameLen'
+../include/net-snmp/library/snmp_api.h:184: warning: type defaults to `int' in declaration of `contextNameLen'
+../include/net-snmp/library/snmp_api.h:184: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:186: parse error before `securityEngineIDLen'
+../include/net-snmp/library/snmp_api.h:186: warning: type defaults to `int' in declaration of `securityEngineIDLen'
+../include/net-snmp/library/snmp_api.h:186: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:188: parse error before `securityNameLen'
+../include/net-snmp/library/snmp_api.h:188: warning: type defaults to `int' in declaration of `securityNameLen'
+../include/net-snmp/library/snmp_api.h:188: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:190: parse error before `securityAuthProtoLen'
+../include/net-snmp/library/snmp_api.h:190: warning: type defaults to `int' in declaration of `securityAuthProtoLen'
+../include/net-snmp/library/snmp_api.h:190: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:192: parse error before `securityAuthKeyLen'
+../include/net-snmp/library/snmp_api.h:192: warning: type defaults to `int' in declaration of `securityAuthKeyLen'
+../include/net-snmp/library/snmp_api.h:192: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:194: parse error before `securityPrivProtoLen'
+../include/net-snmp/library/snmp_api.h:194: warning: type defaults to `int' in declaration of `securityPrivProtoLen'
+../include/net-snmp/library/snmp_api.h:194: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:196: parse error before `securityPrivKeyLen'
+../include/net-snmp/library/snmp_api.h:196: warning: type defaults to `int' in declaration of `securityPrivKeyLen'
+../include/net-snmp/library/snmp_api.h:196: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:209: parse error before `}'
+../include/net-snmp/library/snmp_api.h:393: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:393: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_api.h:409: parse error before `val_len'
+../include/net-snmp/library/snmp_api.h:409: warning: type defaults to `int' in declaration of `val_len'
+../include/net-snmp/library/snmp_api.h:409: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_api.h:415: parse error before `}'
+../include/net-snmp/library/snmp_api.h:458: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:476: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:501: parse error before `*'
+../include/net-snmp/library/snmp_api.h:596: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:598: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:600: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:602: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:604: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:606: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:608: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:611: parse error before `*'
+../include/net-snmp/library/snmp_api.h:613: parse error before `*'
+../include/net-snmp/library/snmp_api.h:615: parse error before `*'
+../include/net-snmp/library/snmp_api.h:618: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:623: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:627: parse error before `*'
+../include/net-snmp/library/snmp_api.h:628: parse error before `*'
+../include/net-snmp/library/snmp_api.h:629: parse error before `*'
+../include/net-snmp/library/snmp_api.h:631: parse error before `*'
+../include/net-snmp/library/snmp_api.h:635: parse error before `*'
+../include/net-snmp/library/snmp_api.h:641: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:645: parse error before `*'
+../include/net-snmp/library/snmp_api.h:647: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:659: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:665: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:681: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:684: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:686: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:689: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:691: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:781: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:787: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:790: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:792: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:797: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:806: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:814: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:822: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:825: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:827: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:830: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:833: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:837: parse error before `size_t'
+../include/net-snmp/library/snmp_api.h:844: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_api.h:845: parse error before `netsnmp_pdu'
+In file included from ../include/net-snmp/definitions.h:24,
+                 from ../include/net-snmp/types.h:75,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/asn1.h:188: parse error before `size_t'
+../include/net-snmp/library/asn1.h:189: parse error before `size_t'
+../include/net-snmp/library/asn1.h:191: parse error before `size_t'
+../include/net-snmp/library/asn1.h:193: parse error before `size_t'
+../include/net-snmp/library/asn1.h:195: parse error before `size_t'
+../include/net-snmp/library/asn1.h:197: parse error before `size_t'
+../include/net-snmp/library/asn1.h:199: parse error before `size_t'
+../include/net-snmp/library/asn1.h:201: parse error before `size_t'
+../include/net-snmp/library/asn1.h:202: parse error before `size_t'
+../include/net-snmp/library/asn1.h:204: parse error before `size_t'
+../include/net-snmp/library/asn1.h:205: parse error before `size_t'
+../include/net-snmp/library/asn1.h:207: parse error before `size_t'
+../include/net-snmp/library/asn1.h:208: parse error before `size_t'
+../include/net-snmp/library/asn1.h:210: parse error before `size_t'
+../include/net-snmp/library/asn1.h:212: parse error before `size_t'
+../include/net-snmp/library/asn1.h:213: parse error before `size_t'
+../include/net-snmp/library/asn1.h:214: parse error before `size_t'
+../include/net-snmp/library/asn1.h:216: parse error before `size_t'
+../include/net-snmp/library/asn1.h:218: parse error before `size_t'
+../include/net-snmp/library/asn1.h:220: parse error before `size_t'
+../include/net-snmp/library/asn1.h:222: parse error before `size_t'
+../include/net-snmp/library/asn1.h:224: parse error before `size_t'
+../include/net-snmp/library/asn1.h:226: parse error before `size_t'
+../include/net-snmp/library/asn1.h:228: parse error before `size_t'
+../include/net-snmp/library/asn1.h:230: parse error before `size_t'
+../include/net-snmp/library/asn1.h:232: parse error before `size_t'
+../include/net-snmp/library/asn1.h:241: parse error before `size_t'
+../include/net-snmp/library/asn1.h:348: parse error before `size_t'
+../include/net-snmp/library/asn1.h:354: parse error before `size_t'
+../include/net-snmp/library/asn1.h:362: parse error before `size_t'
+../include/net-snmp/library/asn1.h:370: parse error before `size_t'
+../include/net-snmp/library/asn1.h:377: parse error before `size_t'
+../include/net-snmp/library/asn1.h:384: parse error before `size_t'
+../include/net-snmp/library/asn1.h:390: parse error before `size_t'
+../include/net-snmp/library/asn1.h:397: parse error before `size_t'
+../include/net-snmp/library/asn1.h:403: parse error before `size_t'
+../include/net-snmp/library/asn1.h:411: parse error before `size_t'
+../include/net-snmp/library/asn1.h:419: parse error before `size_t'
+../include/net-snmp/library/asn1.h:427: parse error before `size_t'
+../include/net-snmp/library/asn1.h:434: parse error before `size_t'
+In file included from ../include/net-snmp/definitions.h:25,
+                 from ../include/net-snmp/types.h:75,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/snmp_impl.h:132: parse error before `size_t'
+../include/net-snmp/library/snmp_impl.h:134: parse error before `size_t'
+In file included from ../include/net-snmp/definitions.h:26,
+                 from ../include/net-snmp/types.h:75,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/snmp.h:290: parse error before `size_t'
+../include/net-snmp/library/snmp.h:291: parse error before `size_t'
+../include/net-snmp/library/snmp.h:293: parse error before `size_t'
+../include/net-snmp/library/snmp.h:299: parse error before `size_t'
+In file included from ../include/net-snmp/definitions.h:27,
+                 from ../include/net-snmp/types.h:75,
+                 from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/snmp-tc.h:12: parse error before `*'
+../include/net-snmp/library/snmp-tc.h:13: parse error before `ctime_to_timet'
+../include/net-snmp/library/snmp-tc.h:13: warning: type defaults to `int' in declaration of `ctime_to_timet'
+../include/net-snmp/library/snmp-tc.h:13: warning: data definition has no type or storage class
+In file included from ../include/net-snmp/output_api.h:9,
+                 from snmp_transport.c:19:
+../include/net-snmp/types.h:88: parse error before `size_t'
+../include/net-snmp/types.h:88: warning: no semicolon at end of struct or union
+../include/net-snmp/types.h:90: parse error before `}'
+../include/net-snmp/types.h:90: warning: type defaults to `int' in declaration of `netsnmp_void_array'
+../include/net-snmp/types.h:90: warning: data definition has no type or storage class
+In file included from ../include/net-snmp/output_api.h:21,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/snmp_client.h:48: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_client.h:48: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_client.h:52: parse error before `size_t'
+../include/net-snmp/library/snmp_client.h:55: parse error before `size_t'
+../include/net-snmp/library/snmp_client.h:59: parse error before `size_t'
+../include/net-snmp/library/snmp_client.h:72: parse error before `*'
+../include/net-snmp/library/snmp_client.h:73: parse error before `*'
+../include/net-snmp/library/snmp_client.h:73: warning: type defaults to `int' in declaration of `snmp_pdu_create'
+../include/net-snmp/library/snmp_client.h:73: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_client.h:74: parse error before `*'
+../include/net-snmp/library/snmp_client.h:74: parse error before `*'
+../include/net-snmp/library/snmp_client.h:74: warning: type defaults to `int' in declaration of `snmp_fix_pdu'
+../include/net-snmp/library/snmp_client.h:74: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_client.h:75: parse error before `*'
+../include/net-snmp/library/snmp_client.h:75: parse error before `*'
+../include/net-snmp/library/snmp_client.h:75: warning: type defaults to `int' in declaration of `snmp_clone_pdu'
+../include/net-snmp/library/snmp_client.h:75: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_client.h:76: parse error before `*'
+../include/net-snmp/library/snmp_client.h:76: parse error before `*'
+../include/net-snmp/library/snmp_client.h:77: warning: type defaults to `int' in declaration of `snmp_split_pdu'
+../include/net-snmp/library/snmp_client.h:77: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_client.h:79: parse error before `*'
+../include/net-snmp/library/snmp_client.h:84: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_client.h:87: parse error before `netsnmp_pdu'
+../include/net-snmp/library/snmp_client.h:94: parse error before `netsnmp_pdu'
+In file included from ../include/net-snmp/output_api.h:22,
+                 from snmp_transport.c:19:
+../include/net-snmp/library/snmp_debug.h:31: parse error before `size_t'
+../include/net-snmp/library/snmp_debug.h:35: parse error before `size_t'
+../include/net-snmp/library/snmp_debug.h:38: parse error before `size_t'
+../include/net-snmp/library/snmp_debug.h:40: parse error before `size_t'
+In file included from ../include/net-snmp/utilities.h:32,
+                 from snmp_transport.c:20:
+../include/net-snmp/library/tools.h:130: parse error before `size_t'
+../include/net-snmp/library/tools.h:132: parse error before `size_t'
+../include/net-snmp/library/tools.h:134: parse error before `*'
+../include/net-snmp/library/tools.h:135: parse error before `size'
+../include/net-snmp/library/tools.h:136: parse error before `size_t'
+../include/net-snmp/library/tools.h:138: parse error before `size_t'
+../include/net-snmp/library/tools.h:140: parse error before `size_t'
+../include/net-snmp/library/tools.h:143: parse error before `size_t'
+../include/net-snmp/library/tools.h:147: parse error before `size_t'
+../include/net-snmp/library/tools.h:150: parse error before `size_t'
+../include/net-snmp/library/tools.h:154: parse error before `size_t'
+../include/net-snmp/library/tools.h:158: parse error before `size_t'
+In file included from ../include/net-snmp/utilities.h:41,
+                 from snmp_transport.c:20:
+../include/net-snmp/library/oid_stash.h:18: parse error before `size_t'
+../include/net-snmp/library/oid_stash.h:25: parse error before `size_t'
+../include/net-snmp/library/oid_stash.h:25: warning: no semicolon at end of struct or union
+../include/net-snmp/library/oid_stash.h:35: parse error before `}'
+../include/net-snmp/library/oid_stash.h:35: warning: type defaults to `int' in declaration of `netsnmp_oid_stash_node'
+../include/net-snmp/library/oid_stash.h:35: warning: data definition has no type or storage class
+../include/net-snmp/library/oid_stash.h:39: parse error before `netsnmp_oid_stash_node'
+../include/net-snmp/library/oid_stash.h:39: warning: no semicolon at end of struct or union
+../include/net-snmp/library/oid_stash.h:41: parse error before `}'
+../include/net-snmp/library/oid_stash.h:41: warning: type defaults to `int' in declaration of `netsnmp_oid_stash_save_info'
+../include/net-snmp/library/oid_stash.h:41: warning: data definition has no type or storage class
+../include/net-snmp/library/oid_stash.h:44: parse error before `*'
+../include/net-snmp/library/oid_stash.h:51: parse error before `*'
+../include/net-snmp/library/oid_stash.h:51: parse error before `*'
+../include/net-snmp/library/oid_stash.h:52: warning: type defaults to `int' in declaration of `netsnmp_oid_stash_get_node'
+../include/net-snmp/library/oid_stash.h:52: warning: data definition has no type or storage class
+../include/net-snmp/library/oid_stash.h:54: parse error before `*'
+../include/net-snmp/library/oid_stash.h:57: parse error before `*'
+../include/net-snmp/library/oid_stash.h:58: parse error before `mysize'
+../include/net-snmp/library/oid_stash.h:58: warning: type defaults to `int' in declaration of `netsnmp_oid_stash_create_sized_node'
+../include/net-snmp/library/oid_stash.h:58: warning: data definition has no type or storage class
+../include/net-snmp/library/oid_stash.h:59: parse error before `*'
+../include/net-snmp/library/oid_stash.h:59: warning: type defaults to `int' in declaration of `netsnmp_oid_stash_create_node'
+../include/net-snmp/library/oid_stash.h:59: warning: data definition has no type or storage class
+../include/net-snmp/library/oid_stash.h:61: parse error before `*'
+In file included from ../include/net-snmp/utilities.h:45,
+                 from snmp_transport.c:20:
+../include/net-snmp/library/check_varbind.h:14: parse error before `size_t'
+In file included from snmp_transport.c:22:
+../include/net-snmp/library/snmp_transport.h:29: parse error before `netsnmpUDPDomain_len'
+../include/net-snmp/library/snmp_transport.h:29: warning: type defaults to `int' in declaration of `netsnmpUDPDomain_len'
+../include/net-snmp/library/snmp_transport.h:29: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:30: parse error before `netsnmpCLNSDomain_len'
+../include/net-snmp/library/snmp_transport.h:30: warning: type defaults to `int' in declaration of `netsnmpCLNSDomain_len'
+../include/net-snmp/library/snmp_transport.h:30: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:31: parse error before `netsnmpCONSDomain_len'
+../include/net-snmp/library/snmp_transport.h:31: warning: type defaults to `int' in declaration of `netsnmpCONSDomain_len'
+../include/net-snmp/library/snmp_transport.h:31: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:32: parse error before `netsnmpDDPDomain_len'
+../include/net-snmp/library/snmp_transport.h:32: warning: type defaults to `int' in declaration of `netsnmpDDPDomain_len'
+../include/net-snmp/library/snmp_transport.h:32: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:33: parse error before `netsnmpIPXDomain_len'
+../include/net-snmp/library/snmp_transport.h:33: warning: type defaults to `int' in declaration of `netsnmpIPXDomain_len'
+../include/net-snmp/library/snmp_transport.h:33: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:68: parse error before `size_t'
+../include/net-snmp/library/snmp_transport.h:68: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_transport.h:89: parse error before `}'
+../include/net-snmp/library/snmp_transport.h:89: warning: type defaults to `int' in declaration of `netsnmp_transport'
+../include/net-snmp/library/snmp_transport.h:89: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:92: parse error before `netsnmp_transport'
+../include/net-snmp/library/snmp_transport.h:92: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_transport.h:94: parse error before `}'
+../include/net-snmp/library/snmp_transport.h:94: warning: type defaults to `int' in declaration of `netsnmp_transport_list'
+../include/net-snmp/library/snmp_transport.h:94: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:98: parse error before `size_t'
+../include/net-snmp/library/snmp_transport.h:98: warning: no semicolon at end of struct or union
+../include/net-snmp/library/snmp_transport.h:100: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:100: warning: type defaults to `int' in declaration of `f_create_from_tstring'
+../include/net-snmp/library/snmp_transport.h:100: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:101: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:101: parse error before `size_t'
+../include/net-snmp/library/snmp_transport.h:101: warning: type defaults to `int' in declaration of `f_create_from_ostring'
+../include/net-snmp/library/snmp_transport.h:101: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:103: conflicting types for `next'
+../include/net-snmp/library/snmp_transport.h:93: previous declaration of `next'
+../include/net-snmp/library/snmp_transport.h:104: parse error before `}'
+../include/net-snmp/library/snmp_transport.h:104: warning: type defaults to `int' in declaration of `netsnmp_tdomain'
+../include/net-snmp/library/snmp_transport.h:104: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:109: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:111: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:120: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:120: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:120: warning: type defaults to `int' in declaration of `netsnmp_transport_copy'
+../include/net-snmp/library/snmp_transport.h:120: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:125: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:136: parse error before `size_t'
+../include/net-snmp/library/snmp_transport.h:139: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:141: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:145: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:148: warning: type defaults to `int' in declaration of `netsnmp_tdomain_transport'
+../include/net-snmp/library/snmp_transport.h:148: warning: data definition has no type or storage class
+../include/net-snmp/library/snmp_transport.h:150: parse error before `*'
+../include/net-snmp/library/snmp_transport.h:151: parse error before `size_t'
+../include/net-snmp/library/snmp_transport.h:154: warning: type defaults to `int' in declaration of `netsnmp_tdomain_transport_oid'
+../include/net-snmp/library/snmp_transport.h:154: warning: data definition has no type or storage class
+In file included from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/uio.h:29,
+                 from /usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/socket.h:27,
+                 from ../include/net-snmp/library/snmpUDPDomain.h:12,
+                 from snmp_transport.c:23:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/uio.h:45: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/bits/uio.h:45: warning: no semicolon at end of struct or union
+In file included from ../include/net-snmp/library/snmpUDPDomain.h:12,
+                 from snmp_transport.c:23:
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/socket.h:131: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/socket.h:136: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/socket.h:141: parse error before `size_t'
+/usr/local/arm/2.95.3/lib/gcc-lib/arm-linux/2.95.3/../../../../arm-linux/include/sys/socket.h:149: parse error before `size_t'
+In file included from snmp_transport.c:23:
+../include/net-snmp/library/snmpUDPDomain.h:18: parse error before `*'
+../include/net-snmp/library/snmpUDPDomain.h:18: warning: type defaults to `int' in declaration of `netsnmp_udp_transport'
+../include/net-snmp/library/snmpUDPDomain.h:18: warning: data definition has no type or storage class
+../include/net-snmp/library/snmpUDPDomain.h:41: parse error before `size_t'
+In file included from snmp_transport.c:34:
+../include/net-snmp/library/snmpAAL5PVCDomain.h:21: parse error before `*'
+../include/net-snmp/library/snmpAAL5PVCDomain.h:22: warning: type defaults to `int' in declaration of `netsnmp_aal5pvc_transport'
+../include/net-snmp/library/snmpAAL5PVCDomain.h:22: warning: data definition has no type or storage class
+snmp_transport.c:49: parse error before `*'
+snmp_transport.c:49: warning: type defaults to `int' in declaration of `domain_list'
+snmp_transport.c:49: warning: data definition has no type or storage class
+snmp_transport.c:58: parse error before `netsnmpUDPDomain_len'
+snmp_transport.c:58: warning: type defaults to `int' in declaration of `netsnmpUDPDomain_len'
+snmp_transport.c:58: warning: data definition has no type or storage class
+snmp_transport.c:60: parse error before `netsnmpCLNSDomain_len'
+snmp_transport.c:60: warning: type defaults to `int' in declaration of `netsnmpCLNSDomain_len'
+snmp_transport.c:60: warning: data definition has no type or storage class
+snmp_transport.c:62: parse error before `netsnmpCONSDomain_len'
+snmp_transport.c:62: warning: type defaults to `int' in declaration of `netsnmpCONSDomain_len'
+snmp_transport.c:62: warning: data definition has no type or storage class
+snmp_transport.c:64: parse error before `netsnmpDDPDomain_len'
+snmp_transport.c:64: warning: type defaults to `int' in declaration of `netsnmpDDPDomain_len'
+snmp_transport.c:64: warning: data definition has no type or storage class
+snmp_transport.c:66: parse error before `netsnmpIPXDomain_len'
+snmp_transport.c:66: warning: type defaults to `int' in declaration of `netsnmpIPXDomain_len'
+snmp_transport.c:66: warning: data definition has no type or storage class
+snmp_transport.c:74: parse error before `*'
+snmp_transport.c:75: parse error before `*'
+snmp_transport.c:76: warning: return-type defaults to `int'
+snmp_transport.c: In function `netsnmp_transport_copy':
+snmp_transport.c:77: `n' undeclared (first use in this function)
+snmp_transport.c:77: (Each undeclared identifier is reported only once
+snmp_transport.c:77: for each function it appears in.)
+snmp_transport.c:79: parse error before `)'
+snmp_transport.c:85: `t' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:147: parse error before `*'
+snmp_transport.c: In function `netsnmp_transport_free':
+snmp_transport.c:149: `t' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:236: parse error before `*'
+snmp_transport.c: In function `netsnmp_tdomain_register':
+snmp_transport.c:238: `prevNext' undeclared (first use in this function)
+snmp_transport.c:238: `d' undeclared (first use in this function)
+snmp_transport.c:238: warning: left-hand operand of comma expression has no effect
+snmp_transport.c:240: `n' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:262: parse error before `*'
+snmp_transport.c: In function `netsnmp_tdomain_unregister':
+snmp_transport.c:264: `prevNext' undeclared (first use in this function)
+snmp_transport.c:264: `d' undeclared (first use in this function)
+snmp_transport.c:264: warning: left-hand operand of comma expression has no effect
+snmp_transport.c:266: `n' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:283: parse error before `*'
+snmp_transport.c:286: warning: return-type defaults to `int'
+snmp_transport.c: In function `netsnmp_tdomain_transport':
+snmp_transport.c:287: `d' undeclared (first use in this function)
+snmp_transport.c:287: warning: statement with no effect
+snmp_transport.c:288: `t' undeclared (first use in this function)
+snmp_transport.c:289: parse error before `const'
+snmp_transport.c:297: `mystring' undeclared (first use in this function)
+snmp_transport.c:297: warning: implicit declaration of function `strdup'
+snmp_transport.c:302: `cp' undeclared (first use in this function)
+snmp_transport.c:302: warning: implicit declaration of function `strchr'
+snmp_transport.c:308: `spec' undeclared (first use in this function)
+snmp_transport.c:309: `addr' undeclared (first use in this function)
+snmp_transport.c:327: `i' undeclared (first use in this function)
+snmp_transport.c:328: warning: implicit declaration of function `strcasecmp'
+snmp_transport.c: At top level:
+snmp_transport.c:377: parse error before `*'
+snmp_transport.c:379: parse error before `size_t'
+snmp_transport.c:381: warning: return-type defaults to `int'
+snmp_transport.c: In function `netsnmp_tdomain_transport_oid':
+snmp_transport.c:382: `d' undeclared (first use in this function)
+snmp_transport.c:382: warning: statement with no effect
+snmp_transport.c:383: parse error before `int'
+snmp_transport.c:386: `dom' undeclared (first use in this function)
+snmp_transport.c:386: `dom_len' undeclared (first use in this function)
+snmp_transport.c:390: `i' undeclared (first use in this function)
+snmp_transport.c:393: `o' undeclared (first use in this function)
+snmp_transport.c:393: `o_len' undeclared (first use in this function)
+snmp_transport.c:393: `local' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:406: parse error before `*'
+snmp_transport.c: In function `netsnmp_transport_add_to_list':
+snmp_transport.c:409: `newptr' undeclared (first use in this function)
+snmp_transport.c:410: parse error before `)'
+snmp_transport.c:415: `transport_list' undeclared (first use in this function)
+snmp_transport.c:416: `transport' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:427: parse error before `*'
+snmp_transport.c: In function `netsnmp_transport_remove_from_list':
+snmp_transport.c:430: `ptr' undeclared (first use in this function)
+snmp_transport.c:430: `transport_list' undeclared (first use in this function)
+snmp_transport.c:430: `lastptr' undeclared (first use in this function)
+snmp_transport.c:430: warning: left-hand operand of comma expression has no effect
+snmp_transport.c:432: `transport' undeclared (first use in this function)
+snmp_transport.c: At top level:
+snmp_transport.c:68: warning: `netsnmp_tdomain_dump' declared `static' but never defined
+make: *** [snmp_transport.o] Error 1

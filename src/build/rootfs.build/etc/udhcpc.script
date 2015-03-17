@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# udhcpc script edited by Tim Riker <Tim@Rikers.org>
+
+[ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
+
+RESOLV_CONF="/var/resolv.conf"
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+case "$1" in
+	nullconfig)
+		/sbin/ifconfig $interface 0.0.0.0
+		/bin/rm -f /tmp/wan_uptime
+		/bin/rm -f /tmp/dhcpc.lease
+		/bin/echo ""> /var/resolv.conf
+		;;
+
+	deconfig)
+		/sbin/ifconfig $interface 192.168.1.245 netmask 255.255.255.0
+        #route del default gw 0.0.0.0 dev $interface
+        #route add default gw 192.168.1.1 dev $interface
+		/bin/rm -f /tmp/wan_uptime
+		/bin/rm -f /tmp/dhcpc.lease
+		/bin/echo ""> /var/resolv.conf
+		;;
+
+	renew|bound)
+		/sbin/ifconfig $interface $ip $BROADCAST $NETMASK
+		
+		/bin/cp -f /proc/uptime /tmp/wan_uptime
+
+        if [ -n "$AddRoute" ] ; then
+		    if [ -n "$router" ] ; then
+		    	echo "deleting routers"
+		    	while route del default gw 0.0.0.0 dev $interface ; do
+		    		:
+		    	done
+            
+		    	for i in $router ; do
+		    		route add default gw $i dev $interface
+		    	done
+		    fi
+        fi
+		
+		/bin/echo -n > $RESOLV_CONF
+		if [ -n "$domain" ] ; then
+		  	/bin/echo search $domain >> $RESOLV_CONF
+		fi
+		
+		for i in $dns ; do
+			#echo adding dns $i
+			echo nameserver $i >> $RESOLV_CONF
+		done
+		;;
+esac
+

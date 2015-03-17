@@ -1,0 +1,3823 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<link type="text/css" rel="stylesheet" title="application" href="navigator.css" media="screen,projection">
+<link type="text/css" rel="stylesheet" title="application" href="application.css" media="screen,projection">
+<link type="text/css" rel="stylesheet" title="application" href="wizard.css" media="screen,projection">
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="utility.js"></script>
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="P.js"></script>
+<script language="javascript" type="text/javascript">
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);	
+
+var wepKey1;
+var wepKey2;
+var wepKey3;
+var wepKey4;
+var resizeTimer = null;
+var wanMethod ;
+var wizard_page=1;
+var keyLen = 10;
+var keylength = 26;
+var hexkey = true;
+var secMethod = "";
+var connMethods = ["static","auto"];
+var SecurityList = "0 1 2 3 4 5 6 7 8";
+var secMethods = ["wep","wpa1","wpa2","psk_mixed","wpa_radius","wpa2_radius","wpa_radius_mixed","radius","disabled"];
+
+var rePage = "@r_page#";
+ function resize()
+{
+        CountNewHeight("MLayout");
+        CountNewHeight("rightframe");
+        CountNewHeight("contentarea");
+        CountNewHeight("leftarea");
+        CountNewHeight("lefttree");
+        return;
+}
+
+function init()
+{
+	 resize();
+	  
+	 PNGFix("HeaderLogoImage");
+	
+	 if(rePage!="null"){
+	 	if(rePage=="WMACFilter.htm"){
+	 		rePage="WMACFilter.htm&unit=0&vap=0";
+	 	}
+	 	else if(rePage=="WSecurity.htm"){
+	 		rePage="WSecurity.htm&unit=0&vap=0";
+	 	}
+	 	if(!getPagebyName(rePage))
+	 	{
+	 		changehelp('init', rePage);
+		}
+		else{
+			changehelp('init', 'Setup.htm');
+		}
+	}
+	else{
+		changehelp('init', 'Setup.htm');
+	}
+}
+
+
+function onresizeHandler()
+{
+        if(resizeTimer!=null)
+        	clearTimeout(resizeTimer);
+        resizeTimer = setTimeout("resize()",500);
+}
+
+function parent_menu_clk(obj_id)
+{
+	var obj=document.getElementById(obj_id);
+	
+	if(obj.id.charAt(0)=="1")
+		btn_clk1(document.getElementById("btn_div1"));
+	else if(obj.id.charAt(0)=="2")
+		btn_clk1(document.getElementById("btn_div2"));
+	else if(obj.id.charAt(0)=="3")
+		btn_clk1(document.getElementById("btn_div3"));
+	else if(obj.id.charAt(0)=="4")
+		btn_clk1(document.getElementById("btn_div4"));
+	else if(obj.id.charAt(0)=="5")
+		btn_clk1(document.getElementById("btn_div5"));						
+	for(i=0; i < 21; i++)
+	{
+		if(obj.id!=RightID[i]){
+			var objname=document.getElementById(RightID[i]).className;
+			
+			if(objname=="LmenuSel")
+				document.getElementById(RightID[i]).className="Lmenu";
+		}
+	}
+	if(obj.className!= "LmenuSel")
+		obj.className= "LmenuSel";		
+	obj.focus();
+	return;
+}
+
+function setSecurityDivs1()
+{
+ 	var cf = document.forms[0];
+ 	
+	secMethod = cf.security_mode1.value;
+	show_hide("wepDIV1", (secMethod == "wep" ));
+  show_hide("wepauth1", (secMethod == "wep"));    
+	show_hide("wpa1DIV1", (secMethod == "psk" || secMethod == "wpa_radius"));
+	show_hide("wpa2DIV1", (secMethod == "psk2" || secMethod == "wpa2_radius"));    
+  show_hide("wpa3DIV1", (secMethod == "psk_mixed" || secMethod == "wpa_radius_mixed"));	
+  show_hide("wpaDIV1", (secMethod == "psk" || secMethod == "psk2" || secMethod == "psk_mixed"));    
+	show_hide("wparadiusDIV1", (secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));	
+  show_hide("radiusDIV11", (secMethod == "radius" || secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));
+}
+
+function setSecurityList()
+{
+    var cf = document.forms[0];
+    var SecurityArray;
+    var newOpt;
+    SecurityArray = SecurityList.split(" ");
+
+    for(var i = 0; i < SecurityArray.length; i++) 
+		{ 
+	    newOpt = document.createElement("OPTION");
+    	cf.security_mode.options.add(newOpt); 
+    	cf.security_mode.options[i].text=ws_security_text[SecurityArray[i]]; 
+    	cf.security_mode.options[i].value=ws_security_value[SecurityArray[i]];
+    }    	
+}
+
+function onChangeIPv4Type()
+{
+ 	var cf = document.forms[0];
+	var wanMethod = cf.ipv4_ip_type.selectedIndex;
+	
+	show_hide("dhcpDIV", (wanMethod==1));
+	show_hide("fixedDIV", (wanMethod==0));
+}
+
+function onChangeIPv6Type()
+{
+ 	var cf = document.forms[0];
+	var ipv6_ip_type = cf.ipv6_ip_type.selectedIndex;
+	
+	show_hide("ipv6dhcpDIV", (ipv6_ip_type==1));
+	show_hide("ipv6fixedDIV", (ipv6_ip_type==0));
+}
+
+function check_v6_ip(val, flag)
+{
+    var size = val.length;
+    var i;
+    var j = 0;
+    var t;
+    var ret = 0;
+    var flagdotNo = 0;//=3
+    var flagcolNo = 0;//<=7
+    var flagcolCo =0;//<=1
+    var flaghex = 0;//<=4
+    var flagdec = 0;//<=3
+    var flagpre = 0;
+    var msg="";
+    msg = "IPv6 " + flag + "\n";
+    
+    if( size == 0 )
+    {
+        msg += msg_IPv6_Blank;
+        ret = 1;
+    }
+
+    for( i = 0; i < size && ret == 0; i ++ )
+    {
+        var c = val.substring(i, i+1);
+
+        if( c == "/" )
+        {
+            if(flag == l_addr || flag == l_dns1 || flag == l_dns2 )
+            {
+                msg += msg_IPv6_len;
+                break;
+            }
+            
+            if(flag == l_gateway)
+            {
+                flagpre = 1;
+                msg += CheckPreLen(val.substring(i+1, size));  
+                break;
+            }
+        }
+        else if( c == ":")
+        {
+            j = i+1;
+            if( val.substring(i, i+3) == ":::" )
+            {
+                msg +=msg_IPv6_col3;
+                break;
+            }
+
+            if( val.substring(i, i+2) == "::" )
+            {
+                if( flagcolCo >= 1 )
+                {
+                    msg +=msg_IPv6_col2;
+                    break;
+                }
+                else
+                {
+                    flagcolCo ++;
+                    flaghex = 0;
+                    flagdec = 0;
+                    i++;
+                    j=i+1;
+                }
+            }
+            else if( i == 0 )  //some error
+            {
+                msg +=msg_IPv6_col0;
+                break;
+            }
+            else if( i == size-1 )
+            {
+                msg +=msg_IPv6_col9;
+                break;
+            }
+
+            if( val.substring(i-1, i+1 ) != "::" && val.substring(i+1, i+2) == ".") //don't know
+            {
+                msg +=msg_IPv6_dot;
+                break;
+            }
+
+            if( flagdotNo == 0 && flagcolNo < 7 )
+            {
+                flagcolNo ++;
+                flaghex = 0;
+                flagdec = 0;
+            }
+            else
+            {
+                msg +=msg_IPv6_colNum;
+                break;
+            }
+        }
+        else if( isHex(c) )
+        {
+            flaghex ++;
+
+            if( 0 <= parseInt(c, 10) <= 9 )
+            {
+                flagdec ++;
+            }
+            else
+            {
+                flagdec = 0;
+            }
+
+            if( flaghex > 4 )
+            {
+                msg +=msg_IPv6_hex4;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        else if( c == "." )
+        {
+            if( 1<=flaghex<=3 && 1<=flagdec<=3 )
+            {
+                if(0 <= parseInt(val.substring(i+1, i+2)) && parseInt(val.substring(i+1, i+2)) <= 9)
+                {
+                    flagdotNo ++;
+
+                    flagdec = 0;
+                    flaghex = 0;
+                }
+                else
+                {
+                    msg +=msg_IPv6_dec;
+                    break;
+                }
+
+                if(flagdotNo == 1)
+                {
+                    t = val.substring(j, val.length);
+                    if(!isIPaddr(t))
+                    {
+                        msg += msg_IPv6_dec2;
+                    }
+                }
+
+                if( flagdotNo > 3 )
+                {
+                    msg +=msg_IPv6_dot3;
+                    break;
+                }
+            }
+            else
+            {
+                msg +=msg_IPv6_colNumdot;
+                break;
+            }
+        }
+        else
+        {
+            msg +=msg_IPv6_hex;            
+            break;
+        }
+    }
+
+    if( ( flagcolNo==1 && flagcolCo>7 ) || ( flagcolCo==0 && flagcolNo!=7 ) || ( flagdotNo!=0 && flagdotNo!=3 ) )
+    {
+        msg +=msg_IPv6_len;
+    }
+
+    if( flag == l_gateway && flagpre != 1)
+        msg += msg_IPv6_pre;
+	 if(flag == l_addr || flag == l_dns1 || flag == l_dns2 || flag == l_gateway ){
+		if((val=="0:0:0:0:0:0:0:0")||(val=="::"))
+			msg += msg_IPv6_unspec;
+		if((val=="0:0:0:0:0:0:0:1")||(val=="::1"))
+			msg += msg_IPv6_loopback;
+		if((val =="FF01:0:0:0:0:0:0:101")||(val=="FF01::101"))
+			msg += msg_IPv6_muti;
+	}
+		
+    if(msg == sub_ipv6+" "+l_addr+"\n" || msg == sub_ipv6+" "+l_gateway+"\n" || msg == sub_ipv6+" "+l_dns1+"\n" || msg == sub_ipv6+" "+l_dns2+"\n")
+        return "";
+    else
+        return msg;
+}
+
+function CheckPreLen(val)
+{
+    var msg="";
+    if( !isInt(val, 0, 128) )
+    {
+        msg +=msg_IPv6_prelen;
+    }
+
+    return msg;
+}
+
+function ChangeNTPStatus()
+{
+    var cf = document.forms[0];
+     
+    if( cf.ntp_server_select[0].checked )
+    {
+        cf.ntp_server_ip_1.disabled = false;
+        cf.ntp_server_ip_2.disabled = false;
+        cf.ntp_server_ip_3.disabled = false;
+        cf.ntp_server_ip_4.disabled = false;
+    }
+    else
+    {
+        cf.ntp_server_ip_1.disabled = true;
+        cf.ntp_server_ip_2.disabled = true;
+        cf.ntp_server_ip_3.disabled = true;
+        cf.ntp_server_ip_4.disabled = true;
+    }
+}
+
+function ChangeTimeMode()
+{
+    var cf = document.forms[0];
+    var stat = cf.tod_enable[0].checked;
+    
+    if( stat )
+    {
+        cf.time_mon.disabled = false;       //manually
+        cf.time_day.disabled = false;
+        cf.time_year.disabled = false;
+        cf.time_hour.disabled = false;
+        cf.time_min.disabled = false;
+        cf.time_sec.disabled = false;        
+        
+        cf.time_zone.disabled = true;      //Auto
+        cf.auto_dls.disabled = true;
+        cf.ntp_server_select[0].disabled = true;
+        cf.ntp_server_select[1].disabled = true;
+        cf.ntp_server_ip_1.disabled = true;
+        cf.ntp_server_ip_2.disabled = true;
+        cf.ntp_server_ip_3.disabled = true;
+        cf.ntp_server_ip_4.disabled = true;        
+    }
+    else
+    {
+        cf.time_mon.disabled = true;       //manually
+        cf.time_day.disabled = true;
+        cf.time_year.disabled = true;
+        cf.time_hour.disabled = true;
+        cf.time_min.disabled = true;
+        cf.time_sec.disabled = true;        
+        
+        cf.time_zone.disabled = false;      //Auto
+        cf.auto_dls.disabled = false;
+        cf.ntp_server_select[0].disabled = false;
+        cf.ntp_server_select[1].disabled = false;
+        
+        setDLS();
+        ChangeNTPStatus();
+    }
+}
+
+function CheckSameSSID()
+{
+	var x=0;
+	var y=0;
+	
+	f = document.forms[0];
+
+	for (x=0; x<4; x++)
+	{
+		if ( eval("f.wl_ssid"+x+".value") != "" )
+		{
+			for(y=x+1; y<4; y++)
+			{
+				if ( x == y )
+					continue;
+				else
+				{
+					if ( eval("f.wl_ssid"+x+".value") == eval("f.wl_ssid"+y+".value") )
+					{
+						wizard_ALERT(parent, "CON", titl_warn, "Home.htm", "Warn", same_ssid, "", wizard_ABBtnOK, "");
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	return 1;
+}
+
+function CheckSSIDBlank()
+{
+	var cf = document.forms[0];
+	if(cf.wl_ssid0.value== "")
+	{
+		wizard_ALERT(parent, "CON", titl_warn, "Home.htm", "Warn", msg_invad_ssid0, "", wizard_ABBtnOK, "");
+	    return false;
+	}
+	return true;
+}
+
+
+function ipv6modeChange()
+{
+    var cf = document.forms[0];
+
+    if(cf.ipv6_mode[0].checked)
+    {
+        cf.ip6_address.disabled = false;        
+        cf.ip6_prelen.disabled = false;
+        cf.ip6_getway.disabled = false;
+        cf.ipv6_radvd6c.disabled = false;
+        cf.ip6_dns1.disabled = false;
+        cf.ip6_dns2.disabled = false;
+        cf.ipv6_ip_type.disabled = false;
+		onChangeIPv6Type(); 
+    }
+    else
+    {
+        cf.ip6_address.disabled = true;
+        cf.ip6_prelen.disabled = true;
+        cf.ip6_getway.disabled = true;
+        cf.ipv6_radvd6c.disabled = true;
+        cf.ip6_dns1.disabled = true;
+        cf.ip6_dns2.disabled = true;
+        cf.ipv6_ip_type.disabled = true;
+    }    
+}
+
+function maxday_for_month(month_num, year_str)
+{
+	var year_int;
+	var maxday;
+
+	year_int = parseInt(year_str);
+	var leap_year = ( Math.ceil(year_int/4.0) == Math.floor(year_int/4.0));
+	if ((month_num == 2) && (leap_year))
+			maxday = 29;
+	else if (month_num == 2)
+			maxday = 28;
+	else if ((month_num == 9)
+				 ||(month_num == 4)
+				 ||(month_num == 6)
+				 ||(month_num == 11))
+			maxday = 30;
+	else
+			maxday = 31;
+	return maxday;
+}
+
+var dlArray_auto =  [0, 0, 0, 1, 1, 0, 1, 1, 0, 1,
+					 1, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+					 0, 1, 1, 1, 0,	0, 1, 1, 1, 1,
+					 1, 0, 1, 1, 1,	0, 1, 0, 1, 0,
+					 1, 0, 1, 0, 1,	0, 1, 0, 0, 0,
+					 1, 0, 0, 0, 0,	1, 0, 1, 0, 0,
+					 0, 0, 0, 1, 1,	0, 0, 1, 0, 1,
+					 1, 0, 1, 0, 0];
+function setDLS() 
+{
+ 	var cf = document.forms[0];
+	var index = cf.time_zone.selectedIndex;
+	if (index > -1)
+	{
+		if (dlArray_auto[index] == 0)
+		{
+			cf.auto_dls.disabled = true;
+			cf.auto_dls.checked = false;
+		}
+		else
+		{
+			cf.auto_dls.disabled = false;
+			if(cf.h_auto_dls.value == "enable")
+			    cf.auto_dls.checked = true;
+		}
+	}
+	else
+		cf.auto_dls.disabled = false;
+}
+
+function SSID_Focus(Index, value)
+{
+	var cf = document.forms[0];
+	
+	if(value == "" || eval("cf.wl_hide_ssid"+Index).disabled)
+	{
+		eval("cf.wl_hide_ssid"+Index).selectedIndex = 1;
+	}
+	eval("cf.wl_hide_ssid"+Index).disabled = 0;
+}
+
+function SSID_Blur(Index, value)
+{
+  var cf = document.forms[0];
+	
+	if(value == "")
+	{   
+		eval("cf.wl_hide_ssid"+Index).disabled = 1;
+		eval("cf.wl_hide_ssid"+Index).selectedIndex = 0;
+	}
+}
+
+function grey_ssid_hide()
+{
+	var cf = document.forms[0];
+	
+	if(cf.wl_ssid0.value.length)
+		cf.wl_hide_ssid0.disabled=false;
+	else
+		cf.wl_hide_ssid0.disabled=true;
+
+	if(cf.wl_ssid1.value.length)
+		cf.wl_hide_ssid1.disabled=false;
+	else
+		cf.wl_hide_ssid1.disabled=true;
+
+	if(cf.wl_ssid2.value.length)
+		cf.wl_hide_ssid2.disabled=false;
+	else
+		cf.wl_hide_ssid2.disabled=true;	
+
+	if(cf.wl_ssid3.value.length)
+		cf.wl_hide_ssid3.disabled=false;
+	else
+		cf.wl_hide_ssid3.disabled=true;	
+}
+
+
+function WEP_change1()
+{
+    var cf = document.forms[0];
+
+    if(keyLen != keylength || wepKey1 != cf.wep_key11.value || 
+       wepKey2 != cf.wep_key21.value || wepKey3 != cf.wep_key31.value || 
+       wepKey4 != cf.wep_key41.value ||cf.h_wl_key_id1.value!=cf.wl_key_id1.value )
+       return true;
+    else       
+       return false;
+}
+
+function setSecurityDivs2()
+{
+ 	var cf = document.forms[0];
+ 	
+	secMethod = cf.security_mode2.value;
+	show_hide("wepDIV2", (secMethod == "wep" ));
+  show_hide("wepauth2", (secMethod == "wep"));    
+	show_hide("wpa1DIV2", (secMethod == "psk" || secMethod == "wpa_radius"));
+	show_hide("wpa2DIV2", (secMethod == "psk2" || secMethod == "wpa2_radius"));    
+  show_hide("wpa3DIV2", (secMethod == "psk_mixed" || secMethod == "wpa_radius_mixed"));	
+  show_hide("wpaDIV2", (secMethod == "psk" || secMethod == "psk2" || secMethod == "psk_mixed"));    
+	show_hide("wparadiusDIV2", (secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));	
+  show_hide("radiusDIV12", (secMethod == "radius" || secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));
+}
+
+function setSecurityDivs3()
+{
+ 	var cf = document.forms[0];
+ 	
+	secMethod = cf.security_mode3.value;
+	show_hide("wepDIV3", (secMethod == "wep" ));
+  show_hide("wepauth3", (secMethod == "wep"));    
+	show_hide("wpa1DIV3", (secMethod == "psk" || secMethod == "wpa_radius"));
+	show_hide("wpa2DIV3", (secMethod == "psk2" || secMethod == "wpa2_radius"));    
+  show_hide("wpa3DIV3", (secMethod == "psk_mixed" || secMethod == "wpa_radius_mixed"));	
+  show_hide("wpaDIV3", (secMethod == "psk" || secMethod == "psk2" || secMethod == "psk_mixed"));    
+	show_hide("wparadiusDIV3", (secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));	
+  show_hide("radiusDIV13", (secMethod == "radius" || secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));
+}
+
+function setSecurityDivs4()
+{
+ 	var cf = document.forms[0];
+ 	
+	secMethod = cf.security_mode4.value;
+	show_hide("wepDIV4", (secMethod == "wep" ));
+  show_hide("wepauth4", (secMethod == "wep"));    
+	show_hide("wpa1DIV4", (secMethod == "psk" || secMethod == "wpa_radius"));
+	show_hide("wpa2DIV4", (secMethod == "psk2" || secMethod == "wpa2_radius"));    
+  show_hide("wpa3DIV4", (secMethod == "psk_mixed" || secMethod == "wpa_radius_mixed"));	
+  show_hide("wpaDIV4", (secMethod == "psk" || secMethod == "psk2" || secMethod == "psk_mixed"));    
+	show_hide("wparadiusDIV4", (secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));	
+  show_hide("radiusDIV14", (secMethod == "radius" || secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));
+}
+
+function WEP_change2()
+{
+    var cf = document.forms[0];
+
+    if(keyLen != keylength || wepKey1 != cf.wep_key12.value || 
+       wepKey2 != cf.wep_key22.value || wepKey3 != cf.wep_key32.value || 
+       wepKey4 != cf.wep_key42.value ||cf.h_wl_key_id2.value!=cf.wl_key_id2.value )
+       return true;
+    else       
+       return false;
+}
+
+function WEP_change3()
+{
+    var cf = document.forms[0];
+
+    if(keyLen != keylength || wepKey1 != cf.wep_key13.value || 
+       wepKey2 != cf.wep_key23.value || wepKey3 != cf.wep_key33.value || 
+       wepKey4 != cf.wep_key43.value ||cf.h_wl_key_id3.value!=cf.wl_key_id3.value )
+       return true;
+    else       
+       return false;
+}
+
+function WEP_change4()
+{
+    var cf = document.forms[0];
+
+    if(keyLen != keylength || wepKey1 != cf.wep_key14.value || 
+       wepKey2 != cf.wep_key24.value || wepKey3 != cf.wep_key34.value || 
+       wepKey4 != cf.wep_key44.value ||cf.h_wl_key_id4.value!=cf.wl_key_id4.value )
+       return true;
+    else       
+       return false;
+}
+
+function setDivs()
+{
+    var cf = document.forms[0];
+    var index = cf.SSID_Setting.selectedIndex;
+
+		index = (index > -1 && index < cf.SSID_Setting.options.length) ? index :0;
+
+    show_hide("ssid1",index == 0);
+    show_hide("ssid2",index == 1);
+    show_hide("ssid3",index == 2);
+    show_hide("ssid4",index == 3);
+ 
+}
+
+var key_ssid=1;
+
+function keyGen(ssid)
+{
+	var min_size = 1;  // passphrase
+    var cf = document.forms[0];
+
+	key_ssid=ssid;
+	dataToHidden(cf);
+	if(ssid == 1)
+	{
+	    if(cf.passphrase1.value.length < min_size)
+	    {	
+		    wizard_ALERT(parent, "CON", ws_error, "Home.htm&unit=0&vap=0", "Crit", msg_wep_pass, "", wizard_ABBtnOK, "");
+		    return;
+	    }
+		ps="todo=wizard_gen_key&this_file=Home.htm&next_file=Home.htm&passphrase="+cf.passphrase1.value+"&h_keysize="+cf.h_keysize1.value;
+		cf.keygen1.disabled=true;		
+	}
+	else if(ssid == 2)
+	{
+	    if(cf.passphrase2.value.length < min_size)
+	    {	
+		    wizard_ALERT(parent, "CON", ws_error, "Home.htm&unit=0&vap=0", "Crit", msg_wep_pass, "", wizard_ABBtnOK, "");
+		    return;
+	    }
+		ps="todo=wizard_gen_key&this_file=Home.htm&next_file=Home.htm&passphrase="+cf.passphrase2.value+"&h_keysize="+cf.h_keysize2.value;
+		cf.keygen2.disabled=true;			    
+	}
+	else if(ssid == 3)
+	{
+	    if(cf.passphrase3.value.length < min_size)
+	    {	
+		    wizard_ALERT(parent, "CON", ws_error, "Home.htm&unit=0&vap=0", "Crit", msg_wep_pass, "", wizard_ABBtnOK, "");
+		    return;
+	    }
+		ps="todo=wizard_gen_key&this_file=Home.htm&next_file=Home.htm&passphrase="+cf.passphrase3.value+"&h_keysize="+cf.h_keysize3.value;	 
+		cf.keygen3.disabled=true;		   
+	}
+	else
+	{
+	    if(cf.passphrase4.value.length < min_size)
+	    {	
+		    wizard_ALERT(window, "CON", ws_error, "Home.htm&unit=0&vap=0", "Crit", msg_wep_pass, "", wizard_ABBtnOK, "");
+		    return;
+	    }
+		ps="todo=wizard_gen_key&this_file=Home.htm&next_file=Home.htm&passphrase="+cf.passphrase4.value+"&h_keysize="+cf.h_keysize4.value;
+		cf.keygen4.disabled=true;
+	}
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest ();
+		if (xmlhttp.overrideMimeType)
+		{
+			xmlhttp.overrideMimeType('text/html');
+		}
+	}
+	else if (window.ActiveXObject){
+		try
+		{
+			xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+		}
+		catch (e)
+		{
+			try{
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			} catch (e) {}
+		}
+	}
+
+	if (typeof xmlhttp != "undefined"){
+		xmlhttp.onreadystatechange = function (){
+ 			if (xmlhttp.readyState == 4){
+				if (xmlhttp.status == 200 ){
+					var resp = new String (xmlhttp.responseText);
+					var key_array;
+					
+					key_array=resp.split(":");
+					if(key_ssid==1){
+						cf.wep_key11.value=key_array[0];
+						cf.wep_key21.value=key_array[1];
+						cf.wep_key31.value=key_array[2];
+						cf.wep_key41.value=key_array[3];
+					}
+					else if(key_ssid==2){
+						cf.wep_key12.value=key_array[0];
+						cf.wep_key22.value=key_array[1];
+						cf.wep_key32.value=key_array[2];
+						cf.wep_key42.value=key_array[3];
+					} 
+					else if(key_ssid==3){
+						cf.wep_key13.value=key_array[0];
+						cf.wep_key23.value=key_array[1];
+						cf.wep_key33.value=key_array[2];
+						cf.wep_key43.value=key_array[3];
+					}
+					else{
+						cf.wep_key14.value=key_array[0];
+						cf.wep_key24.value=key_array[1];
+						cf.wep_key34.value=key_array[2];
+						cf.wep_key44.value=key_array[3];
+					}										
+				}
+				cf.keygen1.disabled=false;
+				cf.keygen2.disabled=false;
+				cf.keygen3.disabled=false;
+				cf.keygen4.disabled=false;
+			}
+		};
+
+    	try 
+    	{
+       		var summparameters = ps;
+
+			xmlhttp.open ("POST", "/setup.cgi", true);
+    	}
+		catch (e)
+	    {
+			alert ("open error ajaxWizardPost:" + e);
+	    }
+	    try
+	    {
+			xmlhttp.setRequestHeader ("Content-Type", "application/x-www-form-urlencoded");
+			xmlhttp.send (summparameters);
+	    } 
+	    catch (e)
+	    {
+	      alert ("send error ajaxWizardPost:" + e);
+	    }
+	}
+	else
+		alert ("Your browser doesnot support ajax");
+		
+}
+
+function setKeyType1(isKeep)
+{
+	cf = document.forms[0];
+		
+	keylength = (cf.keysize1.selectedIndex==1)? 26 : 10;  
+  cf.wep_key11.size = cf.wep_key21.size = cf.wep_key31.size = cf.wep_key41.size = keylength;
+  cf.wep_key11.maxLength = cf.wep_key21.maxLength = cf.wep_key31.maxLength = cf.wep_key41.maxLength = keylength;
+	
+	if(!isKeep)
+	  clearKeys1();
+	cf.passphrase1.value = "";
+}
+
+function setKeyType2(isKeep)
+{
+		cf = document.forms[0]; 
+		
+		keylength = (cf.keysize2.selectedIndex==1)? 26 : 10;  
+    cf.wep_key12.size = cf.wep_key22.size = cf.wep_key32.size = cf.wep_key42.size = keylength;
+    cf.wep_key12.maxLength = cf.wep_key22.maxLength = cf.wep_key32.maxLength = cf.wep_key42.maxLength = keylength;
+	
+	if(!isKeep)
+	      clearKeys2();
+	cf.passphrase2.value = "";
+}
+
+function setKeyType3(isKeep)
+{
+	cf = document.forms[0];
+		keylength = (cf.keysize3.selectedIndex==1)? 26 : 10;  
+    cf.wep_key13.size = cf.wep_key23.size = cf.wep_key33.size = cf.wep_key43.size = keylength;
+    cf.wep_key13.maxLength = cf.wep_key23.maxLength = cf.wep_key33.maxLength = cf.wep_key43.maxLength = keylength;
+	
+	if(!isKeep)
+	      clearKeys3();
+	cf.passphrase3.value = "";
+}
+
+function setKeyType4(isKeep)
+{
+		cf = document.forms[0];
+		
+		keylength = (cf.keysize4.selectedIndex==1)? 26 : 10;  
+    cf.wep_key14.size = cf.wep_key24.size = cf.wep_key34.size = cf.wep_key44.size = keylength;
+    cf.wep_key14.maxLength = cf.wep_key24.maxLength = cf.wep_key34.maxLength = cf.wep_key44.maxLength = keylength;
+	
+	if(!isKeep)
+		clearKeys4();
+	cf.passphrase4.value =  "";
+}  
+
+</script>
+
+</HEAD>
+<body id="bodystyle" onload="init()" onresize="onresizeHandler()" > 
+	<form name="wiz-form" method="POST" action="setup.cgi" >
+
+<div class="MBackground">
+	<img class="MBgImage" src="./pageBackground.jpg" title="" alt=""/>
+</div>
+
+<!-- 	Header Begin -->
+	<div width="100%">
+	<table id="maintop"   width="100%" border="0" cellpadding="0" cellspacing="0">
+		<tr style="height:38px">
+			<td>
+                <script language="javascript" type="text/javascript">
+                    dw("<img class=\"Logoimage\"   onMouseOver=\"this.style.cursor='pointer'\" onClick=\"window.open('");
+                    dw(logo_url);
+                    dw("')\"  id=\"HeaderLogoImage\" src=\"./cisco_logo_header.png\" align=\"absmiddle\" title=\"");
+                    dw(home_logo);
+                    dw("\" alt=\"");
+                    dw(home_logo);
+                    dw("\"/>");</script>
+			</td>
+			<td>
+				<table border="0" cellpadding="0px">
+				<tr>
+					<td style="height:15px"><div class="MHeaderSubtitle"><nobr>
+						<script language="javascript" type="text/javascript">dw(home_tit1);</script>
+						</nobr></div></td>
+				</tr>
+				<tr>
+					<td style="height:23px"><div class="MHeaderTitleLogo"><nobr>
+						<script language="javascript" type="text/javascript">dw(home_tit2);</script> 
+</nobr></div></td>
+				</tr>	
+			    </table>
+			</td>	
+
+		<td width="100%">&nbsp;</td>
+		<td class="MHeaderTextArea" nowrap="yes"><nobr>
+			<span class=MHeaderTextBold>
+			<!--<script language="javascript" type="text/javascript">
+				dw(home_ad);
+			</script> -->
+			@h_user#
+            </span><a  href="./login.htm&no=1" class="MHeaderLink"><script language="javascript" type="text/javascript">dw(home_lo);</script> </a>
+            <a  href="javascript:AboutOpen('about.htm')" class="MHeaderLink"><script language="javascript" type="text/javascript">dw(home_ab);</script> </a>
+            <a  href="javascript:changehelp('change', '0')" class="MHeaderLink"><script language="javascript" type="text/javascript">dw(home_hp);</script></a>
+				</nobr>
+				</td>
+		</tr>
+	</table>
+</div>
+	<!-- Header End -->
+
+	<!-- Toolbar Begin -->
+		<!-- Toolbar End -->
+
+	<!-- gutter -->
+
+	<!-- Left Navigation Pane Begin-->
+	<table style="table-layout:fixed" cellPadding="0" cellSpacing="0" id="MLayout" border="0" width="100%" height="100%" >
+<tr  >
+	<td id="MLeftSpace">&nbsp;</td>
+	<!-- Left menu -->
+
+	<td class="MLeftArea" width="200px"  id="leftarea" valign="top"    >
+		<div id="lefttree" style="overflow:hidden;z:index:0;height:100%">
+			<div   style="overflow:hidden" id="MLeftContainer" scrollers="false" mode="single" scrollingnav="false">
+					<div id="MLeftLayer" >&nbsp;</div>
+<div  id="btn_div0" style="overflow:hidden;" class="btn_normal";  onmouseover="btn_mouse_over(this);"  onmouseout="btn_mouse_out(this);" onclick="btn_clk(event,this)">
+<img id="Toggler0" class="IconR" height="12" width="11" border="0" title=""  src="./ftv2blank.gif"/ >
+<nobr class="TitleMenu"><a  href="#" id="0-0" class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(wiz_run_wizard);</script></a></nobr>
+</div>
+					
+<div  id="btn_div1" style="overflow:hidden;" class="btn_normal";  onmouseover="btn_mouse_over(this);"  onmouseout="btn_mouse_out(this);" onclick="btn_clk(event,this)">
+<img id="Toggler1" class="IconR" height="12" width="12" border="0" title=""   src="./toggleR.gif"/ >
+<nobr class="TitleMenu"><script language="javascript" type="text/javascript">dw(vsetup);</script></nobr>
+</div>
+<div id="clk_div1"  class="clk_normal" style="overflow:auto;">
+<div width="100%">
+<table border="0px" cellpadding="0" cellspacing="0"  >
+<tr class="TableTr">
+<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="1-1" class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vsbasic);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="1-2"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vstime);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="1-3"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vsadv);</script></a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div  id="btn_div2" style="overflow:hidden;" class="btn_normal";  onmouseover="btn_mouse_over(this);"  onmouseout="btn_mouse_out(this);" onclick="btn_clk(event,this)" >
+<img id="Toggler2" class="IconR" height="12" width="12" border="0" title=""  src="./toggleR.gif"/ >
+<nobr class="TitleMenu"><script language="javascript" type="text/javascript">dw(vwireless);</script></nobr>
+</div>
+<div id="clk_div2" class="clk_normal" style="overflow: auto; ">
+<div width="100%">
+<table border="0px" cellpadding="0" cellspacing="0"  >
+<tr  class="TableTr"><td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="2-1"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vwbasic);</script></a>
+</td>
+</tr>
+<tr class="TableTr" >
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="2-2"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vwsecurity);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="2-3"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vwconn);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="2-4"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vwwps);</script></a>
+</td>
+</tr>
+<tr class="TableTr" >
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="2-5"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vwvlan);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="2-6"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vwadv);</script></a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div  id="btn_div3" style="overflow:hidden;" class="btn_normal";  onmouseover="btn_mouse_over(this);"  onmouseout="btn_mouse_out(this);" onclick="btn_clk(event,this)" >
+<img id="Toggler3" class="IconR" height="12" width="12" border="0" title=""  src="./toggleR.gif"/ >
+<nobr class="TitleMenu"><script language="javascript" type="text/javascript">dw(vap_mode);</script></nobr>
+</div>
+
+<div id="clk_div3" class="clk_normal" style="overflow: auto; ">
+<div width="100%">
+<table border="0px" cellpadding="0" cellspacing="0"   >
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="3-1"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vap_mode);</script></a>
+</td>
+</tr>
+
+</table>
+</div>
+</div>
+
+<div  id="btn_div4"  style="overflow:hidden;" class="btn_normal";  onmouseover="btn_mouse_over(this);"  onmouseout="btn_mouse_out(this);" onclick="btn_clk(event,this)"  >
+<img id="Toggler4" class="IconR" height="12" width="12" border="0" title=""  src="./toggleR.gif"/ >
+<nobr class="TitleMenu"><script language="javascript" type="text/javascript">dw(vadmin);</script></nobr>
+</div>
+<div id="clk_div4" class="clk_normal" style="overflow: auto;">
+<div width="100%">
+<table border="0px" cellpadding="0" cellspacing="0" width="100%"  >
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="4-1"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vamanag);</script></a>
+</td>
+</tr>
+<tr class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="4-2"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(valog);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="4-3"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vadiag);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="4-4"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vafacdef);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="4-5"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vafirup);</script></a>
+</td>
+</tr>
+<tr class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="4-6"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vareboot);</script></a>
+</td>
+</tr>
+<tr  class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="4-7"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vaconfig);</script></a>
+</td>
+</tr>
+<tr class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="4-8"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vacert);</script></a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div  id="btn_div5" style="overflow:hidden;"  class="btn_normal";  onmouseover="btn_mouse_over(this);"  onmouseout="btn_mouse_out(this);" onclick="btn_clk(event,this)" >
+<img id="Toggler5" class="IconR" height="12" width="12" border="0" title=""   src="./toggleR.gif"/ >
+<nobr class="TitleMenu"><script language="javascript" type="text/javascript">dw(vstatus);</script></nobr>
+</div>
+<div id="clk_div5"  class="clk_normal"  style="overflow: auto; ">
+<div width="100%">
+<table border="0px" cellpadding="0" cellspacing="0"   >
+<tr class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd">
+<a  href="#" id="5-1"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vslan);</script></a>
+</td>
+</tr>
+<tr class="TableTr">
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="5-2"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vswire);</script></a>
+</td>
+</tr>
+<tr class="TableTr" >
+	<td width="12px">&nbsp;</td>
+<td class="TableTd"  >
+<a  href="#"  id="5-3"  class="Lmenu" onclick="menu_clk(this);"><script language="javascript" type="text/javascript">dw(vsper);</script></a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+
+</div>
+		
+</div>
+		</td>
+	<!-- Left end -->
+	
+	<td  onmousedown="return ResizeLayerMouseDown(event,this)"  id="MMoveArea" width="5px">
+		<div id="MResizeLayer">
+		<div id="MResizeBox">
+		&nbsp;</div>
+		&nbsp;
+		</div>
+        <script language="javascript" type="text/javascript">
+            dw("<img id=\"MoveGripper\" onmouseover=\"MouseOverGripper(event,this);\" onmouseout=\"MouseOutGripper(event,this);\" title=\"");
+            dw(home_resize);
+            dw("\" alt=\"");
+            dw(home_resize);
+            dw("\" src=\"./NavPaneGripperT_V.gif\" />");</script>
+	</td>
+	<!-- Left navigation End -->
+
+	<!-- Content Area Begin -->
+	<td valign="top" >
+		<div id="contentarea" style="width:100%;height:100%;position:relative;"> 
+          <div class="MContentLayer">&nbsp;</div>
+          <iframe style="width:100%;height:100%;position:relative;" frameborder="1" name="rightframe" id="rightframe" title="" allowtransparency="true" src="./Setup.htm" width="100%" height="100%"></iframe>
+        </div>
+	</td>
+	<td id="MRightSpace">&nbsp;</td>
+</tr>
+	
+</table>
+<script type="text/javascript" language="javascript" src="stringutil.js"></script>
+<script type="text/javascript" language="javascript" src="wizard.js"></script>
+				<div id="fade" class="black_overlay" style="display: none;"></div><!-- fade -->
+				<div id="wizarddiv0">
+                <div id="wiz-progress-display" style="display: none;" class="wizard-progress-class">
+                <table id="wizProgressTable" width="100%" border="0"  height="100%" cellspacing="0" cellpadding="0">
+                  <tbody style="background: #a0b8c8">
+                    <tr>
+                      <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td width="10%">&nbsp;</td>
+                      <td class="wizard-label" style="font-weight: bold; text-align:center;"><script language="javascript" type="text/javascript">dw(loading_wizard);</script></td>
+                      <td width="10%">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td width="10%">&nbsp;</td>
+                      <td><img src="ProgressBar_indeterminate.gif" /></td>
+                      <td width="10%">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">&nbsp;</td>
+                    </tr>
+                  </tbody>
+                </table>
+              	</div><!-- wizard-progress-class -->
+				</div> <!-- wizarddiv0 -->    
+				<div id="light" class="white_content" style="display: none;"> <!-- to be added to main AP dataframe -->
+				<div id="wizardDiv" class="wizard-class" style="display: none;">
+					<div id="wrapDiv" class="wrap-class">
+						<div id="titleDiv" class="pre-header-class"><script language="javascript" type="text/javascript">dw(wiz_ap_setup);</script></div><!-- pre-header-class -->
+					     <!-- Generic header to leave border margin --> 
+					     <div id="headerDiv" class="header-class">
+								<div id="headerNoButtonDiv" class="header-nobtn-class">
+									<!-- For Navigation -->
+					            	<div id="wizNavigation" class="navigation-class">
+					              <table id="stepTable" class="wiz-tabs" cellspacing="0" cellpadding="0" border="0" width="100%">
+					                <tbody>
+					                	<!--Welcome-->
+					                    <tr id="steppri0row" style="display:block;" class="step-tr-active-class">
+					                      <td>
+					                        <div>
+					                          <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                            <tr id="step0row" class="step-tr-active-class">
+					                              <td style="width: 7px;"></td>
+					                              <td id="step0Data" class="wizard-nav-active" style="width: 10px;">
+					                                <img id="step0Img" height="10" width="2" src="ftv2blank.gif">
+					                              </td>
+					                              <td id="step0Label" class="wiz-tab1" style="color: rgb(255, 255, 255);"><script language="javascript" type="text/javascript">dw(wiz_welcome);</script></td>
+					                            </tr>
+					                          </table>
+					                        </div>
+					                      </td>
+					                    </tr>
+					                    <!--Configuration-->
+					                    <tr id="stepprisep0row" style="display:block;">
+					                      <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                    </tr>
+					                    <tr id="steppri1row" style="display:block;" >
+					                      <td>
+					                        <div>
+					                          <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                            <tr id="step1row" >
+					                              <td style="width: 7px;"></td>
+					                              <td id="step1Data" class="wizard-nav-active" style="width: 10px;">
+					                                <img id="step1Img" height="10" width="2" src="ftv2blank.gif">
+					                              </td>
+					                              <td id="step1Label" class="wiz-tab1" style="font-weight: bold;" ><script language="javascript" type="text/javascript">dw(wiz_configuration);</script></td>
+					                            </tr>
+					                          </table>
+					                        </div>
+					                      </td>
+					                    </tr>
+					                    
+					                    <!--IPv4 Address-->
+					                    <tr id="stepprisep1row" style="display:block;">
+					                      <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                    </tr>
+					                     <tr id="steppri2row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                              <tr id="step2row">
+                            <td style="width: 15px;"></td>
+                            <td id="step2Data" class="wizard-nav-active"> <img id="step2Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step2Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(wiz_ipv4_addr);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>
+					                    
+					                    <!--IPv6 Address-->
+				                    	<tr id="stepprisep2row" style="display:block;">
+					                      <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                    </tr>
+					                     <tr id="steppri3row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                              <tr id="step3row">
+                            <td style="width: 15px;"></td>
+                            <td id="step3Data" class="wizard-nav-active"> <img id="step3Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step3Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(wiz_ipv6_addr);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>		
+					                      
+					                    <!--Time Settings-->	                      
+					                        <tr id="stepprisep3row" style="display:block;">
+					                          <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                        </tr>
+					                       <tr id="steppri4row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                              <tr id="step4row">
+                            <td style="width: 15px;"></td>
+                            <td id="step4Data" class="wizard-nav-active"> <img id="step4Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step4Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(wiz_time_setting);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>
+					                      
+					                    <!--Security-->
+					                        <tr id="stepprisep4row" style="display:block;">
+					                          <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                        </tr>
+					                    <tr id="steppri5row" style="display:block;" >
+					                      <td>
+					                        <div>
+					                          <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                            <tr id="step5row" >
+					                              <td style="width: 7px;"></td>
+					                              <td id="step5Data" class="wizard-nav-active" style="width: 10px;">
+					                                <img id="step5Img" height="10" width="2" src="ftv2blank.gif">
+					                              </td>
+					                              <td id="step5Label" class="wiz-tab1" style="font-weight: bold;" ><script language="javascript" type="text/javascript">dw(vwsecurity);</script></td>
+					                            </tr>
+					                          </table>
+					                        </div>
+					                      </td>
+					                    </tr>
+					                    <!--Device Password-->
+					                    <tr id="stepprisep5row" style="display:block;">
+					                      <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                    </tr>
+					                     <tr id="steppri6row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">                      
+					                              <tr id="step6row">
+                            <td style="width: 15px;"></td>
+                            <td id="step6Data" class="wizard-nav-active"> <img id="step6Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step6Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(wiz_dev_pass);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>
+					                      
+					                      <!--Network Name-->
+					                        <tr id="stepprisep6row" style="display:block;">
+					                          <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                        </tr>
+					                     <tr id="steppri7row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">                      
+					                              <tr id="step7row">
+                            <td style="width: 15px;"></td>
+                            <td id="step7Data" class="wizard-nav-active"> <img id="step7Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step7Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(wiz_net_name);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>
+					                     <!--Wireless Security-->
+					                        <tr id="stepprisep7row" style="display:block;">
+					                          <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                        </tr>
+					                      <tr id="steppri8row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">                      
+					                              <tr id="step8row">
+                            <td style="width: 15px;"></td>
+                            <td id="step8Data" class="wizard-nav-active"> <img id="step8Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step8Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(ws_type);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>
+					                      
+					                      <!--Summary-->
+					                        <tr id="stepprisep8row" style="display:block;">
+					                          <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                        </tr>
+					                      <tr id="steppri9row" style="display:block;">
+					                        <td>
+					                          <div>
+					                            <table width="100%" cellspacing="0" cellpadding="0" border="0">                      
+					                              <tr id="step9row">
+                            <td style="width: 15px;"></td>
+                            <td id="step9Data" class="wizard-nav-active"> <img id="step9Img" width="10" height="10" src="ftv2blank.gif"> 
+					                                </td>
+                            <td style="width: 7px;"></td>
+					                                <td id="step9Label" class="wiz-tab1"><script language="javascript" type="text/javascript">dw(wiz_summary);</script></td>
+					                              </tr>
+					                            </table>
+					                          </div>
+					                        </td>
+					                      </tr>
+					                      
+					                      <!--Finish-->
+					                        <tr id="stepprisep9row" style="display:block;">
+					                          <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                        </tr>
+					                    <tr id="steppri10row" style="display:block;" >
+					                      <td>
+					                        <div>
+					                          <table width="100%" cellspacing="0" cellpadding="0" border="0">
+					                            <tr id="step10row" >
+					                              <td style="width: 7px;"></td>
+					                              <td id="step10Data" class="wizard-nav-active" style="width: 10px;">
+					                                <img id="step10Img" height="10" width="2" src="ftv2blank.gif">
+					                              </td>
+					                              <td id="step10Label" class="wiz-tab1" style="font-weight: bold;" ><script language="javascript" type="text/javascript">dw(wiz_finish);</script></td>
+					                            </tr>
+					                          </table>
+					                        </div>
+					                      </td>
+					                    </tr>
+					                   
+					                   
+					                    <tr id="stepprisep10row" style="display:block;">
+					                      <td class="wiz-tabgroup-separator">&nbsp;</td>
+					                    </tr>
+					             </tbody>
+					              </table>
+					            	</div> <!--navigation-class-->
+					
+					            	<!-- For Content border -->
+					            	<div id="wizContentBdr" class="wiz-content-bdr-class">
+					            
+					              <!-- actual content -->
+					              <!-- STEP HEADER AREA -->
+					              <div id="stepHeaderDiv" class="step-div-header-class"></div>
+					              <div id="headerPaddingDiv" class="step-div-header-padding-class"></div>
+					              <div class="navigation-form-content-class">
+		
+					                <!-- STEP0 TABLE - WELCOME -->
+					                <table id="step0Table" width="100%" border="0" height="80%" style="display:none;" cellspacing="0" cellpadding="0">
+					                  <tr>
+					                    
+		                      		<td class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_welcome_desc_1);</script> <p class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_welcome_desc_2);</script></p></td>
+					                  </tr>    
+					                  <tr>
+					                    <td align="right"><img src="wap4410n.jpg" /></td>
+					                  </tr>    
+					                  <tr>
+		                      			<td class="desc-footer-class"><script language="javascript" type="text/javascript">dw(wiz_welcome_note);</script></td>
+					                  </tr>    
+					                </table>
+					      
+					                <!-- STEP1 TABLE - Configure Device - IPv4 Address -->
+									<table id="step1Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+										<tr> 
+                    <td width="150" style="padding-bottom: 18px;" class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_ipv4_desc);</script></td>
+					                  	</tr>
+					              		<tr> 
+					<td><table width="350" border="0" cellpadding="0" cellspacing="0" id="stepxx1Table" >
+                        <tr> 
+		                          		<td width="150" nowrap > <script language="javascript" type="text/javascript">
+										dw(sub_ip_set);
+										</script>
+								  		</td>
+		                          		<td nowrap class=ContentCrlHeight>
+		                          		<select name="ipv4_ip_type" class=SelectStd onChange="onChangeIPv4Type();" >
+		                              	<option value="static"> 
+		                              		<script language="javascript" type="text/javascript">
+											dw(ip_static);
+											</script>
+		                              	</option>
+		                              	<option value="dhcp"> 
+		                             		<script language="javascript" type="text/javascript">
+												dw(ip_dhcp);
+											</script>
+		                              	</option>
+		                            	</select></td>
+										</tr>
+										</table></td>
+		                				</tr>
+
+		                				<tr> 
+		                  				<td  valign="top">
+		                  					
+		                  				<!--Fixed IP-->
+                      <div id="fixedDIV" style="display:none">
+		                      			<table width="350" id="stepxx1Table" border="0" cellpadding="0" cellspacing="0" >
+		                        		<tr> 
+		                          		<td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+										dw(l_addr);
+										</script></td>
+		                          		<td nowrap class=ContentCrlHeight><input type="text" name="wan_ip_1" value="" class="num" maxlength="3" size="3" >
+			                            . 
+			                            <input type="text" name="wan_ip_2" value="" class="num" maxlength="3" size="3" >
+			                            . 
+			                            <input type="text" name="wan_ip_3" value="" class="num" maxlength="3" size="3" >
+			                            . 
+			                            <input type="text" name="wan_ip_4" value="" class="num" maxlength="3" size="3" ></td>
+			                        	</tr>
+		                        		<tr> 
+		                          		<td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+										dw(l_mask);
+										</script></td>
+				                          <td nowrap class=ContentCrlHeight><input type="text" name="wan_mask_1" value="" class="num" maxlength="3" size="3" >
+				                            . 
+				                            <input type="text" name="wan_mask_2" value="" class="num" maxlength="3" size="3" >
+				                            . 
+				                            <input type="text" name="wan_mask_3" value="" class="num" maxlength="3" size="3" >
+				                            . 
+				                            <input type="text" name="wan_mask_4" value="" class="num" maxlength="3" size="3" ></td>
+				                        </tr>
+				                        <tr> 
+				                          <td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+										dw(l_gateway);
+									</script></td>
+				                          <td nowrap class=ContentCrlHeight><input type="text" name="wan_gw_1" value="" class="num" maxlength="3" size="3" >
+				                            . 
+				                            <input type="text" name="wan_gw_2" value="" class="num" maxlength="3" size="3" >
+				                            . 
+				                            <input type="text" name="wan_gw_3" value="" class="num" maxlength="3" size="3" >
+				                            . 
+				                            <input type="text" name="wan_gw_4" value="" class="num" maxlength="3" size="3" ></td>
+				                        </tr>
+					                        <tr> 
+					                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+											dw(l_dns1);
+											</script> </td>
+					                          <td nowrap class=ContentCrlHeight><input type="text" name="wan_dns1_1" value="" class="num" maxlength="3" size="3" >
+					                            . 
+					                            <input type="text" name="wan_dns1_2" value="" class="num" maxlength="3" size="3" >
+					                            . 
+					                            <input type="text" name="wan_dns1_3" value="" class="num" maxlength="3" size="3" >
+					                            . 
+					                            <input type="text" name="wan_dns1_4" value="" class="num" maxlength="3" size="3" ></td>
+					                        </tr>
+						                        <tr> 
+						                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+										dw(l_dns2);
+									</script></td>
+						                          <td nowrap class=ContentCrlHeight><input type="text" name="wan_dns2_1" value="" class="num" maxlength="3" size="3" >
+						                            . 
+						                            <input type="text" name="wan_dns2_2" value="" class="num" maxlength="3" size="3" >
+						                            . 
+						                            <input type="text" name="wan_dns2_3" value="" class="num" maxlength="3" size="3" >
+						                            . 
+						                            <input type="text" name="wan_dns2_4" value="" class="num" maxlength="3" size="3" ></td>
+						                        </tr>
+						                      </table>
+                    	</div>
+                      <div id="dhcpDIV">
+					  <table width="350" border="0px" cellpadding="0" cellspacing="0" >
+				      <tr  class=ContentTextHeight>
+				        <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+								dw(l_addr);
+							</script></td>
+				        <td nowrap  >@r_Local_IP#</td>
+				      </tr>
+				      <tr class=ContentTextHeight >
+				        <td nowrap  ><script language="javascript" type="text/javascript">
+								dw(l_mask);
+							</script></td>
+				        <td nowrap  >@r_Subnet_Mask#</td>
+				      </tr>
+				      <tr class=ContentTextHeight>
+				        <td nowrap  ><script language="javascript" type="text/javascript">
+								dw(l_gateway);
+							</script></td>
+				        <td nowrap  >@r_Default_Gw#</td>
+				      </tr>
+				      <tr class=ContentTextHeight >
+				        <td nowrap ><script language="javascript" type="text/javascript">
+								dw(l_dns1);
+							</script></td>
+				        <td nowrap >@r_Primary_DNS#</td>
+				      </tr>
+				      <tr class=ContentTextHeight >
+				        <td nowrap ><script language="javascript" type="text/javascript">
+								dw(l_dns2);
+							</script></td>
+				        <td nowrap  >@r_Second_DNS#</td>
+				      </tr>
+				    </table>
+				    </div>
+						 </td>
+		                </tr>
+		              				</table>
+					                <table id="stepx1Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                  <tr class="desc-footer-class1"> 
+					                    <td class="wizard-label" colspan="5"><img src="gs_help.png" width="15" height="15" /></td>
+					                    <td style="padding-top=15px;"><a name="conn_help" href="#" style="font-family: arial; font-weight: normal; font-size: 12px; color: #0088c2; text-decoration: underline; cursor: pointer;" onClick="openHelpWin('help_@sys_lang#/h_Setup.htm');"><script language="javascript" type="text/javascript">dw(wiz_connect_type);</script></a></td>
+					                  </tr>
+					                </table>
+					                                            
+									<!-- STEP2 TABLE - Configure Device - IPv6 Address -->
+									<table id="step2Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+									<tr> 
+                    <td width="150" style="padding-bottom: 18px;" class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_ipv6_desc);</script></td>
+									</tr>
+                  <td nowrap><table width="400" border="0" cellpadding="0" cellspacing="0" id="stepxx1Table" >
+                        			<tr> 
+								    <tr> 
+					                <td  width="150" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+										dw(sub_ipv6);
+									</script>: </td>
+									
+					                 <td nowrap class=ContentCrlHeight> <INPUT type=radio class="RadioLeftIE" value="enable" name="ipv6_mode" onClick="ipv6modeChange();"  > 
+					                            <script language="javascript" type="text/javascript">
+									dw(enable);
+								</script> <input type=radio  class="RadioRightIE" value="disable" name="ipv6_mode" onClick="ipv6modeChange();" checked> 
+					                            <script language="javascript" type="text/javascript">
+									dw(disable);
+								</script> </td>
+					                </tr>
+					                </table></td>
+                  </tr>             
+								<tr> 
+								<td nowrap><table width="400" border="0" cellpadding="0" cellspacing="0" id="stepxx1Table" >
+								<tr> 
+                          <td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+									dw(sub_ip_set);
+									</script></td>
+									
+									<td nowrap class=ContentCrlHeight>
+									<select name="ipv6_ip_type" class=SelectStd onChange="onChangeIPv6Type()" >
+									<option value="static"> 
+										<script language="javascript" type="text/javascript">
+											dw(ip_static);
+										</script>
+									</option>
+									<option value="dhcp"> 
+										<script language="javascript" type="text/javascript">
+											dw(ip_dhcp);
+										</script>
+									</option>
+									</select>
+									</td>
+								</tr>
+								</table></td>
+								</tr>    
+					                <tr> 
+                    <td valign="top">
+                    	<div id="ipv6fixedDIV">
+                    	<table width="580" border="0" cellpadding="0" cellspacing="0">
+					                        <tr>
+                          <td colspan="2" class=ContentCrlHeight>
+<script language="javascript" type="text/javascript">
+									dw(l_ip6_addr);
+								</script>
+                          </td>
+					                          <td width="8" class=ContentCrlHeight>&nbsp;</td>
+                          <td width="42" nowrap class=ContentCrlHeight>
+<script language="javascript" type="text/javascript">
+									dw(l_ip6_prefix);
+								</script>
+                          </td>
+					                        </tr>
+					                        <tr>
+					                          <td width="150" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+									dw(l_addr);
+								</script> </td>
+                          <td width="350" class=ContentCrlHeight>
+<input type="text" name="ip6_address" value="@ip6_address#" maxlength="46" size="56" >
+                          </td>					                          <td width="8" class=ContentCrlHeight>&nbsp;</td>
+					                          <td  class=ContentCrlHeight><INPUT type="text" name="ip6_prelen" value="@ip6_prelen#" maxLength="3" size="6" ></td>
+					                        </tr>
+					                        <tr> 
+					                          <td nowrap   class=ContentCrlHeight><script language="javascript" type="text/javascript">
+									dw(l_gateway);
+								</script></td>
+					                          <td nowrap  class=ContentCrlHeight><input type="text" name="ip6_getway" value="@ip6_getway#" maxlength="46" size="56" ></td>
+					                          <td nowrap  class=ContentCrlHeight colspan="2">&nbsp;</td>
+					                        </tr>
+					                        <tr> 
+					                          <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+									dw(l_dns1);
+								</script></td>
+					                          <td nowrap  class=ContentCrlHeight><input type="text" name="ip6_dns1" value="@ip6_dns1#" maxlength="46" size="56" ></td>
+					                          <td nowrap  class=ContentCrlHeight colspan="2">&nbsp;</td>
+					                        </tr>
+					                        <tr> 
+					                          <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+									dw(l_dns2);
+								</script></td>
+					                          <td nowrap  class=ContentCrlHeight><input type="text" name="ip6_dns2" value="@ip6_dns2#" maxlength="46" size="56" ></td>
+					                          <td nowrap  class=ContentCrlHeight colspan="2">&nbsp;</td>
+					                        </tr>
+					                      </table>
+                    </div>
+   	<div id="ipv6dhcpDIV">
+	                    <table width="580" border="0" cellpadding="0" cellspacing="0" >
+        <tr class=ContentCrlHeight>
+        	
+        <td width="10">
+          <input type=checkbox  class="CheckboxIE" value="radvd" name="ipv6_radvd6c" onClick="" >
+		</td>
+		<td>
+		<script language="javascript" type="text/javascript">
+				dw(l_radvd);
+			</script>
+		</td>
+        </tr>  
+          
+      </table>
+                        <table width="580" border="0px" cellpadding="0" cellspacing="0">
+          <tr  class=ContentTextHeight >
+            <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_addr);
+			</script></td>
+            <td nowrap  >@r_Local_IPv6_1#</td>
+          </tr>
+        </table>
+                        <table width="580"  border="0px" cellpadding="0" cellspacing="0">
+          <tr  class=ContentTextHeight >
+            <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_gateway);
+			</script></td>
+            <td nowrap  >@r_Default_Gwv6_1#</td>
+          </tr>
+          </table>
+                        <table width="580"  border="0px" cellpadding="0" cellspacing="0">
+          <tr  class=ContentTextHeight >
+            <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_dns1);
+			</script></td>
+            <td nowrap  >@r_Primary_DNSv6#</td>
+          </tr>
+          <tr class=ContentTextHeight >
+            <td nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_dns2);
+			</script></td>
+            <td nowrap >@r_Second_DNSv6#</td>
+          </tr>
+        </table>
+    </div>                 
+                    
+					               </td>
+					                </tr>
+					              	</table>
+					              	<br>
+					                <table id="stepx2Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                  <tr class="desc-footer-class1"> 
+					                    <td class="wizard-label" colspan="5"><img src="gs_help.png" width="15" height="15" /></td>
+                    <td style="padding-top=15px;"><a name="conn_help1" href="#" style="font-family: arial; font-weight: normal; font-size: 12px; color: #0088c2; text-decoration: underline; cursor: pointer;" onClick="openHelpWin ('help_@sys_lang#/h_Setup.htm');"> 
+                      <script language="javascript" type="text/javascript">dw(wiz_connect_type);</script>
+                      </a></td>
+					                  </tr>
+					                </table>			
+					                <!-- STEP3 TABLE - Configure Device - Time Zone, Date and Time -->
+					                <table id="step3Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                <tr> 
+                    <td style="padding-bottom: 18px;"" class="wizard-label" colspan="3"><script language="javascript" type="text/javascript">dw(wiz_time_desc);</script></td>
+					                </tr>
+		               <!--Manually -->
+		                <tr> 
+		                  <td width="10" nowrap  class=ContentTextHeight > <input type="radio" class="RadioLeftIE"; name="tod_enable" value="enable" onClick="ChangeTimeMode()"  checked> 
+		                  </td>
+		                  <td colspan="2" class=ContentTextHeight > <B> 
+		                    <script language="javascript" type="text/javascript">
+								dw(st_manu);
+							</script>
+		                    </B> </td>
+		                </tr>
+		                <!--Manually-DATE -->
+		                <tr> 
+		                  <td>&nbsp;</td>
+		                  <td colspan="2"> <table border="0px" cellpadding="0" cellspacing="0">
+		                      <tr> 
+		                        <td width="150" class=ContentCrlHeight nowrap> <script language="javascript" type="text/javascript">
+						dw(st_date);
+					</script> </td>
+		                        <td > <table border="0px" cellpadding="0" cellspacing="0">
+		                            <tr> 
+		                              <td> <select name="time_mon" class="SelectStd" style=" margin-right: 10px;margin-left: 8px">
+		                                  <option value="1"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_1);
+					</script>
+		                                  </option>
+		                                  <option value="2"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_2);
+					</script>
+		                                  </option>
+		                                  <option value="3"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_3);
+					</script>
+		                                  </option>
+		                                  <option value="4"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_4);
+					</script>
+		                                  </option>
+		                                  <option value="5"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_5);
+					</script>
+		                                  </option>
+		                                  <option value="6"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_6);
+					</script>
+		                                  </option>
+		                                  <option value="7"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_7);
+					</script>
+		                                  </option>
+		                                  <option value="8"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_8);
+					</script>
+		                                  </option>
+		                                  <option value="9"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_9);
+					</script>
+		                                  </option>
+		                                  <option value="10"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_10);
+					</script>
+		                                  </option>
+		                                  <option value="11"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_11);
+					</script>
+		                                  </option>
+		                                  <option value="12"> 
+		                                  <script language="javascript" type="text/javascript">
+						dw(st_mon_12);
+					</script>
+		                                  </option>
+		                                </select> </td>
+		                              <td> <select name="time_day" class="SelectStd" style=" margin-right: 10px">
+		                                  <option value="1">1</option>
+		                                  <option value="2">2</option>
+		                                  <option value="3">3</option>
+		                                  <option value="4">4</option>
+		                                  <option value="5">5</option>
+		                                  <option value="6">6</option>
+		                                  <option value="7">7</option>
+		                                  <option value="8">8</option>
+		                                  <option value="9">9</option>
+		                                  <option value="10">10</option>
+		                                  <option value="11">11</option>
+		                                  <option value="12">12</option>
+		                                  <option value="13">13</option>
+		                                  <option value="14">14</option>
+		                                  <option value="15">15</option>
+		                                  <option value="16">16</option>
+		                                  <option value="17">17</option>
+		                                  <option value="18">18</option>
+		                                  <option value="19">19</option>
+		                                  <option value="20">20</option>
+		                                  <option value="21">21</option>
+		                                  <option value="22">22</option>
+		                                  <option value="23">23</option>
+		                                  <option value="24">24</option>
+		                                  <option value="25">25</option>
+		                                  <option value="26">26</option>
+		                                  <option value="27">27</option>
+		                                  <option value="28">28</option>
+		                                  <option value="29">29</option>
+		                                  <option value="30">30</option>
+		                                  <option value="31">31</option>
+		                                </select> </td>
+		                              <td> <select name="time_year" class="SelectStd" style="margin-right: 8px">
+		                                  <option value="2005">2005</option>
+		                                  <option value="2006">2006</option>
+		                                  <option value="2007">2007</option>
+		                                  <option value="2008">2008</option>
+		                                  <option value="2009">2009</option>
+		                                  <option value="2010">2010</option>
+		                                  <option value="2011">2011</option>
+		                                  <option value="2012">2012</option>
+		                                  <option value="2013">2013</option>
+		                                  <option value="2014">2014</option>
+		                                  <option value="2015">2015</option>
+		                                </select> </td>
+		                            </tr>
+		                          </table></td>
+		                      </tr>
+		                    </table></td>
+		                </tr>
+		                <!--Manually-time -->
+		                <tr> 
+		                  <td>&nbsp;</td>
+		                  <td colspan="2"> <table border="0px" cellpadding="0" cellspacing="0">
+		                      <tr> 
+		                        <td  width="150" class=ContentCrlHeight nowrap> <script language="javascript" type="text/javascript">
+						dw(st_time);
+					</script> </td>
+		                        <td class=ContentCrlHeight nowrap> <table border="0px" cellpadding="0" cellspacing="0">
+		                            <tr> 
+		                              <td> <input class="num" maxlength="2" size="3" name="time_hour" value="@time_hour#" style="margin-left: 8px"> 
+		                              </td>
+		                              <td width="8px" align="center"  class="ContentCrlHeight">:</td>
+		                              <td> <input class="num" maxlength="2" size="3" name="time_min" value="@time_min#"> 
+		                              </td>
+		                              <td width="8px"  align="center"  class="ContentCrlHeight">:</td>
+		                              <td> <input class="num" maxlength="2" size="3" name="time_sec" value="@time_sec#"> 
+		                              </td>
+		                            </tr>
+		                          </table></td>
+		                      </tr>
+		                    </table></td>
+		                </tr>
+		                <!--Automatically  -->
+		                <tr> 
+		                  <td  class=ContentTextHeight nowrap > <input type="radio" name="tod_enable" value="disable" onClick="ChangeTimeMode()" class="RadioLeftIE" checked> 
+		                  </td>
+		                  <td colspan="2" class=ContentTextHeight> <B> 
+		                    <script language="javascript" type="text/javascript">
+								dw(st_auto);
+							</script>
+		                    </B> </td>
+		                </tr>
+		                <!--Automatically-Time Zone  -->
+		                <tr> 
+		                  <td nowrap>&nbsp;</td>
+		                  <td width="150" class=ContentCrlHeight > <script language="javascript" type="text/javascript">
+						dw(st_tzone);
+					</script> </td>
+		                  <td class=ContentCrlHeight nowrap> <select name="time_zone" class="SelectStd"  onChange="setDLS();">
+		                      <option value="001-12:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_001); </script>
+		                      </option>
+		                      <option value="002-11:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_002); </script>
+		                      </option>
+		                      <option value="003-10:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_003); </script>
+		                      </option>
+		                      <option value="004-09:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_004); </script>
+		                      </option>
+		                      <option value="005-08:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_005); </script>
+		                      </option>
+		                      <option value="006-07:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_006); </script>
+		                      </option>
+		                      <option value="007-07:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_007); </script>
+		                      </option>
+		                      <option value="008-07:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_008); </script>
+		                      </option>
+		                      <option value="009-06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_009); </script>
+		                      </option>
+		                      <option value="010-06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_010); </script>
+		                      </option>
+		                      <option value="011-06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_011); </script>
+		                      </option>
+		                      <option value="012-06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_012); </script>
+		                      </option>
+		                      <option value="013-05:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_013); </script>
+		                      </option>
+		                      <option value="014-05:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_014); </script>
+		                      </option>
+		                      <option value="015-05:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_015); </script>
+		                      </option>
+		                      <option value="016-04:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_016); </script>
+		                      </option>
+		                      <option value="017-04:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_017); </script>
+		                      </option>
+		                      <option value="018-04:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_018); </script>
+		                      </option>
+		                      <option value="019-03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_019); </script>
+		                      </option>
+		                      <option value="020-03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_020); </script>
+		                      </option>
+		                      <option value="021-03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_021); </script>
+		                      </option>
+		                      <option value="022-03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_022); </script>
+		                      </option>
+		                      <option value="023-02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_023); </script>
+		                      </option>
+		                      <option value="024-01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_024); </script>
+		                      </option>
+		                      <option value="025-01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_025); </script>
+		                      </option>
+		                      <option value="026+00:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_026); </script>
+		                      </option>
+		                      <option value="027+00:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_027); </script>
+		                      </option>
+		                      <option value="028+01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_028); </script>
+		                      </option>
+		                      <option value="029+01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_029); </script>
+		                      </option>
+		                      <option value="030+01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_030); </script>
+		                      </option>
+		                      <option value="031+01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_031); </script>
+		                      </option>
+		                      <option value="032+01:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_032); </script>
+		                      </option>
+		                      <option value="033+02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_033); </script>
+		                      </option>
+		                      <option value="034+02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_034); </script>
+		                      </option>
+		                      <option value="035+02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_035); </script>
+		                      </option>
+		                      <option value="036+02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_036); </script>
+		                      </option>
+		                      <option value="037+02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_037); </script>
+		                      </option>
+		                      <option value="038+02:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_038); </script>
+		                      </option>
+		                      <option value="039+03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_039); </script>
+		                      </option>
+		                      <option value="040+03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_040); </script>
+		                      </option>
+		                      <option value="041+03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_041); </script>
+		                      </option>
+		                      <option value="042+03:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_042); </script>
+		                      </option>
+		                      <option value="043+03:30"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_043); </script>
+		                      </option>
+		                      <option value="044+04:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_044); </script>
+		                      </option>
+		                      <option value="045+04:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_045); </script>
+		                      </option>
+		                      <option value="046+04:30"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_046); </script>
+		                      </option>
+		                      <option value="047+05:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_047); </script>
+		                      </option>
+		                      <option value="048+05:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_048); </script>
+		                      </option>
+		                      <option value="049+05:30"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_049); </script>
+		                      </option>
+		                      <option value="050+05:45"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_050); </script>
+		                      </option>
+		                      <option value="051+06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_051); </script>
+		                      </option>
+		                      <option value="052+06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_052); </script>
+		                      </option>
+		                      <option value="053+06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_053); </script>
+		                      </option>
+		                      <option value="054+06:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_054); </script>
+		                      </option>
+		                      <option value="055+07:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_055); </script>
+		                      </option>
+		                      <option value="056+07:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_056); </script>
+		                      </option>
+		                      <option value="057+08:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_057); </script>
+		                      </option>
+		                      <option value="058+08:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_058); </script>
+		                      </option>
+		                      <option value="059+08:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_059); </script>
+		                      </option>
+		                      <option value="060+08:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_060); </script>
+		                      </option>
+		                      <option value="061+08:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_061); </script>
+		                      </option>
+		                      <option value="062+09:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_062); </script>
+		                      </option>
+		                      <option value="063+09:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_063); </script>
+		                      </option>
+		                      <option value="064+09:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_064); </script>
+		                      </option>
+		                      <option value="065+09:30"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_065); </script>
+		                      </option>
+		                      <option value="066+09:30"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_066); </script>
+		                      </option>
+		                      <option value="067+10:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_067); </script>
+		                      </option>
+		                      <option value="068+10:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_068); </script>
+		                      </option>
+		                      <option value="069+10:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_069); </script>
+		                      </option>
+		                      <option value="070+10:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_070); </script>
+		                      </option>
+		                      <option value="071+10:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_071); </script>
+		                      </option>
+		                      <option value="072+11:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_072); </script>
+		                      </option>
+		                      <option value="073+12:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_073); </script>
+		                      </option>
+		                      <option value="074+12:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_074); </script>
+		                      </option>
+		                      <option value="075+13:00"> 
+		                      <script language="javascript" type="text/javascript">dw(st_zone_075); </script>
+		                      </option>
+		                    </select> </td>
+		                </tr>
+		                <!--Automatically-dls-->
+		                <tr> 
+		                  <td nowrap >&nbsp;</td>
+		                  <td colspan="2" class=ContentCrlHeight  nowrap> <input type="checkbox" name="auto_dls"  class="CheckboxIE" > 
+		                    <script language="javascript" type="text/javascript">
+						dw(st_autoday);
+						</script> </td>
+		                </tr>
+		                <!--Automatically-ntp-->
+		                <tr> 
+		                  <td nowrap>&nbsp;</td>
+		                  <td class=ContentCrlHeight width="150"> <script language="javascript" type="text/javascript">
+						dw(st_udentp);
+						</script> </td>
+		                  <td class=ContentCrlHeight> <input name="ntp_server_select" value="enable" onClick="ChangeNTPStatus();" type="radio" class="RadioLeftIE"> 
+		                    <script language="javascript" type="text/javascript">
+						dw(enable);
+					</script> <input name="ntp_server_select" value="disable" onClick="ChangeNTPStatus();" type="radio" checked="true" class="RadioRightIE"> 
+		                    <script language="javascript" type="text/javascript">
+							dw(disable);
+					</script> </td>
+		                </tr>
+		                <tr> 
+		                  <td nowrap>&nbsp;</td>
+		                  <td  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+						dw(st_ntpip);
+					</script> </td>
+		                  <td class=ContentCrlHeight > <input class="num" maxlength="3" size="3" name="ntp_server_ip_1" value="0" >
+		                    . 
+		                    <input class="num" maxlength="3" size="3" name="ntp_server_ip_2" value="0">
+		                    . 
+		                    <input class="num" maxlength="3" size="3" name="ntp_server_ip_3" value="0" >
+		                    . 
+		                    <input class="num" maxlength="3" size="3" name="ntp_server_ip_4" value="0"> 
+		                  </td>
+		                </tr>
+		              				</table>
+					                <!-- Security - Set Device Password -->
+					                <table id="step4Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+				                <tr> 
+                    <td class="wizard-label" style="padding-bottom: 18px;"><script language="javascript" type="text/javascript">dw(wiz_dev_pass_desc);</script></td>
+				                </tr>
+				               <tr> 
+				               <td nowrap><table width="300" border="0" cellpadding="0" cellspacing="0" id="stepxx1Table" >
+                        			<tr>     
+								  <td nowrap> <script language="javascript" type="text/javascript">
+								dw(am_usname);
+							</script> </td>
+				                  <td nowrap class=ContentCrlHeight> <input maxlength="63" onChange="userNameChanged=true" size=21 name="userName" value="@userName#"> 
+				                  </td>
+				                </tr>
+				                <tr > 
+				                  <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+								dw(am_pass);
+							</script> </td>
+				                  <td nowrap class=ContentCrlHeight><input type="password" maxlength="63" size="21" name="sysPasswd" value="@syspassword#"></td>
+				                </tr>
+				                <tr > 
+				                  <td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+								dw(am_confirm);
+							</script> </td>
+				                  <td nowrap class=ContentCrlHeight><input type="password" maxlength="63" size="21" name="sysConfirmPasswd" value="@sysConfirmPasswd#"></td>
+				                </tr>
+								</table></td>
+									</tr>
+				              		</table>
+								    <table id="step5Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                <tr> 
+                    <td style="padding-bottom: 18px;"" class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_net_name_desc);</script> 
+                    </td>
+					                </tr>
+					            	</table>
+						       		<table class=TableTitleBg width="450" id="step5xTable" style="display:none;" cellpadding="0px" cellspacing="0" border="0">
+						               <tr > 
+                    <td class=TableRowBottomRight  align="left"  width="100" > 
+                      <script language="javascript" type="text/javascript">
+										dw(wb_tab_ssid);
+									</script></td>
+						                  <td  class=TableRowBottomCenter  align="left" width="180" > 
+						                    <script language="javascript" type="text/javascript">
+										dw(wb_tab_name);
+									</script></td>
+                    <td class=TableRowBottomleft  align="left"  width="170" > 
+                      <script language="javascript" type="text/javascript">
+										dw(wb_tab_broad);
+									</script></td>
+						                </tr>
+						            </table>
+		              				<table width="450" class=TableContentBorder id="step5xxTable" style="display:none;" cellpadding="0px" cellspacing="0" border="0">
+		                <tr > 
+		                  <td  class=TableEvenRow align="left" width="100" > <script language="javascript" type="text/javascript">
+						dw(wb_ssid1);
+					</script></td>
+		                  <td class=TableEvenRow  align="left" valign="middle" width="180"> 
+		                    <input id="wl_ssid0" name="wl_ssid0" size="16" maxlength="32" onFocus="SSID_Focus(0, this.value);"  onBlur="SSID_Blur(0, this.value);" value="@wl_ssid0#"> 
+		                  </td>
+		                  <td class=TableEvenRow  align="left" width="170"> <select id="wl_hide_ssid0" name="wl_hide_ssid0" class="SelectStd"  >
+		                      <option value="disable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(disable);
+					</script>
+		                      </option>
+		                      <option value="enable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(enable);
+					</script>
+		                      </option>
+		                    </select></td>
+		                </tr>
+		                <tr > 
+		                  <td   class=TableOddRow align="left" > <script language="javascript" type="text/javascript">
+						dw(wb_ssid2);
+					</script></td>
+		                  <td   class=TableOddRow  align="left" valign="middle" > <input id="wl_ssid1" name="wl_ssid1" size="16" maxlength="32" onFocus="SSID_Focus(1, this.value);" onBlur="SSID_Blur(1, this.value);" value="@wl_ssid1#"> 
+		                  </td>
+		                  <td   class=TableOddRow align="left"> <select id="wl_hide_ssid1" name="wl_hide_ssid1" class="SelectStd"  >
+		                      <option value="disable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(disable);
+					</script>
+		                      </option>
+		                      <option value="enable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(enable);
+					</script>
+		                      </option>
+		                    </select></td>
+		                </tr>
+		                <tr > 
+		                  <td   class=TableEvenRow  align="left"> <script language="javascript" type="text/javascript">
+						dw(wb_ssid3);
+					</script></td>
+		                  <td   class=TableEvenRow  align="left" valign="middle" > <input id="wl_ssid2" name="wl_ssid2" size="16" maxlength="32" onFocus="SSID_Focus(2, this.value);" onBlur="SSID_Blur(2, this.value);" value="@wl_ssid2#"> 
+		                  </td>
+		                  <td  class=TableEvenRow  align="left"> <select id="wl_hide_ssid2" name="wl_hide_ssid2" class="SelectStd"  >
+		                      <option value="disable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(disable);
+					</script>
+		                      </option>
+		                      <option value="enable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(enable);
+					</script>
+		                      </option>
+		                    </select></td>
+		                </tr>
+		                <tr > 
+		                  <td  class=TableOddRow  align="left" > <script language="javascript" type="text/javascript">
+						dw(wb_ssid4);
+					</script></td>
+                    <td   class=TableOddRow   align="left"  valign="middle" > 
+                      <input  id="wl_ssid3" name="wl_ssid3" size="16" maxlength="32" onFocus="SSID_Focus(3, this.value);" onBlur="SSID_Blur(3, this.value);" value="@wl_ssid3#"> 
+		                  </td>
+		                  <td  class=TableOddRow  align="left"> <select id="wl_hide_ssid3" name="wl_hide_ssid3" class="SelectStd"  >
+		                      <option value="disable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(disable);
+					</script>
+		                      </option>
+		                      <option value="enable"> 
+		                      <script language="javascript" type="text/javascript">
+						dw(enable);
+					</script>
+		                      </option>
+		                    </select></td>
+		                </tr>
+					                </table>
+					                <table id="step5xxxTable" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                  <tr> 
+                    <td style="height: 44px;" colspan="6"></td>
+					                  </tr>
+					                  <tr> 
+					                    <td class="wizard-label" colspan="5"><img src="gs_help.png" width="15" height="15" /></td>
+                    <td><a name="ssid_help" href="#" style="font-family: arial; font-weight: normal; font-size: 12px; color: #0088c2; text-decoration: underline; cursor: pointer;" onClick="showHelpLink ('help/vap.html');"> 
+                      <script language="javascript" type="text/javascript">dw(wiz_net_name_learn);</script>
+                      </a></td>
+					                  </tr>
+					                </table>      
+					                <!-- Security - Secure your wireless network -->
+					                <table id="step6Table" width="100%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                <tr> 
+                    <td style="padding-bottom: 18px;"" class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_net_sec_desc);</script></td>
+					                </tr>
+					              	</table>
+						              <table id="step6xTable" style="display:none;" border="0" cellpadding="0" cellspacing="0">
+						<tr> 
+                    <td valign="top"> <table  border="0px" cellpadding="0" cellspacing="0" >
+	 		 							<tr>
+                          <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+   											dw(wp_ssid);
+												</script> </td>
+                          <td nowrap> <select id="SSID_Setting" name="SSID_Setting" onChange="setDivs()"  class="SelectStd" >
+      									<option name="ssid1" value="1">SSID 1</option>
+        								<option name="ssid2" value="2">SSID 2</option>
+        								<option name="ssid3" value="3">SSID 3</option>
+        								<option name="ssid4" value="4">SSID 4</option>
+                            </select> </td>
+  									</tr>
+                      </table></td>
+  					</tr>
+<tr> 
+                    <td valign="top"> <div ID="ssid1" style="display:none"> 
+							<table  border="0px" cellpadding="0" cellspacing="0" >
+								<tr>
+                            <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    								dw(ws_semode);
+				    			</script> </td>
+                            <td class=ContentCrlHeight> <select id="security_mode1" name="security_mode1" onChange="setSecurityDivs1(this.value);" class="SelectStd">
+                                <option value="wep"> 
+									<script language="javascript" type="text/javascript">
+    									dw(ws_s_wep);
+				    			</script> 
+                                </option>
+                                <option value="psk"> 
+                                <script language="javascript" type="text/javascript">
+    									dw(ws_s_psk);
+											</script>
+                                </option>
+                                <option value="psk2"> 
+                                <script language="javascript" type="text/javascript">
+    									dw(ws_s_psk2);
+											</script>
+                                </option>
+                                <option value="psk_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    									dw(ws_s_psk_mixed);
+											</script>
+                                </option>
+                                <option value="wpa_radius"> 
+                                <script language="javascript" type="text/javascript">
+    									dw(ws_s_wpa_radius);
+											</script>
+                                </option>
+                                <option value="wpa2_radius"> 
+                                <script language="javascript" type="text/javascript">
+    									dw(ws_s_wpa2_radius);
+											</script>
+                                </option>
+                                <option value="wpa_radius_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    									dw(ws_s_wpa_radius_mixed);
+											</script>
+                                </option>
+                                <option value="radius"> 
+                                <script language="javascript" type="text/javascript">
+    										dw(ws_s_radius);
+											</script>
+                                </option>
+                                <option value="disabled" selected="selected"> 
+                                <script language="javascript" type="text/javascript">
+    										dw(ws_s_disabled);
+											</script>
+                                </option>
+                              </select> </td>
+            		</tr>
+          		</table>
+										<div id="radiusDIV11" style="display:none"> 
+                      <table  border="0px" cellpadding="0" cellspacing="0" >
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    													dw(wp_pserv);
+													</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" name="pradius1_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius1_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius1_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius1_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="pradius_port1" size="5" maxlength="5" value="@pradius_port1#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" id="pradius_psk1" name="pradius_psk1" size="32" maxlength="64" value="@pradius_psk1#"  onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bserv);
+</script></td>
+                          <td nowrap> <input type="text" name="bradius1_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius1_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius1_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius1_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap> <script language="javascript" type="text/javascript">
+    dw(wp_bservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="bradius_port1" size="5" maxlength="5" value="@bradius_port1#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" name="bradius_psk1" size="32" maxlength="64" value="@bradius_psk1#"  onSelect="textSelected=true"></td>
+                        </tr>
+                      </table>
+										</div>
+                    <div id="wepauth1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_autype);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select name="wl_auth_mode1"  class="SelectStd">
+                              <option value="open"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_open);
+</script>
+                              </option>
+                              <option value="shared"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_share);
+</script>
+                              </option>
+                            </select> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepDIV1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_deTrankey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input id="wl_key_id1" name="wl_key_id1" value="key1" checked="checked" type="radio">
+                            1&nbsp; <input id="wl_key_id1" name="wl_key_id1" value="key2" type="radio">
+                            2&nbsp; <input id="wl_key_id1" name="wl_key_id1" value="key3" type="radio">
+                            3&nbsp; <input id="wl_key_id1" name="wl_key_id1" value="key4" type="radio">
+                            4&nbsp;</td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_encry);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select size="1" name="keysize1" onChange = "setKeyType1(false);" class="SelectStd">
+                              <option value="40"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_64b);
+</script>
+                              </option>
+                              <option value="104"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_128b);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_passph);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" maxlength="30" size="22" name="passphrase1" value="@passphrase1#" onSelect="textSelected=true"> 
+                            &nbsp;&nbsp; <script language="javascript" type="text/javascript">
+                        dw('<input type="button" name="keygen1" value="');
+                        dw(ws_btn_gen);
+                        dw('"  onClick="return keyGen(1);">');
+                     </script> </td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key1);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key11" name="wep_key11" value="@wep_key11#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key2);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key21" name="wep_key21" value="@wep_key21#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key3);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key31" name="wep_key31" value="@wep_key31#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key4);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key41" name="wep_key41" value="@wep_key41#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa1DIV1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170"class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><select size="1" name="wpapsk_enc1" class="SelectStd">
+                              <option value="tkip"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script>
+                              </option>
+                              <option value="aes"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa2DIV1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa3DIV1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_or);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpaDIV1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap  class=ContentCrlHeight> 
+                                <script language="javascript" type="text/javascript">
+    dw(ws_prekey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" id="wpa_psk1" name="wpa_psk1" size="32" maxlength="64" value="@wpa_psk1#" onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_keyren);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" name="wpapsk_lifetime1" size="5" maxlength="5" value="@wpapsk_lifetime1#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div ID="wparadiusDIV1" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_timeout);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" class="num" size="5" maxlength="5"   name="wparadius_lifetime1" value="@wparadius_lifetime1#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                      </div></td>
+</tr>					
+<tr> 
+                    <td valign="top"> <div ID="ssid2" style="display:none"> 
+					<table  border="0px" cellpadding="0" cellspacing="0" >
+						<tr>
+                            <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    							dw(ws_semode);
+				    		</script> </td>
+                            <td class=ContentCrlHeight> <select id="security_mode2" name="security_mode2" onChange="setSecurityDivs2(this.value);" class="SelectStd">
+                                <option value="wep"> 
+								<script language="javascript" type="text/javascript">
+    								dw(ws_s_wep);
+				    		</script> 
+                                </option>
+                                <option value="psk"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk);
+									</script>
+                                </option>
+                                <option value="psk2"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk2);
+									</script>
+                                </option>
+                                <option value="psk_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk_mixed);
+									</script>
+                                </option>
+                                <option value="wpa_radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa_radius);
+									</script>
+                                </option>
+                                <option value="wpa2_radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa2_radius);
+									</script>
+                                </option>
+                                <option value="wpa_radius_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa_radius_mixed);
+									</script>
+                                </option>
+                                <option value="radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_radius);
+									</script>
+                                </option>
+                                <option value="disabled" selected="selected"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_disabled);
+									</script>
+                                </option>
+                              </select> </td>
+            </tr>
+          </table>
+										<div id="radiusDIV12" style="display:none"> 
+                      <table  border="0px" cellpadding="0" cellspacing="0" >
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    													dw(wp_pserv);
+													</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" name="pradius2_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius2_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius2_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius2_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="pradius_port2" size="5" maxlength="5" value="@pradius_port2#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" id="pradius_psk2" name="pradius_psk2" size="32" maxlength="64" value="@pradius_psk2#"  onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bserv);
+</script></td>
+                          <td nowrap> <input type="text" name="bradius2_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius2_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius2_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius2_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap> <script language="javascript" type="text/javascript">
+    dw(wp_bservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="bradius_port2" size="5" maxlength="5" value="@bradius_port2#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" name="bradius_psk2" size="32" maxlength="64" value="@bradius_psk2#"  onSelect="textSelected=true"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepauth2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_autype);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select name="wl_auth_mode2"  class="SelectStd">
+                              <option value="open"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_open);
+</script>
+                              </option>
+                              <option value="shared"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_share);
+</script>
+                              </option>
+                            </select> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepDIV2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_deTrankey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input id="wl_key_id2" name="wl_key_id2" value="key1" checked="checked" type="radio">
+                            1&nbsp; <input id="wl_key_id2" name="wl_key_id2" value="key2" type="radio">
+                            2&nbsp; <input id="wl_key_id2" name="wl_key_id2" value="key3" type="radio">
+                            3&nbsp; <input id="wl_key_id2" name="wl_key_id2" value="key4" type="radio">
+                            4&nbsp;</td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_encry);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select size="1" name="keysize2" onChange = "setKeyType2(false);" class="SelectStd">
+                              <option value="40"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_64b);
+</script>
+                              </option>
+                              <option value="104"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_128b);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_passph);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" maxlength="30" size="22" name="passphrase2" value="@passphrase2#" onSelect="textSelected=true"> 
+                            &nbsp;&nbsp; <script language="javascript" type="text/javascript">
+                        dw('<input type="button" name="keygen2" value="');
+                        dw(ws_btn_gen);
+                        dw('"  onClick="return keyGen(2);">');
+                     </script> </td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key1);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key12" name="wep_key12" value="@wep_key12#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key2);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key22" name="wep_key22" value="@wep_key22#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key3);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key32" name="wep_key32" value="@wep_key32#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td height="18" nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key4);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key42" name="wep_key42" value="@wep_key42#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa1DIV2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170"class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><select size="1" name="wpapsk_enc2" class="SelectStd">
+                              <option value="tkip"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script>
+                              </option>
+                              <option value="aes"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa2DIV2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa3DIV2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_or);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpaDIV2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap  class=ContentCrlHeight> 
+                                <script language="javascript" type="text/javascript">
+    dw(ws_prekey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" id="wpa_psk2" name="wpa_psk2" size="32" maxlength="64" value="@wpa_psk2#" onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_keyren);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" name="wpapsk_lifetime2" size="5" maxlength="5" value="@wpapsk_lifetime2#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div ID="wparadiusDIV2" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_timeout);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" class="num" size="5" maxlength="5"   name="wparadius_lifetime2" value="@wparadius_lifetime2#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                      </div></td>
+</tr> 
+<tr> 
+                    <td valign="top"> <div ID="ssid3" style="display:none"> 
+					<table  border="0px" cellpadding="0" cellspacing="0" >
+						<tr>
+                            <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    							dw(ws_semode);
+				    		</script> </td>
+                            <td class=ContentCrlHeight> <select id="security_mode3" name="security_mode3" onChange="setSecurityDivs3(this.value);" class="SelectStd">
+                                <option value="wep"> 
+								<script language="javascript" type="text/javascript">
+    								dw(ws_s_wep);
+				    		</script> 
+                                </option>
+                                <option value="psk"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk);
+									</script>
+                                </option>
+                                <option value="psk2"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk2);
+									</script>
+                                </option>
+                                <option value="psk_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk_mixed);
+									</script>
+                                </option>
+                                <option value="wpa_radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa_radius);
+									</script>
+                                </option>
+                                <option value="wpa2_radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa2_radius);
+									</script>
+                                </option>
+                                <option value="wpa_radius_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa_radius_mixed);
+									</script>
+                                </option>
+                                <option value="radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_radius);
+									</script>
+                                </option>
+                                <option value="disabled" selected="selected"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_disabled);
+									</script>
+                                </option>
+                              </select> </td>
+            </tr>
+          </table>
+										<div id="radiusDIV13" style="display:none"> 
+                      <table  border="0px" cellpadding="0" cellspacing="0" >
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_pserv);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" name="pradius3_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius3_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius3_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius3_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="pradius_port3" size="5" maxlength="5" value="@pradius_port3#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" id="pradius_psk3" name="pradius_psk3" size="32" maxlength="64" value="@pradius_psk#"  onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bserv);
+</script></td>
+                          <td nowrap> <input type="text" name="bradius3_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius3_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius3_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius3_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap> <script language="javascript" type="text/javascript">
+    dw(wp_bservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="bradius_port3" size="5" maxlength="5" value="@bradius_port3#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" name="bradius_psk3" size="32" maxlength="64" value="@bradius_psk3#"  onSelect="textSelected=true"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepauth3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_autype);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select name="wl_auth_mode3"  class="SelectStd">
+                              <option value="open"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_open);
+</script>
+                              </option>
+                              <option value="shared"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_share);
+</script>
+                              </option>
+                            </select> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepDIV3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_deTrankey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input id="wl_key_id" name="wl_key_id3" value="key13" checked="checked" type="radio">
+                            1&nbsp; <input id="wl_key_id3" name="wl_key_id3" value="key2" type="radio">
+                            2&nbsp; <input id="wl_key_id3" name="wl_key_id3" value="key3" type="radio">
+                            3&nbsp; <input id="wl_key_id3" name="wl_key_id3" value="key4" type="radio">
+                            4&nbsp;</td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_encry);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select size="1" name="keysize3" onChange = "setKeyType3(false);" class="SelectStd">
+                              <option value="40"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_64b);
+</script>
+                              </option>
+                              <option value="104"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_128b);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_passph);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" maxlength="30" size="22" name="passphrase3" value="@passphrase3#" onSelect="textSelected=true"> 
+                            &nbsp;&nbsp; <script language="javascript" type="text/javascript">
+                        dw('<input type="button" name="keygen3" value="');
+                        dw(ws_btn_gen);
+                        dw('"  onClick="return keyGen(3);">');
+                     </script> </td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key1);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key13" name="wep_key13" value="@wep_key13#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key2);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key23" name="wep_key23" value="@wep_key23#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key3);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key33" name="wep_key33" value="@wep_key33#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td height="18" nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key4);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key43" name="wep_key43" value="@wep_key43#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa1DIV3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170"class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><select size="1" name="wpapsk_enc3" class="SelectStd">
+                              <option value="tkip"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script>
+                              </option>
+                              <option value="aes"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa2DIV3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa3DIV3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_or);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpaDIV3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap  class=ContentCrlHeight> 
+                                <script language="javascript" type="text/javascript">
+    dw(ws_prekey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" id="wpa_psk3" name="wpa_psk3" size="32" maxlength="64" value="@wpa_psk3#" onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_keyren);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" name="wpapsk_lifetime3" size="5" maxlength="5" value="@wpapsk_lifetime3#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div ID="wparadiusDIV3" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_timeout);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" class="num" size="5" maxlength="5"   name="wparadius_lifetime3" value="@wparadius_lifetime3#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                      </div></td>
+</tr> 
+<tr> 
+                    <td valign="top"> <div ID="ssid4" style="display:none"> 
+					<table  border="0px" cellpadding="0" cellspacing="0" >
+						<tr>
+                            <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    							dw(ws_semode);
+				    		</script> </td>
+                            <td class=ContentCrlHeight> <select id="security_mode4" name="security_mode4" onChange="setSecurityDivs4(this.value);" class="SelectStd">
+                                <option value="wep"> 
+								<script language="javascript" type="text/javascript">
+    								dw(ws_s_wep);
+				    		</script> 
+                                </option>
+                                <option value="psk"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk);
+									</script>
+                                </option>
+                                <option value="psk2"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk2);
+									</script>
+                                </option>
+                                <option value="psk_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_psk_mixed);
+									</script>
+                                </option>
+                                <option value="wpa_radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa_radius);
+									</script>
+                                </option>
+                                <option value="wpa2_radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa2_radius);
+									</script>
+                                </option>
+                                <option value="wpa_radius_mixed"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_wpa_radius_mixed);
+									</script>
+                                </option>
+                                <option value="radius"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_radius);
+									</script>
+                                </option>
+                                <option value="disabled" selected="selected"> 
+                                <script language="javascript" type="text/javascript">
+    								dw(ws_s_disabled);
+									</script>
+                                </option>
+                              </select> </td>
+            </tr>
+          </table>
+										<div id="radiusDIV14" style="display:none"> 
+                      <table  border="0px" cellpadding="0" cellspacing="0" >
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_pserv);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" name="pradius4_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius4_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius4_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="pradius4_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="pradius_port4" size="5" maxlength="5" value="@pradius_port4#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" id="pradius_psk4" name="pradius_psk4" size="32" maxlength="64" value="@pradius_psk4#"  onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bserv);
+</script></td>
+                          <td nowrap> <input type="text" name="bradius4_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius4_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius4_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+                            . 
+                            <input type="text" name="bradius4_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap> <script language="javascript" type="text/javascript">
+    dw(wp_bservp);
+</script></td>
+                          <td nowrap><input type="text" class="num" name="bradius_port4" size="5" maxlength="5" value="@bradius_port4#" ></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bshsec);
+</script></td>
+                          <td nowrap><input type="password" class="num" name="bradius_psk4" size="32" maxlength="64" value="@bradius_psk4#"  onSelect="textSelected=true"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepauth4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_autype);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select name="wl_auth_mode4"  class="SelectStd">
+                              <option value="open"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_open);
+</script>
+                              </option>
+                              <option value="shared"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_share);
+</script>
+                              </option>
+                            </select> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wepDIV4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(ws_deTrankey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input id="wl_key_id4" name="wl_key_id4" value="key1" checked="checked" type="radio">
+                            1&nbsp; <input id="wl_key_id4" name="wl_key_id4" value="key2" type="radio">
+                            2&nbsp; <input id="wl_key_id4" name="wl_key_id4" value="key3" type="radio">
+                            3&nbsp; <input id="wl_key_id4" name="wl_key_id4" value="key4" type="radio">
+                            4&nbsp;</td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_encry);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <select size="1" name="keysize4" onChange = "setKeyType4(false);" class="SelectStd">
+                              <option value="40"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_64b);
+</script>
+                              </option>
+                              <option value="104"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_128b);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_passph);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" maxlength="30" size="22" name="passphrase4" value="@passphrase4#" onSelect="textSelected=true"> 
+                            &nbsp;&nbsp; <script language="javascript" type="text/javascript">
+                        dw('<input type="button" name="keygen4" value="');
+                        dw(ws_btn_gen);
+                        dw('"  onClick="return keyGen(4);">');
+                     </script> </td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key1);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key14" name="wep_key14" value="@wep_key14#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key2);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key24" name="wep_key24" value="@wep_key24#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key3);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key34" name="wep_key34" value="@wep_key34#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                        <tr class=ContentCrlHeight> 
+                          <td height="18" nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key4);
+</script></td>
+                          <td nowrap><input type="text" id="wep_key44" name="wep_key44" value="@wep_key44#" class="num" maxlength="26" size="26"></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa1DIV4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170"class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><select size="1" name="wpapsk_enc4" class="SelectStd">
+                              <option value="tkip"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script>
+                              </option>
+                              <option value="aes"> 
+                              <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script>
+                              </option>
+                            </select></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa2DIV4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script> </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpa3DIV4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_or);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div id="wpaDIV4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td width="170" nowrap  class=ContentCrlHeight> 
+                                <script language="javascript" type="text/javascript">
+    dw(ws_prekey);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" id="wpa_psk4" name="wpa_psk4" size="32" maxlength="64" value="@wpa_psk4#" onSelect="textSelected=true"></td>
+                        </tr>
+                        <tr> 
+                          <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_keyren);
+</script></td>
+                          <td nowrap class=ContentCrlHeight><input type="text" class="num" name="wpapsk_lifetime4" size="5" maxlength="5" value="@wpapsk_lifetime4#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div ID="wparadiusDIV4" style="display:none"> 
+                      <table border="0px" cellpadding="0" cellspacing="0">
+                        <tr class=ContentCrlHeight> 
+                              <td nowrap width="170" class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_timeout);
+</script></td>
+                          <td nowrap class=ContentCrlHeight> <input type="text" class="num" size="5" maxlength="5"   name="wparadius_lifetime4" value="@wparadius_lifetime4#" style="margin-right: 8px"> 
+                            <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+                        </tr>
+                      </table>
+                    </div>
+                      </div></td>
+</tr>
+													</table>		
+									<!-- Summary -->
+									<table id="step7Table" width="80%" border="0" style="display:none;" cellspacing="0" cellpadding="0">
+					                <tr> 
+                    <td style="padding-bottom: 18px;"" class="wizard-label"><script language="javascript" type="text/javascript">dw(wiz_summary_desc);</script></td>
+					                </tr>
+					              </table>
+					              <table id="step7xTable" width="550" style="display:none;" class=TableTitleBg  cellpadding="0px" cellspacing="0" border="0">
+					                <tr> 
+                    <td width="40" class=TableRowBottomCenter><script language="javascript" type="text/javascript">
+						dw(wb_tab_ssid);
+					</script></td>
+                    <td width="90" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wb_tab_broad);</script></td>
+					                  <td width="120" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wiz_net_name);</script></td>
+                    <td width="140" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wiz_security_type);</script></td>
+                    <td width="160" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wiz_security_key);</script></td>
+					                </tr>
+					                <tr> 
+                    <td nowrap class=TableEvenRow>
+<script language="javascript" type="text/javascript">
+						dw(wb_ssid1);
+					</script>
+                    </td>
+                  					<td class=TableEvenRow id='summary-ssid1_status'></td>
+                  					<td class=TableEvenRow id='summary-ssid1'></td>
+                  					<td class=TableEvenRow id='summary-ssid1_sec_mode'></td>
+                  					<td class=TableEvenRow id='summary-ssid1_sec_key'></td>
+                					</tr>
+                					<tr> 
+                    <td class=TableOddRow><script language="javascript" type="text/javascript">
+						dw(wb_ssid2);
+					</script></td>
+                  					<td class=TableOddRow id='summary-ssid2_status'></td>
+                  					<td class=TableOddRow id='summary-ssid2'></td>
+                  					<td class=TableOddRow id='summary-ssid2_sec_mode'></td>
+                  					<td class=TableOddRow id='summary-ssid2_sec_key'></td>
+                					</tr>
+                					<tr> 
+                    <td class=TableEvenRow><script language="javascript" type="text/javascript">
+						dw(wb_ssid3);
+					</script></td>
+                  					<td class=TableEvenRow id='summary-ssid3_status'></td>
+                  					<td class=TableEvenRow id='summary-ssid3'></td>
+                  					<td class=TableEvenRow id='summary-ssid3_sec_mode'></td>
+                  					<td class=TableEvenRow id='summary-ssid3_sec_key'></td>
+                					</tr>
+                					<tr> 
+                    <td class=TableOddRow><script language="javascript" type="text/javascript">
+						dw(wb_ssid4);
+					</script></td>
+                  					<td class=TableOddRow id='summary-ssid4_status'></td>
+                  					<td class=TableOddRow id='summary-ssid4'></td>
+                  					<td class=TableOddRow id='summary-ssid4_sec_mode'></td>
+                  					<td class=TableOddRow id='summary-ssid4_sec_key'></td>
+                					</tr>
+					              </table>
+									<!-- STEP8 TABLE  -->
+									<table id="step8Table" width="100%" border="0"  style="display:none;" cellspacing="0" cellpadding="0">
+					                <tr> 
+					                <td colspan="2"><img src="Status_success_icon.png" width="20" height="20"> 
+					                 <script language="javascript" type="text/javascript">dw(wiz_finish_desc);</script> 
+					                 </td>
+					                </tr>
+                  <tr> 
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+					                <tr height="20">
+                    <td> <table width="465" class=TableTitleBg  cellpadding="0px" cellspacing="0" border="0">
+					                <tr> 
+                          <td width="50" class=TableRowBottomCenter><script language="javascript" type="text/javascript">
+						dw(wb_tab_ssid);
+					</script></td>
+                          <td width="50" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wb_tab_broad);</script></td>
+                          <td width="110" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wiz_net_name);</script></td>
+                          <td width="115" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wiz_security_type);</script></td>
+                          <td width="140" class=TableRowBottomCenter><script language="javascript" type="text/javascript">dw(wiz_security_key);</script></td>
+					                </tr>                  
+                					<tr> 
+                          <td nowrap class=TableEvenRow>
+<script language="javascript" type="text/javascript">
+						dw(wb_ssid1);
+					</script>
+                          </td>
+                  					<td class=TableEvenRow id='finish-ssid1_status'></td>
+                  					<td class=TableEvenRow id='finish-ssid1'></td>
+                  					<td class=TableEvenRow id='finish-ssid1_sec_mode'></td>
+                  					<td class=TableEvenRow id='finish-ssid1_sec_key'></td>
+                					</tr>
+                					<tr> 
+                          <td class=TableOddRow><script language="javascript" type="text/javascript">
+						dw(wb_ssid2);
+					</script></td>
+                  					<td class=TableOddRow id='finish-ssid2_status'></td>
+                  					<td class=TableOddRow id='finish-ssid2'></td>
+                  					<td class=TableOddRow id='finish-ssid2_sec_mode'></td>
+                  					<td class=TableOddRow id='finish-ssid2_sec_key'></td>
+                					</tr>
+                					<tr> 
+                          <td class=TableEvenRow><script language="javascript" type="text/javascript">
+						dw(wb_ssid3);
+					</script></td>
+                  					<td class=TableEvenRow id='finish-ssid3_status'></td>
+                  					<td class=TableEvenRow id='finish-ssid3'></td>
+                  					<td class=TableEvenRow id='finish-ssid3_sec_mode'></td>
+                  					<td class=TableEvenRow id='finish-ssid3_sec_key'></td>
+                					</tr>
+               						<tr> 
+                          <td class=TableOddRow><script language="javascript" type="text/javascript">
+						dw(wb_ssid4);
+					</script></td>
+                  					<td class=TableOddRow id='finish-ssid4_status'></td>
+                  					<td class=TableOddRow id='finish-ssid4'></td>
+                  					<td class=TableOddRow id='finish-ssid4_sec_mode'></td>
+                  					<td class=TableOddRow id='finish-ssid4_sec_key'></td>
+                					</tr>
+                      </table></td>
+									<td rowspan="7" style="background: #ffffff" align="right"><img src="wap4410n.jpg"/></td>
+					                </tr>                
+					               </table>
+					              	<table id="step8xTable" width="500" style="display:none;" cellpadding="0px" cellspacing="0" border="0">
+					                <tr> 
+                    <td class="desc-footer-class1"> <script language="javascript" type="text/javascript">dw(wiz_wps_note);</script> 
+					            	</td>
+					            	 </tr>
+					            	</table>
+              </div>
+              <!-- navigation-form-content-class -->
+              <div id="stepFooterDiv" class="step-div-footer-class"></div>
+              <!-- step-div-footer-class -->
+            </div>
+            <!-- wiz-content-bdr-class -->
+          </div>
+          <!-- header-nobtn-class -->
+        </div>
+        <!-- header-class -->
+				         	<div id="footerDiv" class="footer-class" > 
+				               <script language="javascript" type="text/javascript">
+		  								  dw('<input id="wizardBackBtn" type="button" class="input-submit-disable" disabled="" value="');
+		  								  dw(wiz_button_back);
+		  									dw('"  title="Back" onMouseOver="buttonHover (\'in\', \'back\', this);" onMouseOut="buttonHover (\'out\', \'back\', this);">');				
+											 </script>
+				               <script language="javascript" type="text/javascript">
+		  								  dw('<input id="wizardNextBtn" type="button" class="input-submit-hover" value="');
+		  								  dw(wiz_button_next);
+		  									dw('"  title="Next" onMouseOver="buttonHover (\'in\', \'next\', this);" onMouseOut="buttonHover (\'out\', \'next\', this);">');				
+											 </script>
+				               <script language="javascript" type="text/javascript">
+		  								  dw('<input id="wizardCancelBtn" type="button" class="input-submit" value="');
+		  								  dw(cancel);
+		  									dw('"  title="Cancel" onclick="closeWizard();" onMouseOver="buttonHover (\'in\', \'cancel\', this);" onMouseOut="buttonHover (\'out\', \'cancel\', this);">');				
+											 </script>
+        </div>
+        <!-- footer-class -->
+      </div>
+      <!-- wrap-class -->
+    </div>
+    <!-- wizard-class -->
+  </div>
+  <!-- white_content -->
+		<div id="MCopyright" class="MCopyright" colspan="5" >
+      <script language="javascript" type="text/javascript">dw(vcopyright);</script>
+    </div>
+<input type="hidden" name="unit" value="0">
+<input type="hidden" name="vap" value=""> 
+<input type="hidden" name="todo" value="save"> 
+<input type="hidden" name="message" value="@msg_text#">
+<input type="hidden" name="this_file" value="Home.htm">
+<input type="hidden" name="next_file" value="Home.htm">
+
+<input type="hidden" name="h_password" value="@h_password#">
+<input type="hidden" name="h_ipv4_ip_type" value="@h_ipv4_ip_type#">
+<input type="hidden" name="c4_wan_ip_" value="@c4_wan_ip_#">
+<input type="hidden" name="c4_wan_mask_" value="@c4_wan_mask_#">
+<input type="hidden" name="c4_wan_gw_" value="@c4_wan_gw_#">
+<input type="hidden" name="c4_wan_dns1_" value="@c4_wan_dns1_#">
+<input type="hidden" name="c4_wan_dns2_" value="@c4_wan_dns2_#">
+<input type="hidden" name="h_ipv6_mode" value="@h_ipv6_mode#">
+<input type="hidden" name="h_ipv6_ip_type" value="@h_ipv6_ip_type#">  
+<input type="hidden" name="h_ipv6_radvd6c" value="@h_ipv6_radvd6c#"> 
+<input type="hidden" name="r_ipv6_addr" value="@r_ipv6_addr#">
+<input type="hidden" name="r_ipv6_gw" value="@r_ipv6_gw#">
+<input type="hidden" name="h_tod_enable" value="@h_tod_enable#">
+<input type="hidden" name="h_time_mon" value="@h_time_mon#">
+<input type="hidden" name="h_time_day" value="@h_time_day#">
+<input type="hidden" name="h_time_year" value="@h_time_year#">
+<input type="hidden" name="h_time_zone" value="@h_time_zone#">
+<input type="hidden" name="h_auto_dls" value="@h_auto_dls#">
+<input type="hidden" name="h_ntp_server_select" value="@h_ntp_server_select#">
+<input type="hidden" name="c4_ntp_server_ip_" value="@c4_ntp_server_ip_#">
+
+<input type="hidden" name="h_wl_hide_ssid0" value="@h_wl_hide_ssid0#">
+<input type="hidden" name="h_wl_hide_ssid1" value="@h_wl_hide_ssid1#">
+<input type="hidden" name="h_wl_hide_ssid2" value="@h_wl_hide_ssid2#">
+<input type="hidden" name="h_wl_hide_ssid3" value="@h_wl_hide_ssid3#">
+<input type="hidden" name="h_SSID_Setting" value="@h_SSID_Setting#">
+<input type="hidden" name="h_security_mode1" value="@h_security_mode1#">
+<input type="hidden" name="h_wl_auth_mode1" value="@h_wl_auth_mode1#">
+<input type="hidden" name="h_wl_key_id1" value="@h_wl_key_id1#"> 
+<input type="hidden" name="h_keysize1" value="@h_keysize1#">
+<input type="hidden" name="h_wpapsk_enc1" value="@h_wpapsk_enc1#">
+<input type="hidden" name="c4_pradius1_ip_" value="@c4_pradius1_ip_#">
+<input type="hidden" name="c4_bradius1_ip_" value="@c4_bradius1_ip_#">
+ 
+<input type="hidden" name="h_security_mode2" value="@h_security_mode2#">
+<input type="hidden" name="h_wl_auth_mode2" value="@h_wl_auth_mode2#">
+<input type="hidden" name="h_wl_key_id2" value="@h_wl_key_id2#"> 
+<input type="hidden" name="h_keysize2" value="@h_keysize2#">
+<input type="hidden" name="h_wpapsk_enc2" value="@h_wpapsk_enc2#"> 
+<input type="hidden" name="c4_pradius2_ip_" value="@c4_pradius2_ip_#">
+<input type="hidden" name="c4_bradius2_ip_" value="@c4_bradius2_ip_#">
+
+<input type="hidden" name="h_security_mode3" value="@h_security_mode3#">
+<input type="hidden" name="h_wl_auth_mode3" value="@h_wl_auth_mode3#">
+<input type="hidden" name="h_wl_key_id3" value="@h_wl_key_id3#"> 
+<input type="hidden" name="h_keysize3" value="@h_keysize3#">
+<input type="hidden" name="h_wpapsk_enc3" value="@h_wpapsk_enc3#"> 
+<input type="hidden" name="c4_pradius3_ip_" value="@c4_pradius3_ip_#">
+<input type="hidden" name="c4_bradius3_ip_" value="@c4_bradius3_ip_#">
+
+<input type="hidden" name="h_security_mode4" value="@h_security_mode4#">
+<input type="hidden" name="h_wl_auth_mode4" value="@h_wl_auth_mode4#">
+<input type="hidden" name="h_wl_key_id4" value="@h_wl_key_id4#"> 
+<input type="hidden" name="h_keysize4" value="@h_keysize4#">
+<input type="hidden" name="h_wpapsk_enc4" value="@h_wpapsk_enc4#"> 
+<input type="hidden" name="c4_pradius4_ip_" value="@c4_pradius4_ip_#">
+<input type="hidden" name="c4_bradius4_ip_" value="@c4_bradius4_ip_#">
+
+</form>
+    <!-- the follow divs use in WpsSetup.htm -->
+    <div id="wps_search_device_div" class="wps-search-class" style="display:none;">
+	<table bordercolor="#f5f9fd" style="margin-left:10px;" border="0"  cellpadding="0" cellspacing="0" width="480" height="160">
+	<tr><td valign="top">
+<table class="std" align="center" width="470px">
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_serch);</script></td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_wait);</script></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_woring);</script></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr> 
+	<td width="390">
+		<table width="100%" align="left" bgcolor="#f5f9fd" cellpadding="0" cellspacing="0" bordercolor="#92b041" id="AutoNumber19" style="border-style: solid; border-width: 1px">
+			<tr>
+				<td align=left> 
+					<table id="wps_search_device_lpc" bgcolor="#92b041" height="17">
+						<tr><td></TD></TR>
+					</table> 
+			   	</TD>	
+			</TR>
+		</table> 
+    </TD>
+	<td id="wps_search_device_percent" width="40" align="center"></TD>
+</TR>
+<tr><td colspan="2">&nbsp;</td></tr>
+</table>
+</td></tr>
+</table>
+</div>
+
+<div id="wps_connect_device_failed_div" align="center" class="wps-conn-fail-class" style="display:none;">
+<table  border="0"  cellpadding="0" cellspacing="0" width="480px" height="220px"><tr><td  valign="top">
+<table border="0" align="center" width="95%">
+	<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td><img src="./Status_criticalerror_icon.gif" width="32" height="32" border="0"></td>
+	<td align="left"><script language="javascript" type="text/javascript">dw(wf_fail);</script></td>
+</tr>
+<tr height="25">
+	<td>&nbsp;</td>
+	<td align="left"><script language="javascript" type="text/javascript">dw(wf_connfail);</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td align="left"><script language="javascript" type="text/javascript">dw(wf_refer);</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td align="left"><script language="javascript" type="text/javascript">dw(wf_ok);</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td >&nbsp;</td>
+	<td  align="right">
+	<input type="button" name="wps_connect_failed" class="stdbutton" style="width:80px" value="OK" onClick="window.frames['rightframe'].resetWPS('fail');return false;"></td></tr>
+</table>
+</td></tr>
+</table>
+</div>   
+
+<div id="wps_connect_device_div" class="wps-conn-dev-class" style="display:none ; ">
+<table bordercolor="#f5f9fd" border="0"  cellpadding="0" cellspacing="0" width="480" ><tr><td valign="top">
+<table  border="0" cellpadding="0" cellspacing="0" align="center" width="450px">
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_conn);</script></td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_wait);</script></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr> 
+	<td width="270">
+		<table width="100%" align="left" bgcolor="#f5f9fd" cellpadding="0" cellspacing="0" bordercolor="#92b041" id="AutoNumber19" style="border-style: solid; border-width: 1px">
+			<tr>
+				<td align=left> 
+					<table id="wps_connect_device_lpc" bgcolor="#92b041" height=17>
+						<tr><td></TD></TR>
+					</table> 
+			   	</TD>	
+			</TR>
+		</table> 
+    </TD>
+	<td id="wps_connect_device_percent" width="40" align="center"></TD>
+</TR>
+<tr><td colspan="2">&nbsp;</td></tr>
+</table>
+</td></tr>
+</table>
+</div>
+
+<div id="wps_connect_device_successfully_div" class="wps-conn-dev-ok-class" style="display:none ;">
+<table  border="0"  cellpadding="0" cellspacing="0" width="480px" height="230px"><tr><td  valign="top">
+<table align="center" width="95%">
+	<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td width="36"><img src="./Status_success_icon.gif" width="32" height="32" border="0"></td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_succ);</script></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_connsucc);</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_refer);</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">dw(wf_ok);</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td >&nbsp;</td>
+	<td  align="right">
+	<input type="button" name="wps_connect_ok" class="stdbutton" style="width:80px" value="OK" onClick="window.frames['rightframe'].resetWPS('ok');return false;">
+	</td></tr>
+</table>
+</td></tr>
+</table>
+</div>   
+    
+<!-- Alert Box -->
+<form name="ABox" id="abox" method="POST" style="display:none;">
+<div id="CON" class="AB_ALL" style=display:none;"></div>
+<input type="hidden" name="h_NoMsg" value="@h_NoMsg#">
+</form>
+</BODY>
+</HTML>

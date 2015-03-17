@@ -1,0 +1,4 @@
+To make tcp_wrappers source code , you should configure your OS information in Makefile.
+
+find the line corresponding to your system(from line 36 to line 80), and make this line 
+uncomment. Save the change then make !

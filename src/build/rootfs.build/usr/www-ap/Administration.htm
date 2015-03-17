@@ -1,0 +1,429 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META content="Cisco WAP4410N" name=description>
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+parent.document.title=titl_admin;
+strHtml='<title>'+titl_admin+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!-- hide script from old browsers
+
+function sync_to_wizard()
+{
+	var cf = document.forms[0];
+	var f = window.top.document.forms[0];
+	
+	f.elements['h_password'].value=cf.h_password.value;
+	f.elements['userName'].value=cf.userName.value;
+	f.elements['sysPasswd'].value=cf.sysPasswd.value;
+	f.elements['sysConfirmPasswd'].value=cf.sysConfirmPasswd.value;
+}
+
+function init() 
+{        
+    var cf = document.forms[0];
+	
+	parent.parent_menu_clk("4-1");
+	dataToVisible(document.forms[0]);   
+    snmpmodeChange();
+    sync_to_wizard();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+function snmpmodeChange()
+{
+	var cf = document.forms[0];
+    var i;
+
+	if(cf.snmp_mode[0].checked)
+    {
+        setDisabled(false, cf.sysContact, cf.sysName, cf.sysLocation, cf.snmpCommunityOne, cf.snmpCommunityTwo,  cf.snmpTrapCommunity, cf.remote_ip[0],cf.remote_ip[1]);
+        for(i = 1; i < 5; i++)
+            setDisabled(false, eval("cf.trap_ipaddr_" + i));
+    }
+    else
+    {
+        setDisabled(true, cf.sysContact, cf.sysName, cf.sysLocation, cf.snmpCommunityOne, cf.snmpCommunityTwo,  cf.snmpTrapCommunity,cf.remote_ip[0],cf.remote_ip[1]);
+        for(i = 1; i < 5; i++)
+        {
+               setDisabled(true, eval("cf.trap_ipaddr_" + i));
+        }
+    }
+	RemoteManageIP();
+}
+
+function RemoteManageIP()
+{
+	var cf = document.forms[0];
+	
+	if(cf.snmp_mode[0].checked)
+	{
+		if(cf.remote_ip[0].checked)
+		{
+			setDisabled(true,cf.remote_ipaddr_1,cf.remote_ipaddr_2,cf.remote_ipaddr_3,cf.remote_ipaddr_4,cf.remote_ipaddr_5);
+		}
+		else
+		{
+			setDisabled(false,cf.remote_ipaddr_1,cf.remote_ipaddr_2,cf.remote_ipaddr_3,cf.remote_ipaddr_4,cf.remote_ipaddr_5);
+		}
+	}else
+		{
+			setDisabled(true,cf.remote_ipaddr_1,cf.remote_ipaddr_2,cf.remote_ipaddr_3,cf.remote_ipaddr_4,cf.remote_ipaddr_5);
+		}
+}
+function checkData()
+{
+    var cf = document.forms[0];
+	var msg = "";
+	
+	if(cf.sysPasswd.value != cf.sysConfirmPasswd.value) 
+	    msg+= msg_pw_nomatch;
+	if(cf.sysPasswd.value != "******")
+	    cf.h_password.value = 1;
+    if((cf.userName.value.length < 1) || (cf.userName.value.length > 63))
+        msg += msg_usname;
+    if((cf.sysPasswd.value.length < 4) || (cf.sysPasswd.value.length > 63))
+        msg += msg_us_password;
+	if(cf.snmp_mode[0].checked)
+	{
+		msg+= checkBlank(cf.sysContact, msg_syscontact);
+		msg+= chkMSname(cf.sysName, msg_sysname);
+		msg+= chkMSname(cf.sysLocation, msg_syslocation);	
+		msg+= checkBlank(cf.snmpCommunityOne, msg_readComm);
+		msg+= checkNoBlanks(cf.snmpCommunityOne, msg_readComm);	
+		msg+= checkBlank(cf.snmpCommunityTwo, msg_writeComm);
+		msg+= checkNoBlanks(cf.snmpCommunityTwo, msg_writeComm);
+		msg+= checkBlank(cf.snmpTrapCommunity, msg_trapComm);
+		msg+= checkNoBlanks(cf.snmpTrapCommunity, msg_trapComm);
+	  
+	    if(!cf.remote_ip[0].checked)
+	    {
+			msg+= checkIp(cf.remote_ipaddr_1, cf.remote_ipaddr_2, cf.remote_ipaddr_3, cf.remote_ipaddr_4, msg_snmp_Trustedhost_IPaddress, true);
+	    	msg+= checkInt(cf.remote_ipaddr_5, msg_snmp_Trustedhost_endIP, 1, 255, true);
+            msg+= checkIPAddressHightLow(cf.remote_ipaddr_5, cf.remote_ipaddr_4, msg_snmp_TrustedHost_HightLow);
+	    	
+//	    	if(cf.remote_ipaddr_5.value < cf.remote_ipaddr_4.value)
+//	    	    msg += msg_snmp_TrustedHost_HightLow;
+	    }	    
+	    msg+= checkIPorBroadcastAddress(cf.trap_ipaddr_1, cf.trap_ipaddr_2, cf.trap_ipaddr_3, cf.trap_ipaddr_4, msg_snmp_Trap_desthost);
+	}
+    if (msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "Administration.htm", "Warn", msg, "", ABBtnOK, "");
+
+		return false;
+	}
+	
+	
+	
+	dataToHidden(cf);
+	cf.save.disabled=true;
+	cf.cancel.disabled=true;
+
+	cf.submit(); 
+	return true;	
+}
+function showHelp()
+{
+	openHelpWin('help/h_Management.htm');
+}
+//-->
+
+</SCRIPT>
+
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</HEAD>
+<BODY vLink=#ffffff aLink=#ffffff link=#ffffff onload=init()>
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+<script language="javascript" type="text/javascript">
+				dw(am_type1);
+			</script>
+</div>
+<br> 
+
+<FORM name=administration action="setup.cgi?next_file=Administration.htm" method=post>
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+<!-- header 1 -->
+   <!-- header 2 -->
+	<!-- header 3 -->
+	<!-- header 3 -->
+ 	<!-- main menu-->
+ 
+<!-- sub menu-->
+ 	<!-- data table-->
+ <div class="TitleofGroupBox" style="height:25px">
+		<script language="javascript" type="text/javascript">
+				dw(am_subtype1);
+			</script>
+		</div>
+<table cellSpacing=0 cellPadding=0>
+	
+        <tr class=ContentCrlHeight>
+          <td width="142" nowrap>
+          	<script language="javascript" type="text/javascript">
+				dw(am_usname);
+			</script></td>
+          <td width="230" nowrap><input maxlength="63" onChange="userNameChanged=true" size=21 name="userName" value="@userName#"></td>
+        </tr>
+        <tr class=ContentCrlHeight>
+          <td nowrap><script language="javascript" type="text/javascript">
+				dw(am_pass);
+			</script> </td>
+          <td nowrap><input type="password" maxlength="63" size="21" name="sysPasswd" value="@syspassword#"></td>
+        </tr>
+        <tr class=ContentCrlHeight>
+          <td><script language="javascript" type="text/javascript">
+				dw(am_confirm);
+			</script> </td>
+          <td nowrap><input type="password" maxlength="63" size="21" name="sysConfirmPasswd" value="@sysConfirmPasswd#"></td>
+        </tr>
+    </table>
+
+<HR class="stdHRGrp">
+ <div class="TitleofGroupBox">
+ 	<script language="javascript" type="text/javascript">
+				dw(am_type2);
+			</script>
+ </div>
+ <table border="0" cellSpacing=0 cellPadding=0>
+        <tr style="height:25px;">
+          <td width="142"><script language="javascript" type="text/javascript">
+				dw(am_laccess);
+			</script></td>
+          <td ><input type=radio value="enable" name="web_access_https" class="RadioLeftIE">
+          	
+          	<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+			
+          	<input type=radio value="disable" name="web_access_https" class="RadioRightIE">
+          	<script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></td>
+        </tr>
+        <tr style="height:25px;">
+          <td><script language="javascript" type="text/javascript">
+				dw(am_waccess);
+			</script></td>
+          <td>
+            <input type=radio value="enable" name="wl_Access" class="RadioLeftIE">
+        
+          	<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+            <input type=radio value="disable" name="wl_Access" checked class="RadioRightIE">
+          <script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></td>
+        </tr>
+    </table>
+
+<HR class="stdHRGrp">
+ <div class="TitleofGroupBox" >
+ 	<script language="javascript" type="text/javascript">
+				dw(am_type3);
+			</script>
+ 	</div>
+<table border="0" cellSpacing=0 cellPadding=0>
+        <tr>
+          <td width="142" nowrap><script language="javascript" type="text/javascript">
+				dw(am_ssh);
+			</script>
+		</td>
+		<td>
+            <input type=radio value="enable" name="ssh_enable" class="RadioLeftIE">
+          
+          	<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+            <input type=radio value="disable" name="ssh_enable" class="RadioRightIE">
+         
+          <script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></td>
+        </tr>
+    </table>
+    
+<HR class="stdHRGrp">
+ <div class="TitleofGroupBox" s>
+ 	<script language="javascript" type="text/javascript">
+				dw(am_type4);
+			</script>
+ 	</div>
+ 	
+	<table border="0" cellSpacing=0 cellPadding=0>
+        <tr class=ContentCrlHeight>
+          <td  width="142" nowrap>
+          	<script language="javascript" type="text/javascript">
+				dw(am_snmp);
+			</script> 
+			</td>
+          <td>
+            <input name="snmp_mode" value="enable" onClick="snmpmodeChange();" type="radio" class="RadioLeftIE">
+        
+         	<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+			
+            <input name="snmp_mode" value="disable" onClick="snmpmodeChange();" type="radio" checked="true" class="RadioRightIE">
+          
+          <script language="javascript" type="text/javascript">
+				dw(disable);
+			</script>
+			</td>
+        </tr>
+    </table>
+    <table border="0" cellSpacing=0 cellPadding=0>
+        <tr class=ContentCrlHeight>
+          <td width="142" nowrap>
+          	<script language="javascript" type="text/javascript">
+				dw(am_cont);
+			</script>
+			</td>
+          <td nowrap > 
+            <input name="sysContact" type="text" class="num" value="@sysContact#" size="30" maxlength="32">
+          </td>
+        </tr>
+        <tr class=ContentCrlHeight>
+          <td  nowrap><script language="javascript" type="text/javascript">
+				dw(am_dename);
+			</script> </td>
+          <td nowrap colspan="2">
+            <input name="sysName" type="text" class="num" id="sysName" value="@sysName#" size="30" maxlength="32">
+         </td>
+        </tr>
+        <tr class=ContentCrlHeight>
+          <td  nowrap><script language="javascript" type="text/javascript">
+				dw(am_loca);
+			</script></td>
+          <td nowrap colspan="2">
+            <input name="sysLocation" type="text" class="num" id="sysLocation" value="@sysLocation#" size="30" maxlength="32">
+          </td>
+        </tr>
+    </table>
+			
+
+
+<HR class="stdHRCnt">
+<table border="0" cellSpacing=0 cellPadding=0>
+      <tr class=ContentCrlHeight>
+        <td width="142" nowrap><script language="javascript" type="text/javascript">
+				dw(am_gcomm);
+			</script></td>
+        <td nowrap colspan="2"> 
+          <INPUT name="snmpCommunityOne" type="text" class="num" value="@snmpCommunityOne#" size="20" maxlength="32">
+       </td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td  nowrap><script language="javascript" type="text/javascript">
+				dw(am_scomm);
+			</script></td>
+        <td nowrap colspan="2">
+          <INPUT name="snmpCommunityTwo" type="text" class="num" id="snmpCommunityTwo" value="@snmpCommunityTwo#" size="20" maxlength="32">
+        </td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td  nowrap><script language="javascript" type="text/javascript">
+				dw(am_tcomm);
+			</script> </td>
+        <td nowrap colspan="2">
+          <INPUT name="snmpTrapCommunity" type="text" class="num" value="@snmpTrapCommunity#" size="20" maxlength="32">
+       </td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td rowspan="2" nowrap> <script language="javascript" type="text/javascript">
+				dw(am_tructh);
+			</script> </td>
+        <td width="25" nowrap><INPUT type="radio" name="remote_ip" value="any" onClick="RemoteManageIP()" checked class="RadioLeftIE"></td>
+    <td><script language="javascript" type="text/javascript">
+				dw(am_anyip);
+			</script></td>
+      </tr>
+      <tr >
+        <td nowrap><INPUT type="radio" name="remote_ip" value="specific" onClick="RemoteManageIP()" class="RadioLeftIE"></td>
+		<td class=ContentCrlHeight>
+            <INPUT type="text" name="remote_ipaddr_1" value="" class=num maxLength=3 size="3">
+    .
+    <INPUT type="text" name="remote_ipaddr_2" value="" class=num maxLength=3 size="3">
+    .
+    <INPUT type="text" name="remote_ipaddr_3" value="" class=num maxLength=3 size="3">
+    .
+    <INPUT type="text" name="remote_ipaddr_4" value="" class=num maxLength=3 size="3">
+    ~
+    <INPUT type="text" name="remote_ipaddr_5" value="@remote_ipaddr_5#" class=num maxLength=3 size="3"></td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td  nowrap><script language="javascript" type="text/javascript">
+				dw(am_tdes);
+			</script></td>
+        <td colspan=2><INPUT type="text" name="trap_ipaddr_1" value="" class=num maxLength=3 size="3">
+      .
+        <INPUT type="text" name="trap_ipaddr_2" value="" class=num maxLength=3 size="3">
+      .
+      <INPUT type="text" name="trap_ipaddr_3" value="" class=num maxLength=3 size="3">
+      .
+      <INPUT type="text" name="trap_ipaddr_4" value="" class=num maxLength=3 size="3"></td>
+      </tr>
+    </table>
+
+
+
+<!--FormPane end-->
+
+</DIV>
+<div class="ButtonRow">
+  <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("Administration.htm");
+  </script>
+  
+</div>
+<input type="hidden" name="h_password" value="@h_password#">
+<input type="hidden" name="h_web_access_https" value="@h_web_access_https#">
+<input type="hidden" name="h_wl_Access" value="@h_wl_Access#">
+<input type="hidden" name="h_ssh_enable" value="@h_ssh_enable#">
+<input type="hidden" name="h_snmp_mode" value="@h_snmp_mode#">
+<input type="hidden" name="h_remote_ip" value="@h_remote_ip#">
+<input type="hidden" name="c4_remote_ipaddr_" value="@c4_remote_ipaddr_#">
+<input type="hidden" name="c4_trap_ipaddr_" value="@c4_trap_ipaddr_#">
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="Administration.htm">
+<input type="hidden" name="next_file" value="Administration.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+
+</FORM>
+<!--ContentArea end-->
+</div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  </BODY>
+</HTML>

@@ -1,0 +1,1 @@
+#define CONFIG_AR9100 1

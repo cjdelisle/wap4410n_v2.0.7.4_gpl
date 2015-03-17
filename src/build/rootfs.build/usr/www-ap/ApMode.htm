@@ -1,0 +1,612 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+parent.document.title=titl_ap;
+strHtml='<title>'+titl_ap+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!-- Start Script
+function init()
+{
+	 var cf = document.forms[0];
+	parent.parent_menu_clk("3-1");
+	ScreenClean();
+	dataToVisible(document.forms[0]);
+    ChangeAPMode();
+     cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+function ChangeAPMode()
+{
+	var cf = document.forms[0];
+    
+	if( cf.ap_mode[0].checked )							//AP mode
+	{
+	    cf.ap_mode_repeater.disabled = false;
+		Ch_ap_rep();
+	    
+		cf.urSiteSurvay.disabled = true;        //Repeater
+		cf.wds_rep_mac.disabled = true;
+		
+		cf.wds_bridge_mac1.disabled = true;     //Birdge
+		cf.wds_bridge_mac2.disabled = true;
+		cf.wds_bridge_mac3.disabled = true;
+		cf.wds_bridge_mac4.disabled = true;
+		
+		cf.ucrSiteSurvay.disabled = true;       //uc/ur
+		cf.Universal_mode.disabled = true;
+		cf.wds_ur_ssid.disabled = true;
+		cf.wds_ur_mac.disabled = true;
+		
+		switchDisableRogue();          //Rogue ap
+		cf.no_security.disabled = true;
+		cf.illegal_ap.disabled = true;
+	}
+    else if( cf.ap_mode[1].checked )							//repeater mode
+	{
+	    cf.ap_mode_repeater.disabled = true;        //AP
+	    cf.ap_mode_repeater.checked = false;
+	    Ch_ap_rep();
+	    
+		cf.urSiteSurvay.disabled = false;        //Repeater
+		cf.wds_rep_mac.disabled = false;
+		
+		cf.wds_bridge_mac1.disabled = true;     //Birdge
+		cf.wds_bridge_mac2.disabled = true;
+		cf.wds_bridge_mac3.disabled = true;
+		cf.wds_bridge_mac4.disabled = true;
+		
+		cf.ucrSiteSurvay.disabled = true;       //uc/ur
+		cf.Universal_mode.disabled = true;
+		cf.wds_ur_ssid.disabled = true;
+		cf.wds_ur_mac.disabled = true;
+		
+		switchDisableRogue();          //Rogue ap
+		cf.no_security.disabled = true;
+		cf.illegal_ap.disabled = true;
+	}
+    else if( cf.ap_mode[2].checked )							//Birdge mode
+	{
+	    cf.ap_mode_repeater.disabled = true;        //AP
+	    cf.ap_mode_repeater.checked = false;
+	    Ch_ap_rep();
+	    
+		cf.urSiteSurvay.disabled = true;        //Repeater
+		cf.wds_rep_mac.disabled = true;
+		
+		cf.wds_bridge_mac1.disabled = false;     //Birdge
+		cf.wds_bridge_mac2.disabled = false;
+		cf.wds_bridge_mac3.disabled = false;
+		cf.wds_bridge_mac4.disabled = false;
+		
+		cf.ucrSiteSurvay.disabled = true;       //uc/ur
+		cf.Universal_mode.disabled = true;
+		cf.wds_ur_ssid.disabled = true;
+		cf.wds_ur_mac.disabled = true;
+		
+		switchDisableRogue();					//Rogue ap
+		cf.no_security.disabled = true;
+		cf.illegal_ap.disabled = true;
+	}
+    else if( cf.ap_mode[3].checked )							//UCR mode
+	{
+	    cf.ap_mode_repeater.disabled = true;        //AP
+	    cf.ap_mode_repeater.checked = false;
+	    Ch_ap_rep();
+	    
+		cf.urSiteSurvay.disabled = true;        //Repeater
+		cf.wds_rep_mac.disabled = true;
+		
+		cf.wds_bridge_mac1.disabled = true;     //Birdge
+		cf.wds_bridge_mac2.disabled = true;
+		cf.wds_bridge_mac3.disabled = true;
+		cf.wds_bridge_mac4.disabled = true;
+		
+		cf.ucrSiteSurvay.disabled = false;       //uc/ur
+		cf.Universal_mode.disabled = false;
+		cf.wds_ur_ssid.disabled = false;
+		cf.wds_ur_mac.disabled = false;
+		
+		switchDisableRogue();          //Rogue ap
+		cf.no_security.disabled = true;
+		cf.illegal_ap.disabled = true;
+	}
+	else if( cf.ap_mode[4].checked )							//Rogue mode
+	{
+	    cf.ap_mode_repeater.disabled = true;        //AP
+	    cf.ap_mode_repeater.checked = false;
+	    Ch_ap_rep();
+	    
+		cf.urSiteSurvay.disabled = true;        //Repeater
+		cf.wds_rep_mac.disabled = true;
+		
+		cf.wds_bridge_mac1.disabled = true;     //Birdge
+		cf.wds_bridge_mac2.disabled = true;
+		cf.wds_bridge_mac3.disabled = true;
+		cf.wds_bridge_mac4.disabled = true;
+		
+		cf.ucrSiteSurvay.disabled = true;       //uc/ur
+		cf.Universal_mode.disabled = true;
+		cf.wds_ur_ssid.disabled = true;
+		cf.wds_ur_mac.disabled = true;
+		
+		switchDisableRogue();          //Rogue ap
+		cf.no_security.disabled = false;
+		cf.illegal_ap.disabled = false;
+	}
+
+}
+
+function Ch_ap_rep()
+{
+    var cf = document.forms[0];
+    if(cf.ap_mode_repeater.checked)
+    {
+        cf.wds_ap_mac1.disabled = false;
+        cf.wds_ap_mac2.disabled = false;
+        cf.wds_ap_mac3.disabled = false;
+    }
+    else
+    {
+        cf.wds_ap_mac1.disabled = true;
+        cf.wds_ap_mac2.disabled = true;
+        cf.wds_ap_mac3.disabled = true;
+    }
+}
+
+function switchDisableRogue()
+{
+    var cf = document.forms[0];
+    var disable = !(cf.ap_mode[4].checked);
+    cf.legal_list.disabled = disable;
+}
+function CheckSameMAC(obj, MaxMAC)
+{
+	var x=1;
+	var y=1;
+	var v1,v2;
+	var cf = document.forms[0];
+	
+	for (x=1; x<=MaxMAC; x++)
+	{
+		if ( eval("cf."+obj+x+".value") != "" && eval("cf."+obj+x+".value") != "000000000000")
+		{ 
+			for(y=x+1; y<=MaxMAC; y++)
+			{
+				if ( x == y )
+					continue;
+				else
+				{
+					v1=eval("cf."+obj+x+".value").toUpperCase();
+					v2=eval("cf."+obj+y+".value").toUpperCase();
+					if ( v1 == v2 )
+					{
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	return 1;
+}
+function checkData()
+{
+	var cf = document.forms[0];
+    var msg = "";
+    
+    if(cf.ap_mode[0].checked && cf.ap_mode_repeater.checked)  //AP mode
+    {
+        if(cf.wds_ap_mac1.value.length==0 && cf.wds_ap_mac2.value.length==0&& cf.wds_ap_mac3.value.length==0 )
+                msg += msg_all_blank;
+        
+        if(cf.wds_ap_mac1.value.length!=0)
+            msg += checkMAC(cf.wds_ap_mac1, msg_ap_addr, false);
+        if(cf.wds_ap_mac2.value.length!=0)
+            msg += checkMAC(cf.wds_ap_mac2, msg_ap_addr, false);
+        if(cf.wds_ap_mac3.value.length!=0)
+            msg += checkMAC(cf.wds_ap_mac3, msg_ap_addr, false);
+        
+        if(cf.wds_ap_mac1.value == "000000000000" && cf.wds_ap_mac2.value == "000000000000" && cf.wds_ap_mac3.value == "000000000000")
+            msg += msg_invaid_mac_zero;
+        if(!CheckSameMAC("wds_ap_mac", 3))
+            msg += msg_same_mac;
+    }
+    else if(cf.ap_mode[1].checked)
+    {
+        if(cf.wds_rep_mac.value.length==0)
+            msg += msg_all_blank;
+        if(cf.wds_rep_mac.value.length!=0)
+            msg += checkMAC(cf.wds_rep_mac, msg_ap_addr,false);
+        if(cf.wds_rep_mac.value == "000000000000")
+        msg += msg_invaid_mac_zero;
+    }   
+    else if(cf.ap_mode[2].checked)
+    {
+        if(cf.wds_bridge_mac1.value.length==0 && cf.wds_bridge_mac2.value.length==0&& cf.wds_bridge_mac3.value.length==0 &&cf.wds_bridge_mac4.value.length==0 )
+                msg += msg_all_blank;
+        if(cf.wds_bridge_mac1.value.length!=0)
+            msg += checkMAC(cf.wds_bridge_mac1, msg_ap_addr,false);
+        if(cf.wds_bridge_mac2.value.length!=0)
+            msg += checkMAC(cf.wds_bridge_mac2, msg_ap_addr,false);
+        if(cf.wds_bridge_mac3.value.length!=0)
+            msg += checkMAC(cf.wds_bridge_mac3, msg_ap_addr,false);            
+        if(cf.wds_bridge_mac4.value.length!=0)
+            msg += checkMAC(cf.wds_bridge_mac4, msg_ap_addr,false);
+        if(cf.wds_bridge_mac1.value == "000000000000" && cf.wds_bridge_mac2.value == "000000000000" && cf.wds_bridge_mac3.value == "000000000000" &&cf.wds_bridge_mac4.value == "000000000000")
+            msg += msg_invaid_mac_zero;
+        if(!CheckSameMAC("wds_bridge_mac", 4))
+            msg += msg_same_mac;
+    }
+    else if(cf.ap_mode[3].checked)
+    {        
+    	if(cf.wds_ur_ssid.value.length==0)
+    		msg +=msg_invalid_ssid;
+        if(cf.wds_ur_mac.value.length!=0)
+            msg += checkMAC(cf.wds_ur_mac, msg_ap_addr,false);
+    }
+    
+    if(msg.length > 1)
+    {
+    	 ALERT(parent, "CON", titl_warn, "ApMode.htm", "Warn", msg, "", ABBtnOK,"");
+
+    	return false;
+    }
+	dataToHidden(cf);
+		cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+	return true;
+}
+function showHelp()
+{
+	openHelpWin('help/h_Apmode.htm');
+}
+
+// End Script -->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(ap_type);
+			</script>
+	</div>
+<br> 
+<form name="apmode" method="POST" action="setup.cgi?next_file=ApMode.htm">
+
+<!--FormPane-->
+<div id="formpane" class="RFormPane">
+    
+ 
+       <table border="0" cellpadding="0" cellspacing="0">
+       	<tr>
+       		<td style="height:25px;" >
+       		<b><script language="javascript" type="text/javascript">
+				dw(ap_subtype);
+			</script></b>@mac_address#</td>
+       	</tr>
+ </table>
+<hr class="stdHRGrp">
+	
+<!--Access Point -->
+
+	<table border="0" cellpadding="0" cellspacing="0">
+  	<tr  class=ContentCrlHeight>
+  	  <td  nowrap>
+  	    <input type="radio" name="ap_mode" value="mode_ap" onClick="ChangeAPMode();" >
+  	  </td>
+  	  <td width="4px" >&nbsp; </td >
+  	  <td >
+  	  	<b>
+  	    <script language="javascript" type="text/javascript">
+				dw(ap_mode1);
+			</script></b>
+				<script language="javascript" type="text/javascript">
+				dw(ap_de);
+			</script>
+		</td>
+	  </tr>
+	<tr  class=ContentCrlHeight>
+	  <td  colspan="2" nowrap>&nbsp;</td>
+	  <td  nowrap>
+	  	<input name="ap_mode_repeater" onClick="Ch_ap_rep();" type="checkbox" class="CheckboxIE">
+	    	<script language="javascript" type="text/javascript">
+				dw(ap_repea);
+			</script></td>
+	  </tr>
+	<tr  class=ContentCrlHeight>
+	  <td colspan="2" nowrap>&nbsp;</td>
+	   <td width="181" nowrap >
+
+	  	<script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 1:
+		
+	    <input name="wds_ap_mac1" value="@wds_ap_mac1#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+	
+	 </td>
+	</tr>
+	<tr  class=ContentCrlHeight>
+	  <td colspan="2" nowrap>&nbsp;</td>
+	 <td width="181" nowrap >
+	
+	  	<script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 2:
+	    <input name="wds_ap_mac2" value="@wds_ap_mac2#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+	
+	 </td>
+	</tr>
+	<tr  class=ContentCrlHeight>
+	  <td colspan="2" nowrap>&nbsp;</td>
+	  	 <td width="181" nowrap >
+	
+	  	<script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 3:
+	    <input name="wds_ap_mac3" value="@wds_ap_mac3#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+		
+	 </td>
+	</tr>
+  </table>
+<hr class="stdHRGrp">
+	<!--Wireless WDS Repeater -->
+		<table border="0" cellpadding="0" cellspacing="0">
+      <tr  class=ContentCrlHeight>
+        <td  nowrap>
+          <input type="radio" name="ap_mode" value="mode_rep" onClick="ChangeAPMode();" >
+        </td>
+        <td width="4px" >&nbsp; </td >
+        <td  nowrap>
+			<b>
+				<script language="javascript" type="text/javascript">
+				dw(ap_mode2);
+			</script></b></td>
+        <td  nowrap></td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td colspan="2" nowrap>&nbsp;</td>
+        <td   width="320px">
+        	<script language="javascript" type="text/javascript">
+				dw(ap_remmac);
+			</script> </td>
+        <td >
+        	<script language="javascript" type="text/javascript">
+		  	dw('<input type="button" name="urSiteSurvay" value="');
+		  	dw(ap_bsite);
+		  	dw('" onClick="openDataSubWin(\'SurveyWait.htm\',sitsub)">');				
+			</script>
+        	</td>
+      </tr>
+      <tr class=ContentCrlHeight>
+        <td colspan="2" nowrap>&nbsp;</td>
+        <td width="181" nowrap >
+        	<script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script>:&nbsp;&nbsp;&nbsp;
+              <input name="wds_rep_mac" value="@wds_rep_mac#" maxlength="32" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+        </td>
+        <td nowrap></td>
+      </tr>
+    </table>
+	
+	
+	<hr class="stdHRGrp">
+	<!-- Wireless WDS Bridge -->
+		<table border="0" cellpadding="0" cellspacing="0">
+    <tr  class=ContentCrlHeight>
+      <td  nowrap>
+        <input type="radio" name="ap_mode" value="mode_bridge" onClick="ChangeAPMode();" >
+      </td>
+       <td width="4px" >&nbsp; </td >
+      <td nowrap>
+      	<b> <script language="javascript" type="text/javascript">
+				dw(ap_mode3);
+			</script></b></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td  nowrap><script language="javascript" type="text/javascript">
+				dw(ap_rembri);
+			</script> </td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td width="181" nowrap  >
+      	<script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 1:
+			
+            <input name="wds_bridge_mac1" value="@wds_bridge_mac1#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+      </td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td colspan="2"nowrap>&nbsp;</td>
+      <td width="181" nowrap  ><script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 2: 
+            <input name="wds_bridge_mac2" value="@wds_bridge_mac2#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+      </td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td width="181" nowrap  ><script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 3: 
+            <input name="wds_bridge_mac3" value="@wds_bridge_mac3#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+      </td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td width="181" nowrap ><script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script> 4: 
+            <input name="wds_bridge_mac4" value="@wds_bridge_mac4#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+      </td>
+    </tr>
+  </table>
+	
+	<hr class="stdHRGrp">
+	<!-- Wireless Client/Repeater -->
+	<table border="0" cellpadding="0" cellspacing="0" >
+    <tr  class=ContentCrlHeight>
+      <td  nowrap>
+        <input type="radio" name="ap_mode" value="mode_ucr" onClick="ChangeAPMode();" >
+	</td>
+ 	<td width="4px" >&nbsp; </td >
+      <td  nowrap><b> 
+      	<script language="javascript" type="text/javascript">
+				dw(ap_mode4);
+			</script></b></td>
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2"  nowrap>&nbsp;</td>
+      <td  width="320px">
+      	<input name="Universal_mode" type="checkbox" class="CheckboxIE">
+         <script language="javascript" type="text/javascript">
+				dw(ap_sta);
+			</script></td>
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td  nowrap>
+      	<script language="javascript" type="text/javascript">
+				dw(ap_remacc);
+			</script></td>
+      <td nowrap>
+      	<script language="javascript" type="text/javascript">
+		  	dw('<input type="button" name="ucrSiteSurvay" value="');
+		  	dw(ap_bsite);
+		  	dw('" onClick="openDataSubWin(\'SurveyWait.htm\',sitsub)">');				
+			</script>
+      	</td>
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td   nowrap  ><script language="javascript" type="text/javascript">
+				dw(ap_ssid);
+			</script>:&nbsp;
+        <input name="wds_ur_ssid" value="@wds_ur_ssid#" maxlength="32" size="17" class="text" style="margin-left: 8px;" type="text">
+       </td>
+      <td nowrap></td>
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2"  nowrap>&nbsp;</td>
+      <td   nowrap ><script language="javascript" type="text/javascript">
+				dw(ap_mac);
+			</script>: &nbsp;
+     
+        <input id="wds_ur_mac" name="wds_ur_mac" value="@wds_ur_mac#" maxlength="17" size="17" class="mac" style="margin-left: 8px;" onChange="" type="text">
+      </td>
+      <td nowrap></td>
+    </tr>
+  </table>
+	
+	<hr class="stdHRGrp">
+	<!-- Wireless Monitor -->
+		<table border="0" cellpadding="0" cellspacing="0">
+    <tr  class=ContentCrlHeight>
+      <td nowrap>
+        <input type="radio" name="ap_mode" value="mode_rogap" onClick="ChangeAPMode();" >
+      </td>
+      <td width="4px" >&nbsp; </td >
+      <td nowrap><b> 
+      	<script language="javascript" type="text/javascript">
+				dw(ap_mode5);
+			</script></b></td>
+      <td nowrap></td>
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td width="320px">
+      	<script language="javascript" type="text/javascript">
+				dw(ap_rofde);
+			</script></td>
+      <td nowrap></td>
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;      
+      	</td>
+      <td  nowrap>
+      	<input type="checkbox" name="no_security" value="no_security" class="CheckboxIE"> 
+      	<script language="javascript" type="text/javascript">
+				dw(ap_secur);
+			</script></td>
+			
+    </tr>
+    <tr  class=ContentCrlHeight>
+      <td colspan="2" nowrap>&nbsp;</td>
+      <td nowrap><input type="checkbox" name="illegal_ap" value="illegal_ap" class="CheckboxIE"> 
+      	<script language="javascript" type="text/javascript">
+				dw(ap_legal);
+			</script>
+      <td nowrap >
+      	<script language="javascript" type="text/javascript">
+		  	dw('<input type="button" width="95" name="legal_list" value="');
+		  	dw(ap_but);
+		  	dw('"  onClick="openDataSubWin(\' RogueLegal.htm\',rsub);">');				
+			</script>
+      	</td>
+    </tr>
+  </table>
+  
+	
+	
+</div>
+
+
+<div class="ButtonRow">
+  <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("ApMode.htm");
+  </script></div>
+</div>
+
+<input type="hidden" name="h_ap_mode" value="@h_ap_mode#">
+<input type="hidden" name="h_ap_mode_repeater" value="@h_ap_mode_repeater#">
+<input type="hidden" name="h_Universal_mode" value="@h_Universal_mode#">
+<input type="hidden" name="h_no_security" value="@h_no_security#">
+<input type="hidden" name="h_illegal_ap" value="@h_illegal_ap#">
+<input type="hidden" name="wds_channel" value="@wds_channel#">
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="ApMode.htm">
+<input type="hidden" name="next_file" value="ApMode.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+</form>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent();
+	 	 </script>   
+</body>
+
+</html>

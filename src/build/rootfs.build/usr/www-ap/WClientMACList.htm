@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link REL="stylesheet" TYPE="text/css" HREF="./help_@sys_lang#/help.css">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript">
+<!-- hide script from old browsers
+parent.document.title=titl_wclient;
+strHtml='<title>'+titl_wclient+'</title>';
+dw(strHtml);
+
+var selectedcount = 0;
+var selectedMac = "";
+
+function setclientfilter(k,w)
+{
+	var cf = document.forms[0];
+	var macstr = w + ";";
+	if(eval("cf.c" + k).checked)
+	{
+	    selectedcount++;
+	    selectedMac += macstr;
+	}
+    else
+    {
+        selectedcount--;
+        selectedMac = selectedMac.replace(macstr, "");
+    }
+}
+
+function SelectAP()
+{
+	var i;
+	var j = 0;
+    var cf = document.forms[0];
+    var of=opener.document.forms[0];
+    var MacAddr = selectedMac.split(";")
+	
+	for( i = 0; i < MacAddr.length - 1; i++)
+	{
+		while(eval("of.wl_mac" + j).value.length != 0)
+			j++;
+			eval("of.wl_mac" + j++).value = MacAddr[i];
+	} 
+    self.close();
+}
+
+function freshlUrl()
+{
+    var cf =  document.forms[0];
+    var url = "WClientMACList.htm";
+    var unit = "@r_unit#";
+    var vap = "@r_vap#";
+    url += "&unit="+unit;
+    url += "&vap="+vap;
+
+    return url;
+}
+
+function refresh()
+{
+	window.location.href=freshlUrl();
+}
+function do_close()
+{
+	self.close();
+}
+
+//
+//-->
+</script>
+
+</HEAD>
+<BODY class="sbody" onLoad="dataToVisible(document.forms[0])">
+<FORM name="editlist" method="POST" action="setup.cgi">
+	<table border="0" cellspacing="0" cellpadding="0" width="100%" >
+		<tr>
+			<td>
+	<div  class="SFormPane" >
+<!--	style="width:100%;height:100%;overflow-x:scroll;overflow-y:scroll;position:absolute;"> 
+-->
+
+<div class="TitleofGroupBox">
+
+		<script language="javascript" type="text/javascript">
+						dw(wc_msg1);
+			</script>
+ 
+</div>
+<div height="25px">
+	
+	<script language="javascript" type="text/javascript">
+						dw(wc_msg2);
+			</script>
+			
+  </div>
+  <br>
+		<table  border="0" cellpadding="0" cellspacing="0"  style="border-collapse:collapse">
+			<tr>
+				<td width="17" align="center" nowrap>&nbsp;</td>
+				<td width="26" align="center" nowrap>&nbsp;</td>
+				<td width="180" align="center" nowrapa><script language="javascript" type="text/javascript">
+				dw(wc_macmsg);
+			</script></td>			
+				<td width="140" align="center" nowrapa><script language="javascript" type="text/javascript">
+				dw(wc_rate);
+			</script></td>	
+				<td width="180" align="center" nowrapa><script language="javascript" type="text/javascript">
+				dw(wc_rssi);
+			</script></td>	
+			<td width="150" align="center" nowrapa><script language="javascript" type="text/javascript">
+				dw(wc_status);
+			</script></td>	
+			</tr>
+							  @r_MAC_list#
+		</table>
+	</div>
+           
+         </td>
+</tr>
+<tr>
+	<td align="left">
+<div  class="ButtonRow">
+ <tr> 	
+            <td   height="25" >
+            	<script language="javascript" type="text/javascript">
+            		dw('<input type="BUTTON" name="Apply" value="');
+            		dw(wc_bapply);
+            		dw('" class="stdbutton"  onClick="SelectAP();">');
+				</script>
+				<script language="javascript" type="text/javascript">
+			showRefresh();
+				</script>	
+				<script language="javascript" type="text/javascript">
+            		dw('<input type="BUTTON" name="close" value="');
+            		dw(wc_bclose);
+            		dw('" class="stdbutton" onClick="self.close();">');
+				</script>			
+            </td>
+           </tr>
+           
+           </div>
+</td>
+
+</tr>
+
+</table>
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="WClientMACList.htm">
+<input type="hidden" name="next_file" value="WClientMACList.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+
+
+</FORM>
+</BODY>
+</HTML>

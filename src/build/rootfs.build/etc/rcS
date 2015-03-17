@@ -1,0 +1,93 @@
+#!/bin/sh
+
+export PATH=$PATH:/sbin:/bin:/usr/sbin:/usr/bin:/etc/ath
+
+UTC=yes
+
+# This script runs when init it run during the boot process.
+# Mounts everything in the fstab
+
+mount -n -t proc proc /proc
+mount -n -t ramfs ramfs /var
+mount -n -t ramfs ramfs /tmp
+mount -n -t devpts devpts /dev/pts
+mount -o remount +w /
+
+# build var directories 
+chmod 777 /tmp
+chmod 777 /var
+/bin/mkdir -m 0777 /tmp/var
+/bin/mkdir -m 0777 /tmp/var/run
+/bin/mkdir -m 0777 /tmp/hw_info
+/bin/mkdir -m 0777 /var/lock
+/bin/mkdir -m 0777 /var/log
+/bin/mkdir -m 0777 /var/run
+/bin/mkdir -m 0777 /var/tmp
+
+##
+## Put the names of the interfaces in the environmental variables
+## (They can be board unique)
+##
+export ETH0=eth0
+export ETH1=eth1
+
+echo "insmod ag7100_mod.ko"
+insmod  /lib/modules/2.6.15/net/ag7100_mod.ko
+
+ifconfig lo up
+
+echo "insmod led.ko"
+insmod /lib/modules/led.ko
+
+echo "insmod push_button.ko"
+insmod /lib/modules/push_button.ko
+
+echo b1000 > /proc/led
+
+echo "/usr/sbin/pb_ap Running............"
+/usr/sbin/pb_ap&
+
+echo "/usr/sbin/led_ap Running............"
+/usr/sbin/led_ap&
+
+echo "/usr/sbin/networkIntegrality Running.........."
+/usr/sbin/networkIntegrality &
+
+echo "/usr/sbin/rc init Running............"
+/usr/sbin/rc init
+
+echo "/usr/sbin/scfgmgr init Running............"
+/usr/sbin/scfgmgr
+
+/usr/sbin/cmd_agent
+/usr/sbin/download 
+/usr/sbin/loadbalance&
+
+echo "/usr/sbin/rc start Running............"
+
+rc bridge start
+rc lan start
+rc ip start
+rc ipv6 start
+rc telnetd start
+rc httpd start
+rc ntp start
+rc syslogd start
+rc snmp start
+
+rc wlan start
+
+rc stp start
+rc lld2 start
+rc lanDot1xSupp start
+rc wins restart
+
+rc httpredirect restart
+rc sshd start
+rc mdns restart
+free_check &
+#open apply function
+scapply open&
+echo b1 > /proc/led
+echo q > /proc/led
+echo 5 > /proc/sys/kernel/panic

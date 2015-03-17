@@ -1,0 +1,518 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+
+parent.document.title=titl_vlan;
+strHtml='<title>'+titl_vlan+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);	
+
+<!-- Start Script
+var ssidList = "@r_ssidnum#";
+//var ssidList = "0";
+function init()
+{
+	var cf = document.forms[0];
+	
+	parent.parent_menu_clk("2-5");
+	dataToVisible(document.forms[0]);
+	enableDisable();
+	changeVlanMode();
+	//checkButton();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+function delWDSVlan()
+{
+	var cf = document.forms[0];
+	var index=0;
+	
+	index=cf.wds_vlan_list.selectedIndex;
+	
+	if(index<0){
+		ALERT(parent, "CON", titl_warn, "VLAN.htm", "Warn", msg_select_vlan, "", ABBtnOK, "");
+	
+		return;
+	}
+	cf.wds_vlan_list.remove(index);
+	cf.wds_vlan_list.selectedIndex = 0;
+	checkButton();
+}
+
+
+function addWDSVlan()
+{
+	var cf = document.forms[0];
+	var len = 0;
+	var msg = "";
+	var i = 0;
+	
+	len=cf.wds_vlan_list.options.length;
+	if(len>=4){
+		ALERT(parent, "CON", titl_warn, "VLAN.htm", "Warn", msg_cant_add_more, "", ABBtnOK, "");
+	
+		return;
+	}
+	msg= checkInt(cf.new_wds_vlan, msg_new_vlan, 1, 4094,true);
+   if(msg.length > 1 ) {
+    ALERT(parent, "CON", titl_warn, "VLAN.htm", "Warn", msg, "", ABBtnOK, "");
+
+    	return false;
+    }
+    for(i=0; i<len; i++)
+	    if(cf.wds_vlan_list.options[i].text == cf.new_wds_vlan.value){
+		     ALERT(parent, "CON", titl_warn, "VLAN.htm", "Warn", msg_old_vlan, "", ABBtnOK, "");
+
+		    return false;
+	    }
+       var opt = new Option(cf.new_wds_vlan.value, cf.new_wds_vlan.value, true, true);
+	cf.wds_vlan_list.options[len] = opt;
+	checkButton();
+	cf.new_wds_vlan.value = "";
+}
+
+
+function checkButton()
+{
+	var cf = document.forms[0];
+	if(cf.Vlanenable[1].checked)
+	{
+		cf.add_wds_vlan.disabled=true;
+		cf.new_wds_vlan.disabled=true;
+		cf.del_wds_vlan.disabled=true;
+	}	
+	else{
+		cf.add_wds_vlan.disabled=false;
+		cf.new_wds_vlan.disabled=false;
+		cf.del_wds_vlan.disabled=false;
+	}
+	if(cf.wds_vlan_list.options.length==4)
+	{
+		cf.add_wds_vlan.disabled=true;
+		cf.new_wds_vlan.disabled=true;
+	}
+		
+	if(cf.wds_vlan_list.options.length==0)
+		cf.del_wds_vlan.disabled=true;
+}
+
+function showWarning()
+{
+    var cf = document.forms[0];
+    if(cf.Vlanenable[0].checked){
+    	ALERT(parent, "CON", titl_confirm, "VLAN.htm", "Warn", vlan_warning, "", ABBtnOK,ABBtnCANCEL);
+    /*   if(!confirm(vlan_warning))
+        {
+            cf.Vlanenable[1].checked = true;
+            return ;
+        }
+        */
+    }
+    else{
+    	changeVlanMode();
+    //	checkButton();
+	}
+}
+function showWMMwarning(Index)
+{
+    var cf = document.forms[0];
+    if(eval("cf.wl_wmm_"+Index + ".checked") == false)
+    	 ALERT(parent, "CON", titl_warn, "VLAN.htm", "Warn", msg_wmm_warning, "", ABBtnOK,"");
+
+        //alert(msg_wmm_warning);
+}
+function changeVlanMode()
+{
+	var cf = document.forms[0];
+	var i;
+	var ssidArr = ssidList.split(" ");
+	if(cf.Vlanenable[1].checked)
+	{
+		
+		setDisabled(true, cf.wl_vlan_id, cf.wl_vlan_tag, cf.wl_vlan_birdge, cf.wl_wds_tag);//, cf.wds_vlan_list, cf.new_wds_vlan);
+		for(i = 0; i < ssidArr.length; i++)
+			setDisabled(true, eval("cf.wl_vid_ssid" + ssidArr[i]), eval("cf.wl_vlan_priority" + ssidArr[i]),eval("cf.wl_wmm_" + ssidArr[i]));
+	}
+	else
+	{
+	    
+		setDisabled(false, cf.wl_vlan_id, cf.wl_vlan_tag, cf.wl_vlan_birdge, cf.wl_wds_tag);//, cf.wds_vlan_list, cf.new_wds_vlan);
+		for(i = 0; i < ssidArr.length; i++)
+			setDisabled(false, eval("cf.wl_vid_ssid" + ssidArr[i]), eval("cf.wl_vlan_priority" + ssidArr[i]),eval("cf.wl_wmm_" + ssidArr[i]));
+	}
+}
+
+function enableDisable()
+{
+	var cf = document.forms[0];
+	var i;
+    var ssidArr = ssidList.split(" ");
+    
+	for(i = 0; i < ssidArr.length; i++)
+		setDisabled(false, eval("cf.wl_vid_ssid" + ssidArr[i]), eval("cf.wl_vlan_priority" + ssidArr[i]), eval("cf.wl_wmm_" + ssidArr[i]));
+
+}
+/*
+function ChangeQos()
+{
+	var cf = document.forms[0];
+	var i;
+
+	if(cf.wl_vlan_Priority.selectedIndex == "1")
+	{	
+		for(i = 0;i < MAXSSID ;i++)
+		{
+			setDisabled(false,eval("cf.wl_vlan_priority" + i));
+		}		
+	}
+	else
+	{
+		for(i = 0;i < MAXSSID ;i++)
+		{
+			setDisabled(true,eval("cf.wl_vlan_priority" + i));
+		}
+	}
+}
+*/
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg = "";
+    var i;
+    var ssidArr = ssidList.split(" ");
+     var len;
+    if(cf.Vlanenable[0].checked)
+    {
+        msg+= checkInt(cf.wl_vlan_id, msg_native_vlan, 1, 4094,true);
+       msg+= checkInt(cf.wl_vlan_birdge, msg_mgt_vlan, 1, 4094,true);
+        
+        for(i=0;i<ssidArr.length;i++)
+            msg+= checkInt(eval("cf.wl_vid_ssid"+ssidArr[i]), "SSID "+i+1+" VLAN id", 1, 4094,true); 
+    }
+    if(msg.length > 1 )
+    {
+    	//alert(msg);
+    	 ALERT(parent, "CON", titl_warn, "VLAN.htm", "Warn", msg, "", ABBtnOK,"");
+
+    	return false;
+    }
+    dataToHidden(cf); 
+   /* cf.new_wds_vlist.value="";
+    len = cf.wds_vlan_list.options.length; 
+   for(i=0; i<len; i++ )
+       cf.new_wds_vlist.value += (cf.wds_vlan_list.options[i].text + ",");
+       */
+    cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+    return true;
+}
+
+function showHelp()
+{
+	openHelpWin('help/h_VLAN.htm');
+}
+// End Script -->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(wv_type);
+			</script>
+	</div>
+<br> 
+<form method="POST" action="setup.cgi?next_file=VLAN.htm">
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+    
+ <div class="TitleofGroupBox">
+ 	<script language="javascript" type="text/javascript">
+				dw(wv_subtype1);
+			</script>
+</div>
+    <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+      <td nowrap class=ContentCrlHeight width="136">
+      	<script language="javascript" type="text/javascript">
+				dw(wv_vlan);
+			</script>
+      	</td>
+      <td  class=ContentCrlHeight>
+            <input name="Vlanenable" value="enable"  type="radio" onClick="showWarning()" class="RadioLeftIE">
+            		<script language="javascript" type="text/javascript">
+						dw(enable);
+					</script></td>
+     <td colspan="2" class=ContentCrlHeight>
+			 <input type=radio value="disable"  name="Vlanenable" onClick="showWarning()" class="RadioLeftIE" >
+		 		<script language="javascript" type="text/javascript">
+				dw(disable);
+				</script>
+      </td>          
+    </tr>
+     <tr class=ContentCrlHeight>
+     <td  nowrap> <script language="javascript" type="text/javascript">
+				dw(wv_devid);
+			</script> </td>
+     <td width="98" nowrap><INPUT type="text" name="wl_vlan_id"  maxLength="4" size="2" value="@wl_vlan_id#"></td>
+     <td width="67" nowrap><script language="javascript" type="text/javascript">
+				dw(wv_vtag);
+			</script> </td>
+     <td  nowrap><select name="wl_vlan_tag" class="SelectStd">
+         <option value="0"><script language="javascript" type="text/javascript">
+				dw(wv_s_utag);
+			</script></option>
+         <option value="1"><script language="javascript" type="text/javascript">
+				dw(wv_s_tag);
+			</script></option>
+       </select>
+     </td>
+   </tr>
+    <tr class=ContentCrlHeight>
+     <td  nowrap>
+     	<script language="javascript" type="text/javascript">
+				dw(wv_manid);
+			</script>
+			</td>
+     <td colspan="3" nowrap>
+     	<INPUT type="text" name="wl_vlan_birdge"  maxLength="4" size="2" value="@wl_vlan_birdge#">
+     </td>
+     </tr>
+   <tr class=ContentCrlHeight>
+     <td   nowrap>
+     	<script language="javascript" type="text/javascript">
+				dw(wv_wdstag);
+			</script></td>
+     <td  nowrap>
+     	  <input type="radio"  name="wl_wds_tag" value="1"  class="RadioLeftIE">
+            		<script language="javascript" type="text/javascript">
+						dw(enable);
+					</script>
+				</td>
+	 <td colspan="2" nowrap>
+			<input type=radio value="0" name="wl_wds_tag"  class="RadioLeftIE" >
+		 		<script language="javascript" type="text/javascript">
+				dw(disable);
+				</script>
+     </td>
+     </tr>
+   <!--   <tr> 
+              <td height="70" rowspan="2" valign="middle" nowrap> <script language="javascript" type="text/javascript">
+				dw(wv_vlan_list);
+			</script></td>
+              <td rowspan="2" nowrap><select name="wds_vlan_list" size="5" style="width:80px;">
+			  @wds_vlan_list#
+                </select></td>
+              <td height="35" colspan="2" valign="middle" nowrap> <input name="del_wds_vlan" type="button" id="del_wds_vlan" value="Delete" style="width:60px;" onClick="delWDSVlan()"></td>
+            </tr>
+            <tr>
+              <td colspan="2" valign="middle" nowrap> <input name="add_wds_vlan" type="button" id="add_wds_vlan" value="Add" style="width:60px;"  onClick="addWDSVlan()">
+                &nbsp; <input name="new_wds_vlan" type="text"  maxLength="4" size="2" ></td>
+            </tr>
+     
+     -->
+     
+</table>
+<hr class="stdHRGrp">
+
+<div class="TitleofGroupBox" >
+	<script language="javascript" type="text/javascript">
+				dw(wv_subtype2);
+			</script>	
+</div>
+
+    <table class=TableTitleBg  cellpadding="0px" cellspacing="0" border="0">
+       <tr>
+       	 <td  class=TableRowBottomRight  width="240" class=ContentCrlHeight align="left"  >
+            	<script language="javascript" type="text/javascript">
+					dw(wv_ssid);
+				</script>
+            </td>
+            <td  class=TableRowBottomCenter  width="100" class=ContentCrlHeight align="left" >
+            		<script language="javascript" type="text/javascript">
+						dw(wv_vid);
+				</script>
+            </td>
+             <td  class=TableRowBottomCenter  width="100" class=ContentCrlHeight align="left"  >
+            		<script language="javascript" type="text/javascript">
+						dw(wv_pri);
+				</script>
+            </td>
+             <td  class=TableRowBottomleft  width="100" class=ContentCrlHeight align="left" >
+            		<script language="javascript" type="text/javascript">
+						dw(wv_wmm);
+				</script>
+            </td>
+    </tr>
+    
+    
+</table>
+<table    class=TableContentBorder  cellpadding="0px" cellspacing="0" border="0"> 
+    
+    <tr class=ContentCrlHeight>
+			<td  class=TableEvenRow  align="left" width="242">@ssid1#</td>
+         	<td  class=TableEvenRow  align="left"  width="102" >
+            	<input name="wl_vid_ssid0" value="@wl_vid_ssid0#" size="2" maxlength="4" disabled>
+            </td>
+             <td class=TableEvenRow  align="left"   width="102"> 
+       			<select name="wl_vlan_priority0" class="SelectStd"  disabled>
+         			<option value="0">0</option>
+         			<option value="1">1</option>
+         			<option value="2">2</option>
+					 <option value="3">3</option>
+		 			<option value="4">4</option>
+					 <option value="5">5</option>
+					 <option value="6">6</option>
+					 <option value="7">7</option>
+     			</select>
+    			</td>
+    		 <td class=TableEvenRow  align="left"   width="100"> 
+      				 <input name="wl_wmm_0" size="3" maxlength="4" onClick="showWMMwarning(0)" type="checkbox" disabled>
+     			</td>
+        </tr>
+       
+
+      
+
+        <tr class=ContentCrlHeight>
+			<td  class=TableOddRow  align="left" >@ssid2#</td>
+            <td  class=TableOddRow  align="left"  >
+                <input name="wl_vid_ssid1" id="wl_vid_ssid1" value="@wl_vid_ssid1#" size="2" maxlength="4" disabled>
+            </td>
+             <td class=TableOddRow  align="left"  > 
+       			<select name="wl_vlan_priority1" id="wl_vlan_priority1" class="SelectStd" disabled>
+         			<option value="0">0</option>
+         			<option value="1">1</option>
+         			<option value="2">2</option>
+					 <option value="3">3</option>
+		 			<option value="4">4</option>
+					 <option value="5">5</option>
+					 <option value="6">6</option>
+					 <option value="7">7</option>
+     			</select>
+    			</td>
+    		 <td class=TableOddRow  align="left"  > 
+      				 <input name="wl_wmm_1" size="3" maxlength="4" onClick="showWMMwarning(1)" type="checkbox" disabled>
+     			</td>
+        </tr>
+
+        <tr class=ContentCrlHeight>
+			<td  class=TableEvenRow  align="left" >@ssid3#</td>
+            <td  class=TableEvenRow  align="left"  >
+                 <input name="wl_vid_ssid2" id="wl_vid_ssid2" value="@wl_vid_ssid2#" size="2" maxlength="4" disabled>
+            </td>
+             <td class=TableEvenRow  align="left"  > 
+       			<select name="wl_vlan_priority2" id="wl_vlan_priority2" class="SelectStd" disabled>
+         			<option value="0">0</option>
+         			<option value="1">1</option>
+         			<option value="2">2</option>
+					 <option value="3">3</option>
+		 			<option value="4">4</option>
+					 <option value="5">5</option>
+					 <option value="6">6</option>
+					 <option value="7">7</option>
+     			</select>
+    			</td>
+    		 <td class=TableEvenRow  align="left"  > 
+      				 <input name="wl_wmm_2" id="wl_wmm_2" size="3" maxlength="4" onClick="showWMMwarning(2)" type="checkbox" disabled>
+     			</td>
+            
+        </tr>
+
+        <tr class=ContentCrlHeight>
+			<td  class=TableOddRow  align="left" >@ssid4#</td>
+            <td  class=TableOddRow  align="left"  >
+                  <input name="wl_vid_ssid3" id="wl_vid_ssid3" value="@wl_vid_ssid3#" size="2" maxlength="4" disabled>
+            </td>
+             <td class=TableOddRow  align="left"  > 
+       			<select name="wl_vlan_priority3" id="wl_vlan_priority3" class="SelectStd" disabled>
+         			<option value="0">0</option>
+         			<option value="1">1</option>
+         			<option value="2">2</option>
+					 <option value="3">3</option>
+		 			<option value="4">4</option>
+					 <option value="5">5</option>
+					 <option value="6">6</option>
+					 <option value="7">7</option>
+     			</select>
+    			</td>
+    		 <td class=TableOddRow  align="left"  > 
+      				 <input name="wl_wmm_3" id="wl_wmm_3" size="3" maxlength="4" onClick="showWMMwarning(3)" type="checkbox" disabled>
+     		</td>
+        </tr>
+   
+   
+   
+    </table>
+
+   
+   
+  
+<br style="15px">
+
+<!--FormPane End-->
+ </div>
+
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("VLAN.htm");
+  </script>
+  </div>
+
+<input type="hidden" name="h_Vlanenable" value="@h_Vlanenable#">
+<input type="hidden" name="h_wl_vlan_tag" value="@h_wl_vlan_tag#">
+<input type="hidden" name="h_wl_wds_tag" value="@h_wl_wds_tag#">
+<input type="hidden" name="h_wl_vlan_priority0" value="@h_wl_vlan_priority0#">
+<input type="hidden" name="h_wl_vlan_priority1" value="@h_wl_vlan_priority1#">
+<input type="hidden" name="h_wl_vlan_priority2" value="@h_wl_vlan_priority2#">
+<input type="hidden" name="h_wl_vlan_priority3" value="@h_wl_vlan_priority3#">
+<input type="hidden" name="h_wl_wmm_0" value="@h_wl_wmm_0#">
+<input type="hidden" name="h_wl_wmm_1" value="@h_wl_wmm_1#">
+<input type="hidden" name="h_wl_wmm_2" value="@h_wl_wmm_2#">
+<input type="hidden" name="h_wl_wmm_3" value="@h_wl_wmm_3#">
+<!--<input type="hidden" name="new_wds_vlist" value="@new_wds_vlist#">-->
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="VLAN.htm">
+<input type="hidden" name="next_file" value="VLAN.htm">
+<input type="hidden" name="message" value="@msg_text#">
+<input type="hidden" name="r_sdn" value="@r_ssidnum#">
+
+
+
+</form>
+<!--ContentArea end-->
+</div>
+  <div id='CON'></div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>    
+</body>
+</html>
+
+

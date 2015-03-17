@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">	
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT"> 
+<title>Home</title>
+<script language="javascript" type="text/javascript" src="ajax.js"></script>
+
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+function loadnext() {
+ScreenClean();
+var showit=(document.layers)?"show":"block";
+var hideit=(document.layers)?"hide":"none";
+
+if (document.all)
+{
+	document.all("maintext").style.display = hideit ;
+	document.all("NStext").style.display = hideit ;
+}
+else if (document.getElementById)
+{
+	document.getElementById("maintext").style.display = hideit ;
+	document.getElementById("NStext").style.display = hideit ;
+}	
+else if (document.layers)
+	document.layers["maintext"].visibility = hideit ;
+
+if (!document.layers){
+	top.location.href="login.htm&no=0"; 
+}
+}
+
+// remove this file jick
+
+</script>
+</head>
+<body bgcolor="#ffffff" text="#666666" onload="loadnext()"> 
+<div ID="maintext" STYLE="position:absolute;left:50px;top:40px;font-family:Arial,Helvetica">
+<h4>Checking JavaScript Support</h4>
+<p>To provide an enhanced user interface, this WAP uses JavaScript extensively.
+<P>If this page is not quickly replaced, your Browser does NOT support JavaScript.
+<P>Please enable JavaScript in your Browser, or use a different Browser.</p>
+</div>
+
+<div ID="NStext" STYLE="position:absolute;left:50px;top:220px;font-family:Arial,Helvetica;">
+Netscape 4.x Browsers are NOT supported.
+<p>Please use a later browser, such as IE 5.5 or later, or the current version of Mozilla or Netscape.</p>
+</div>
+
+</body>
+</html>
+
+

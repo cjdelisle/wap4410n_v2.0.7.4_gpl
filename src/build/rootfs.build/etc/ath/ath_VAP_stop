@@ -1,0 +1,349 @@
+#!/bin/sh
+####################################################################
+## ath_VAP_stop
+##
+## This script is used to stop a VAP, or if you want complete
+## destruction, specify all.
+##
+##
+## Where VAP is the name of the VAP (e.g. ath00).  Specifying "ALL"
+## for the VAP will cause all VAPs of radiu to be stoped
+##
+## Examples:
+##      ath_VAP_stop ath01 [destory]
+##      ath_VAP_stop all 0
+##
+###################################################################
+
+apdownmulti() {
+#
+#check if we have multiple vaps configured with VLAN support, in such a case we
+#need to remove the bridges also that are created as part of configuration
+#For this we depend on the information in ifconfig. If vlans are configured
+#we will have them listed in ifconfig.
+#
+	if [ "${1}" = "ALL" -o "${1}" = "all" ]; then
+
+        #
+        # List all VAPs
+        #
+
+        VAPLIST=`iwconfig | grep ath$2 | cut -b 1-5`
+
+        if [ "${VAPLIST}" != "" ]; then
+        
+            #
+            # Do the same for all instances of hostapd, wpa_supplicant, and wsc
+            #
+
+            HOSTAPDLIST=`ps | grep hostap.cfg.ath$2 | cut -b 1-5`
+            if [ "${HOSTAPDLIST}" != "" ]; then
+                for i in $HOSTAPDLIST ; do
+                    echo "killing $i"
+                    kill -9 $i
+                done
+            fi
+
+            SUPPLIST=`ps | grep wpa_client | grep "ath$2" | cut -b 1-5`
+            if [ "${SUPPLIST}" != "" ]; then
+                for i in $SUPPLIST ; do
+                     echo "killing $i"
+                     kill -9 $i
+                 done
+            fi
+
+            WSCLIST=`ps | grep wsc | grep "ath$2" | cut -b 1-5`
+            if [ "${WSCLIST}" != "" ]; then
+                for i in $WSCLIST ; do
+                    echo "killing $i"
+                    kill -9 $i
+                done
+            fi
+        
+            for ifname in $VAPLIST
+            do
+                #
+                # Remove file wlan_delif
+                #
+                chmod 777 /tmp/wlan_delif.$ifname
+                rm /tmp/wlan_delif.$ifname
+                
+                #
+        	    #Remove from any bridge
+        	    #
+        		athiftag=`brctl show | grep -v 'bridge name' | grep $ifname | cut -f8`
+        
+                for i in $athiftag
+        	    do
+                
+            		tag=`echo $i | cut -f2 -d\.`
+            	    
+            	    #bring down the interfaces second
+            	    ifconfig $i down
+            	    
+            	    #remove interfaces third
+            		brctl delif br$tag $i
+            	    
+            	    #delete the vlan name
+            		vconfig rem $i
+                    
+                    sleep 1                
+                done
+        		
+        		echo "killing $ifname"
+                wlanconfig $ifname destroy
+            done
+        fi
+	else
+	    #
+        # Remove file wlan_delif
+        #
+                
+        chmod 777 /tmp/wlan_delif.$1
+        rm /tmp/wlan_delif.$1
+        
+	    #
+	    #before removing any bridges, bring down all the interfaces and kill
+    	#hostapd first
+    	
+    	pidlist=`ps | grep hostap.cfg.$1 | cut -b1-5`
+    	for j in $pidlist
+    	do
+    	    kill -9 $j
+    	done
+        
+        #
+   	    #kill wsc and wpa_suplicant
+        #
+	    SUPPLIST=`ps | grep wpa_client | grep "$1" | cut -b 1-5`
+        if [ "${SUPPLIST}" != "" ]; then
+            for i in $SUPPLIST ; do
+                 echo "killing $i"
+                 kill -9 $i
+             done
+        fi
+
+        WSCLIST=`ps | grep wsc | grep "$1" | cut -b 1-5`
+        if [ "${WSCLIST}" != "" ]; then
+            for i in $WSCLIST ; do
+                echo "killing $i"
+                kill -9 $i
+            done
+        fi
+        
+        #
+        # After removed all 
+        #
+		athiftag=`brctl show | grep -v 'bridge name' | cut -f8 | grep $1 `
+        
+        for i in $athiftag
+	    do
+    		tag=`echo $i | cut -f2 -d\.`
+    	    
+	        sleep 2
+	        #bring down the interfaces second
+	        ifconfig $i down
+	        
+	        #remove interfaces third
+	   	    brctl delif br$tag $i
+	   	
+#   	    brctl show | grep -v 'bridge name' | cut -f8 | grep $tag 
+#   	    MEMBER=$?
+#   	    if [ "$MEMBER" != "0" ]; then
+#   
+#   		    ifconfig eth1.$tag down
+#   		    ifconfig br$tag down
+#   		    		    
+#   		    brctl delif br$tag eth1.$tag
+#   		    
+#   		    #delete the briges last
+#   		    brctl delbr br$tag
+#   	    fi
+	       
+	       #delete the vlan name
+	   	    vconfig rem $i
+#   		vconfig rem eth1.$tag
+            sleep 1
+        done
+        
+        if [ "${2}" = "destroy" ]; then
+            echo "killing $1"
+    	    wlanconfig $1 destroy
+    	    sleep 1
+    	fi
+	fi
+
+}
+
+if [ "${1}" = "" ]; then
+    echo "    ath_VAP_stop usage"
+    echo "    ath_VAP_stop [ath destory | ALL unit]"
+    exit
+fi
+
+##
+## SPE-profing
+## Check to see if ath_VAP_stop is already running.  If so, exit, because you should only
+## be doing one at a time
+##
+
+SPEPROOF=`ps | grep -c ath_VAP_stop`
+if [ $SPEPROOF -gt 3 ]; then
+   ps
+   echo "Too much stoping!!  Give peace a chance!!"
+   exit
+fi
+
+##
+## If the modules are already unloaded, we don't need to do anything
+##
+
+MODLIST=`lsmod | grep ath_hal`
+
+if [ "${MODLIST}" = "" ]; then
+   echo "Modules already unloaded"
+   exit
+fi
+
+##
+## For VLANs bringing down the vaps is different. We should check
+## vlans before. 
+##
+
+ifconfig -a | grep ath | grep '\.'
+ISVALN=$?
+if [ "$ISVALN" = "0" ]; then
+    apdownmulti $1 $2
+else
+
+    ##
+    ## Get the name of the bridge. WE ARE ASSUMING ONLY ONE FOR NOW
+    ##
+
+    BRNAME=`brctl show | grep -v bridge | cut -b 1-5`
+
+    ##
+    ## Check for a kill all
+    ##
+
+    if [ "${1}" = "ALL" -o "${1}" = "all" ]; then
+
+        #
+        # List all VAPs
+        #
+
+        VAPLIST=`iwconfig | grep ath$2 | cut -b 1-5`
+
+        if [ "${VAPLIST}" != "" ]; then
+        
+            for i in $VAPLIST
+            do
+                #
+                # Remove file wlan_delif
+                #
+                chmod 777 /tmp/wlan_delif.$i
+                rm /tmp/wlan_delif.$i
+                #
+                # Remove from Bridge
+                #
+                brctl delif $BRNAME $i
+                sleep 1
+                #
+                # Bring the interface down
+                #
+                ifconfig $i down
+                echo "killing $i"
+                wlanconfig $i destroy
+            done            
+            
+        	#
+            # Do the same for all instances of hostapd, wpa_supplicant, and wsc
+            #
+
+            HOSTAPDLIST=`ps | grep hostap.cfg.ath$2 | cut -b 1-5`
+            if [ "${HOSTAPDLIST}" != "" ]; then
+                for i in $HOSTAPDLIST ; do
+                    echo "killing $i"
+                    kill -9 $i
+                done
+            fi
+
+            SUPPLIST=`ps | grep wpa_client | cut -b 1-5`
+            if [ "${SUPPLIST}" != "" ]; then
+                for i in $SUPPLIST ; do
+                     echo "killing $i"
+                     kill -9 $i
+                 done
+            fi
+
+            WSCLIST=`ps | grep wsc | cut -b 1-5`
+            if [ "${WSCLIST}" != "" ]; then
+                for i in $WSCLIST ; do
+                    echo "killing $i"
+                    kill -9 $i
+                done
+            fi
+        fi
+
+	else
+	    #
+	    # Check if vap is existing
+	    #
+	    
+	    VAPLIST=`iwconfig | grep $1 | cut -b 1-5`
+	    if [ "${VAPLIST}" = "" ]; then
+            exit
+        fi
+        
+        # Remove file wlan_delif
+        chmod 777 /tmp/wlan_delif.$1
+        rm /tmp/wlan_delif.$1
+	    # Remove from Bridge
+
+        brctl delif $BRNAME $1
+        #
+        # Bring the interface down
+        #
+
+        ifconfig $1 down
+        echo "stoping $1"
+        
+        if [ "${2}" = "destroy" ]; then
+            echo "killing $1"
+	        wlanconfig $1 destroy
+        fi
+		#
+        # If this is ath00/ath10, check for wsc, and kill it if it exists
+        #
+
+        if [ "${1}" = "ath[01]0" ]; then
+            WSCLIST=`ps | grep wsc | cut -b 1-5`
+            if [ "${WSCLIST}" != "" ]; then
+                for i in $WSCLIST ; do
+                    echo "killing $i"
+                    kill -9 $i
+                done
+            fi
+        fi
+
+        #
+        # Check for hostapd or supplicant with a filename with the AP name in it
+        #
+
+        HOSTAPDLIST=`ps | grep hostap.cfg.$1 | cut -b 1-5`
+        if [ "${HOSTAPDLIST}" != "" ]; then
+            for i in $HOSTAPDLIST ; do
+                echo "killing $i"
+                kill -9 $i
+            done
+        fi
+
+        SUPPLIST=`ps | grep wpa_client | cut -b 1-5`
+        if [ "${SUPPLIST}" != "" ]; then
+            for i in $SUPPLIST ; do
+                 echo "killing $i"
+                 kill -9 $i
+             done
+        fi 
+	fi
+fi 

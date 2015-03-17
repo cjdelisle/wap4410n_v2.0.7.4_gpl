@@ -1,0 +1,406 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="description" content="Cisco WAP4410N">
+        <META http-equiv="Pragma" CONTENT="no-cache">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+        <script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+        <script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+        <script language="javascript" type="text/javascript" src="func.js"></script>
+        <script language="javascript" type="text/javascript" src="linux.js"></script>
+        <script language="javascript" type="text/javascript">
+            parent.document.title=titl_setAdv;
+            strHtml='<title>'+titl_setAdv+'</title>';
+            dw(strHtml);
+            strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+            dw(strHtml);
+            <!--
+            // var connMethods = ["bridgedonly","1483bridged","routed","ipoa","pppoe","pppoa"];
+            // only used if options have no values
+function init()
+{
+    var cf = document.forms[0];
+	
+	parent.parent_menu_clk("1-3");
+    dataToVisible(document.forms[0]);
+    greySpeedList(true);
+    greySpeedList();
+    press_url();
+    switchSupp();
+    cf.save.disabled=false;
+    cf.cancel.disabled=false;
+}
+function press_url(){
+    var cf = document.forms[0];
+
+    if(cf.httpRedirect[0].checked)
+    {
+        cf.redirect_url.disabled = false;
+    }
+    else
+    {
+        cf.redirect_url.disabled = true;
+    }
+}
+
+function switchMd5Mac()
+{
+    var cf = document.forms[0];
+    var flag_t_f;
+    if((false == cf.md5_mac[1].disabled)
+            && (true == cf.md5_mac[1].checked))
+    {
+        flag_t_f = false;
+    }
+    else
+    {
+        flag_t_f = true;
+    } 
+    cf.dot1x_name.disabled = flag_t_f;
+    cf.dot1x_pwd.disabled = flag_t_f;
+    cf.dot1x_name.disabled = flag_t_f;
+}
+
+function switchSupp()
+{
+    var cf = document.forms[0];
+    disable = !(cf.dot1x_supp[0].checked);
+    cf.md5_mac[0].disabled = disable;
+    cf.md5_mac[1].disabled = disable; 
+    switchMd5Mac(); 
+}
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg = "";  
+
+    if( cf.dot1x_supp[0].checked == true && cf.md5_mac[1].checked == true)
+    {
+        if((cf.dot1x_name.value.length < 1) || (cf.dot1x_name.value.length > 63))
+            msg += msg_8021x_bad_length;
+        if((cf.dot1x_pwd.value.length < 4) || (cf.dot1x_pwd.value.length > 63))
+            msg += msg_8021x_bad_length_pwd;
+    }
+    //add checking redirect_url
+    if(cf.httpRedirect[0].checked)
+    {
+        if(cf.redirect_url.value.substring(0, 5).toLowerCase()=="https")
+            msg += msg_redirect_invalid_https;
+        msg += chkIP_MSname_dns(cf.redirect_url, msg_redirect_invalid);
+
+    }
+    if(msg.length > 1)
+    {
+        ALERT(parent, "CON", titl_warn, "SetupAdvanced.htm", "Warn", msg, "", ABBtnOK, "");
+
+        return false;
+    }
+
+    dataToHidden(cf);
+    cf.save.disabled=true;
+    cf.cancel.disabled=true;
+    cf.submit();
+}
+function greyduplexList()
+{
+    var cf = document.forms[0];
+    var msg = "";
+    if(cf.port_speed[2].checked)
+    {
+			cf.duplex_mode[0].disabled=true;
+			cf.duplex_mode[1].disabled=true;
+			cf.duplex_mode[1].checked=true;    	
+    	}	
+		else
+		{
+			cf.duplex_mode[0].disabled=false;
+			cf.duplex_mode[1].disabled=false;			
+			}	
+	}
+function greySpeedList(all)
+{
+    var cf = document.forms[0];
+    var msg = "";  
+
+	if(all){
+		if(cf.force100m[0].checked){
+			cf.auto_nego[0].disabled=true;
+			cf.auto_nego[1].disabled=true;
+			cf.auto_nego[1].checked=true;
+			cf.duplex_mode[0].disabled=true;
+			cf.duplex_mode[1].disabled=true;
+			cf.duplex_mode[1].checked=true;
+			cf.port_speed[0].disabled=true;
+			cf.port_speed[1].disabled=true;		
+			cf.port_speed[1].checked=true;		
+			cf.port_speed[2].disabled=true;		
+		}
+		else{
+			cf.auto_nego[0].disabled=false;
+			cf.auto_nego[1].disabled=false;		
+			cf.duplex_mode[0].disabled=false;
+			cf.duplex_mode[1].disabled=false;
+			cf.port_speed[0].disabled=false;
+			cf.port_speed[1].disabled=false;		
+			cf.port_speed[2].disabled=false;		
+		}
+	}
+	else{
+		if(cf.auto_nego[0].checked){
+			cf.duplex_mode[0].disabled=true;
+			cf.duplex_mode[1].disabled=true;
+			cf.port_speed[0].disabled=true;
+			cf.port_speed[1].disabled=true;		
+			cf.port_speed[2].disabled=true;		
+		}
+		else{
+			cf.duplex_mode[0].disabled=false;
+			cf.duplex_mode[1].disabled=false;
+			cf.port_speed[0].disabled=false;
+			cf.port_speed[1].disabled=false;		
+			cf.port_speed[2].disabled=false;		
+		}
+	}
+}
+
+function showHelp()
+{
+    openHelpWin('help/h_Badvance.htm');
+}
+
+// 
+//-->
+</script>
+<style type="text/css">
+    <!--
+    .style1 {color: #FFFFFF}
+    -->
+</style>
+</head>
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+    <!--ContentArea begin-->
+    <div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+        <div width="100%" class="TitleofContent">
+            <script language="javascript" type="text/javascript">dw(sa_type);</script>
+        </div>
+        <br>
+        <form name="Time" method="POST" action="setup.cgi?next_file=SetupAdvanced.htm">
+            <!--FormPane begin-->
+            <div id="formpane" class="RFormPane">
+  			
+      <table border="0" cellpadding="0" cellspacing="0">
+        <!-- LAN Port Speed Settings -->
+        <tr> 
+          <td> <table  border="0px" cellpadding="0" cellspacing="0" width="450">
+              <tr class="ContentCrlHeight"> 
+                <td class="TitleofGroupBox"   colspan="4"> <script language="javascript" type="text/javascript">dw(sa_lanspeed);</script> 
+                </td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td> <script language="javascript" type="text/javascript">dw(sa_force100m);</script> 
+                </td>
+                <td width="80" class=ContentCrlHeight> <input name="force100m" value="Enable" onClick="greySpeedList(true)" type="radio" class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(enable);</script> 
+                </td>
+                <td colspan="2"> <input type=radio value="disable"  onClick="greySpeedList(true)" name="force100m"  class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(disable);</script> 
+                </td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td><script language="javascript" type="text/javascript">dw(sa_auto_nego);</script></td>
+                <td class=ContentCrlHeight><input name="auto_nego" value="1" onClick="greySpeedList()" type="radio" class="RadioLeftIE" >
+                  <script language="javascript" type="text/javascript">dw(enable);</script></td>
+                <td colspan="2"><input type=radio value="0"  onClick="greySpeedList()" name="auto_nego"  class="RadioLeftIE" >
+                  <script language="javascript" type="text/javascript">dw(disable);</script></td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td><script language="javascript" type="text/javascript">dw(sa_admin_port_speed);</script></td>
+                <td class=ContentCrlHeight><input name="port_speed" value="0" type="radio" onClick="greyduplexList()" class="RadioLeftIE" >
+                  10M</td>
+                <td width="80"> <input type=radio value="1" name="port_speed"  onClick="greyduplexList()" class="RadioLeftIE" >
+                  100M</td>
+                <td> <input type=radio value="2" name="port_speed"  onClick="greyduplexList()" class="RadioLeftIE" >
+                  1000M&nbsp;</td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td   width="180"><script language="javascript" type="text/javascript">dw(sa_admin_duplex);</script></td>
+                <td class=ContentCrlHeight><input name="duplex_mode" value="0" type="radio" class="RadioLeftIE" >
+                  <script language="javascript" type="text/javascript">dw(sa_duplex_half);</script></td>
+                <td colspan="2"><input type=radio value="1" name="duplex_mode"  class="RadioLeftIE" >
+                  <script language="javascript" type="text/javascript">dw(sa_duplex_full);</script></td>
+              </tr>
+            </table>
+          </td>
+          <td align="right">
+		  <table  border="0px" cellpadding="0" cellspacing="0">
+              <tr class="ContentCrlHeight"> 
+                <td class="TitleofGroupBox"   colspan="3">&nbsp; </td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td>&nbsp;</td>
+                <td width="80" class=ContentCrlHeight>&nbsp; </td>
+                <td>&nbsp; </td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td><script language="javascript" type="text/javascript">dw(sa_op_auto_nego);</script>&nbsp;</td>
+                <td class=ContentCrlHeight>@op_auto_nego#</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td><script language="javascript" type="text/javascript">dw(sa_op_port_speed);</script></td>
+                <td class=ContentCrlHeight>@op_port_speed#</td>
+                <td>&nbsp; </td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td   width="180"><script language="javascript" type="text/javascript">dw(sa_op_duplex);</script></td>
+                <td class=ContentCrlHeight>@op_duplex#</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+			
+			</td>
+        </tr>
+        <!--Bonjour -->
+        <tr> 
+          <td colspan="2"> <hr class="stdHRGrp"> </td>
+        </tr>
+        <tr> 
+          <td colspan="2"  > <table  border="0px" cellpadding="0" cellspacing="0">
+              <tr class="ContentCrlHeight"> 
+                <td class="TitleofGroupBox"   colspan="3"> <script language="javascript" type="text/javascript">dw(sa_discovery);</script> 
+                </td>
+              </tr>
+              <tr class="ContentCrlHeight"> 
+                <td   width="180"> <script language="javascript" type="text/javascript">dw(sa_bonjour);</script> 
+                </td>
+                <td class=ContentCrlHeight width="80"> <input name="bonjour" value="Enable" onClick="" type="radio" class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(enable);</script> 
+                </td>
+                <td> <input type=radio value="disable"  onClick="" name="bonjour"  class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(disable);</script> 
+                </td>
+              </tr>
+            </table></td>
+        </tr>
+        <!--HTTP Redirect  -->
+        <tr> 
+          <td colspan="2"> <hr class="stdHRGrp"> </td>
+        </tr>
+        <tr> 
+          <td colspan="2" > <table border="0px" cellpadding="0" cellspacing="0">
+              <tr class="ContentCrlHeight"> 
+                <td class="TitleofGroupBox"  colspan="3"> <script language="javascript" type="text/javascript">dw(sa_stypehs);</script> 
+                </td>
+              </tr>
+              <tr> 
+                <td   width="180"> <script language="javascript" type="text/javascript">dw(sa_stypehs);</script>
+                  : </td>
+                <td nowrap="nowrap" class=ContentCrlHeight width="80"> <input name="httpRedirect" value="Enable" onClick="press_url()" type="radio"  class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(enable);</script> 
+                </td>
+                <td> <input name="httpRedirect" value="disable" onClick="press_url()" type="radio"  class="RadioLeftIE"> 
+                  <script language="javascript" type="text/javascript">dw(disable);</script> 
+                </td>
+              </tr>
+            </table>
+            <table border="0px" cellpadding="0" cellspacing="0">
+              <tr> 
+                <td   class=ContentCrlHeight width="180" > <script language="javascript" type="text/javascript">dw(sa_url);</script> 
+                </td>
+                <td colspan="2"> <input name="redirect_url" size="24" maxlength="128" value="@redirect_url#" type="text"  > 
+                </td>
+              </tr>
+            </table></td>
+        </tr>
+        <!--802.1X Supplicant  -->
+        <tr> 
+          <td colspan="2"> <hr class="stdHRGrp"> </td>
+        </tr>
+        <tr> 
+          <td colspan="2"> <TABLE border=0 cellspacing=0 cellpadding=0 id="table3" >
+              <tr> 
+                <td class="TitleofGroupBox"  colspan="3"> <script language="javascript" type="text/javascript">dw(sa_stype1x);</script> 
+                </td>
+              </tr>
+              <tr  class=ContentCrlHeight> 
+                <td   width="180"> <script language="javascript" type="text/javascript">dw(sa_stype1x);</script>
+                  : </td>
+                <td nowrap  width="80"> <input type="radio" name="dot1x_supp" value="Enable" onClick="switchSupp()"  class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(enable);</script> 
+                </td>
+                <td> <input type="radio" name="dot1x_supp" value="disable" onClick="switchSupp()"  class="RadioLeftIE"> 
+                  <script language="javascript" type="text/javascript">dw(disable);</script> 
+                </td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr> 
+          <td colspan="2"> <hr class="stdHRGrp"> </td>
+        </tr>
+        <tr> 
+          <td colspan="2"> <TABLE border=0 cellspacing=0 cellpadding=0 id="table4" >
+              <TR> 
+                <td  width="180">&nbsp;</td>
+                <td  colspan="2"> <INPUT type="radio" name="md5_mac" value="Enable" onClick="switchMd5Mac()" class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(sa_authMac);</script> 
+                </td>
+              </tr>
+              <tr  > 
+                <td  width="180">&nbsp;</td>
+                <td colspan="2"> <INPUT type="radio" name="md5_mac" value="disable" onClick="switchMd5Mac()" class="RadioLeftIE" > 
+                  <script language="javascript" type="text/javascript">dw(sa_authuser);</script> 
+                </td>
+              </tr>
+              <tr>
+                <td colspan=3><br style="3px"></td>
+              </tr>
+              <tr  class=ContentCrlHeight> 
+                <td  class=ContentCrlHeight width="180" >&nbsp;</td>
+                <td class=ContentCrlHeight  width="80" > <script language="javascript" type="text/javascript">dw(sa_name);</script> 
+                </td>
+                <td> <input type="text" class="num" name="dot1x_name" size="15" maxlength="63" value="@dot1x_name#"> 
+                </td>
+              <tr> 
+                <td  class=ContentCrlHeight width="180" >&nbsp;</td>
+                <td   class=ContentCrlHeight > <script language="javascript" type="text/javascript">dw(sa_pass);</script> 
+                </td>
+                <td> <input type="text" class="num" name="dot1x_pwd" size="15" maxlength="63" value="@dot1x_pwd#"> 
+                </td>
+              </tr>
+            </table></td>
+        </tr>
+      </table>	
+                </div>   <!-- end of FormPane -->
+
+                <div class="ButtonRow">
+                    <script language="javascript" type="text/javascript">showSave();</script>
+                    <script language="javascript" type="text/javascript">showCancel("SetupAdvanced.htm");</script>
+                </div>
+
+                <input type="hidden" name="h_httpRedirect" value="@h_httpRedirect#">
+                <input type="hidden" name="h_dot1x_supp" value="@h_dot1x_supp#">
+                <input type="hidden" name="h_md5_mac" value="@h_md5_mac#">
+                <input type="hidden" name="h_bonjour" value="@h_bonjour#">
+                <input type="hidden" name="h_force100m" value="@h_force100m#">
+				<input type="hidden" name="h_auto_nego" value="@h_auto_nego#">
+				<input type="hidden" name="h_port_speed" value="@h_port_speed#">
+				<input type="hidden" name="h_duplex_mode" value="@h_duplex_mode#">
+				
+                <input type="hidden" name="todo" value="save">
+                <input type="hidden" name="this_file" value="SetupAdvanced.htm">
+                <input type="hidden" name="next_file" value="SetupAdvanced.htm">
+                <input type="hidden" name="message" value="@msg_text#"> 
+            </form>
+            <br>
+            <!-- Content Area End -->
+        </div>
+        <script>
+            if (document.addEventListener) 
+            window.addEventListener('resize', CntOnresizeHandler, false);
+            else if (document.attachEvent) 
+            window.attachEvent('onresize', CntOnresizeHandler);
+            ResizeContent(null);
+        </script> 
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link REL="stylesheet" TYPE="text/css" HREF="./help_@sys_lang#/help.css">
+
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+
+<!-- hide script from old browsers
+strHtml='<title>'+titl_sites+'</title>';
+dw(strHtml);
+
+function SelectAP(c,v,w)
+{
+    var cf = document.forms[0];
+    var of=opener.document.forms[0];
+    
+    var selectedChannel = c;
+	var selectedSsid = v;
+	var selectedMac = w;
+
+	if(of.ap_mode[1].checked)
+	{
+	    of.wds_rep_mac.value = selectedMac;
+	    of.wds_channel.value = selectedChannel;
+	}
+    else if(of.ap_mode[3].checked)
+    {
+        of.wds_ur_ssid.value = selectedSsid;
+        of.wds_ur_mac.value = selectedMac;
+        of.wds_channel.value = selectedChannel;
+    }
+    self.close();
+}
+
+function refresh()
+{
+	window.location.href='SurveyWait.htm'
+}
+function do_close()
+{
+	self.close();
+}
+
+//
+//-->
+</script>
+</HEAD>
+<BODY class="sbody" onLoad="dataToVisible(document.forms[0])">
+
+
+<FORM name="editlist" method="POST" action="setup.cgi">
+	<table border="0" cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<td>
+	<div  class="SFormPane"> 
+<div class="TitleofGroupBox">
+	<script language="javascript" type="text/javascript">
+				dw(ap_site);
+</script>
+</div>
+ 	<script language="javascript" type="text/javascript">
+				dw(ap_msg);
+			</script>
+  
+            	<br>
+			<table border="0" cellspacing="0" cellpadding="5"  >
+                        <tr >
+                          <td nowrap width="21" >&nbsp;</td>
+                          <td nowrap width="80" ><script language="javascript" type="text/javascript">
+				dw(ap_chann);
+			</script></td>
+                          <td nowrap width="180" ><script language="javascript" type="text/javascript">
+				dw(ap_ssid);
+			</script></td>
+                          <td nowrap width="150" ><script language="javascript" type="text/javascript">
+				dw(ap_subtype);
+			</script></td>
+                          <td nowrap width="150" ><script language="javascript" type="text/javascript">
+				dw(ap_secum);
+			</script></td>
+                        </tr>
+                        @r_aptable_#
+						
+             </table>
+          
+		
+		
+</div>
+</td>
+</tr>
+<tr>
+	<td align="left">
+<div  class="ButtonRow">
+			<script language="javascript" type="text/javascript">
+				showRefresh();
+			</script>
+			<script language="javascript" type="text/javascript">
+				dw('<input type="BUTTON" name="close" value="');
+				dw(ap_bclose);
+				dw('" class="stdbutton" onClick="self.close();">');
+			</script>	
+		</div>
+		</td>
+
+</tr>
+
+</table>
+</FORM>
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="SiteSurvey.htm">
+<input type="hidden" name="next_file" value="SiteSurvey.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+</BODY>
+</HTML>

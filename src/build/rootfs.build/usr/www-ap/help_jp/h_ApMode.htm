@@ -1,0 +1,102 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML><HEAD><TITLE>ヘルプ - AP モード</TITLE>
+
+<meta name="description" content="Cisco WAP4410N">
+
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+
+
+
+
+<link REL="stylesheet" TYPE="text/css" HREF="help.css">
+
+<script language="javascript" type="text/javascript">
+
+</SCRIPT></HEAD>
+
+<BODY class="hbody">
+<div align="center" class="HAllPane">
+	
+  <div align="center" class="HFormPane"> 
+    <div align="center" class="XFormPane"> 
+      <form name="dummy">
+        <TABLE cellSpacing="0" cellpadding="0" border="0" class="hTable">
+          <TR>  <td>
+            <div align="CENTER"> 
+              <!-- Start Help Content -->
+              <h1>AP モード </h1>
+              <BR>
+              <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+                <tr class="STYLE1"> 
+                  <td colspan="2"> <B>注：ワイヤレス ブリッジ モードおよびワイヤレス リピータ モードは、メイン SSID 
+                    でしか機能しません。チャネルとセキュリティ/WEP キーの設定がすべてのアクセス ポイントで同じになっていることを確認してください。</B> 
+                  </td>
+                </tr>
+                <tr> 
+                  <td colspan="2">&nbsp; </td>
+                </tr>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[MACアドレス] </strong></td>
+                  <td class="rightstyle" valign="top"> アクセス ポイント上のワイヤレス インターフェイスの 
+                    MAC アドレスです。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[アクセスポイント] </strong></td>
+                  <td class="rightstyle" valign="top"> このモードでは、ワイヤレス クライアントがアクセス 
+                    ポイントに接続し、ワイヤレス インターフェイスと有線インターフェイスとの間のトラフィックをルーティングできます。このモードは、標準のワイヤレス 
+                    インフラストラクチャ ネットワークを作成するのに使用します。このアクセス ポイントを繰り返す別のデバイスがある場合は、[リピータによるワイヤレス信号の繰り返しを許可する] 
+                    を選択し、リピータの MAC アドレスを入力する必要があります。最大で 3 つのリピータを指定できます。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[ワイヤレスWDSリピータ] </strong></td>
+                  <td class="rightstyle" valign="top"> このモードでは、アクセス ポイントがワイヤレス 
+                    リピータになります。信号を繰り返すアクセス ポイントのワイヤレス MAC アドレスを入力するか、[サイト調査] をクリックして、使用可能なアクセス 
+                    ポイントのリストを表示します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[ワイヤレスWDSブリッジ] </strong></td>
+                  <td class="rightstyle" valign="top"> このモードでは、アクセス ポイントがワイヤレス 
+                    ブリッジになります。このモードでは、ワイヤレス クライアントがアクセス ポイントに接続できません。ブリッジ先のアクセス 
+                    ポイントのワイヤレス MAC アドレスを入力します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[ワイヤレスクライアント/リピータ]</strong></td>
+                  <td class="rightstyle" valign="top"> このモードでは、アクセス ポイントがワイヤレス 
+                    クライアント（リピータ）になります。ワイヤレス クライアントがこのアクセス ポイントにアクセスできるようにするには、[ワイヤレスステーションの関連付けを許可する] 
+                    を選択します。信号を結合するアクセス ポイントのワイヤレス SSID および MAC アドレスを入力するか、[サイト調査] 
+                    をクリックして、使用可能なアクセス ポイントのリストを表示します。リモート SSID の入力は必須ですが、MAC アドレスの入力はオプションです。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[ワイヤレスモニタ] </strong></td>
+                  <td class="rightstyle" valign="top"> <p> このモードでは、アクセス ポイントがワイヤレス 
+                      モニタになります。このモードでは、ワイヤレス クライアントがアクセス ポイントに接続しません。SNMP を使用している場合にこのオプションを選択すると、不正 
+                      AP が検出されるたびに SNMP トラップが生成されます。SNMP を使用していない場合は、このオプションを有効にしないでください。</p>
+                    <p>[セキュリティなし] を選択すると、セキュリティを無効にして操作される AP がすべて、不正 AP と見なされます。</p>
+                    <p>[正当なAPリストに含まれない] を選択すると、「正当な AP リスト」に表示されていない AP がすべて、不正 
+                      AP と見なされます。このオプションを選択した場合は、正当な AP リストを保守する必要があります。</p>
+                    <p>[正当なAPの定義] というボタンをクリックすると開かれるサブ画面で、「正当な AP リスト」を変更することができます。このリストは既知のすべての 
+                      AP が含まれた、最新の状態にしておく必要があります。</p>
+                    <p> </p></TD>
+                </TR>
+              </TABLE>
+              <!-- End Help Content -->
+            </div> </td>
+          </TR>
+        </TABLE>
+      </FORM>
+    </div>
+  </div>
+
+<div id="HCopyright" class="HCopyright"  >
+      © 2010 Cisco Systems, Inc. All rights reserved.</div>
+
+</div></BODY></HTML>

@@ -1,0 +1,73 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" src="site.js"></script>
+<Script Language="JavaScript" src="nsutil.js"></script>
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<link REL="stylesheet" TYPE="text/css" HREF="./help_@sys_lang#/help.css">
+
+<script language="javascript" type="text/javascript">
+
+strHtml='<title>'+ap_site+'</title>';
+dw(strHtml);
+
+
+function redirect()
+{
+	window.location.href = "SiteSurvey.htm" ;
+}
+
+function initialValue()
+{
+	if(	!opener.document.forms[0].ap_mode[1].checked &&
+		!opener.document.forms[0].ap_mode[3].checked )
+	{
+		 ALERT(parent, "CON", titl_warn, "SurveyWait.htm", "Warn",  msg_loss_mainpage , "", ABBtnOK,"");
+
+		self.close();
+	}
+	setTimeout( "redirect()", 10000 );
+	
+
+}
+
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body class="sbody" onLoad="initialValue()">
+<!--ContentArea begin-->
+<div align="center" class="SFormPane">
+
+
+<p align="center" height="25">
+	
+    @r_wait_Msg#
+    <script language="javascript" type="text/javascript">dw(ap_surveywait);</script>
+
+</p>
+<tr align="center" >
+	<img src="./ProgressBar_indeterminate.gif"  height="17px" border="0">
+<br>
+</tr>	
+<br>
+<!--
+<center>
+<img src="wait.gif" >
+</center>
+
+-->
+
+</div>
+</body>
+
+</html>

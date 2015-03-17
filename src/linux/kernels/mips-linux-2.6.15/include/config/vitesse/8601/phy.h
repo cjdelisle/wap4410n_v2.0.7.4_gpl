@@ -1,0 +1,1 @@
+#undef CONFIG_VITESSE_8601_PHY

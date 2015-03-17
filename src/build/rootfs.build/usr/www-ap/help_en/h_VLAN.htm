@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML><HEAD><TITLE>Help - VLAN and QoS </TITLE>
+
+<meta name="description" content="Cisco WAP4410N">
+
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+
+
+
+
+<link REL="stylesheet" TYPE="text/css" HREF="help.css">
+
+<script language="javascript" type="text/javascript">
+
+</SCRIPT></HEAD>
+
+<BODY class="hbody">
+<div align="center" class="HAllPane">
+	
+<div align="center" class="HFormPane">
+<div align="center" class="XFormPane"><form name="dummy">
+<TABLE cellSpacing="0" cellpadding="0" border="0" class="hTable">
+          <TR>  <td>
+<div align="CENTER">
+
+
+<!-- Start Help Content -->
+<h1> VLAN and QoS </h1><br>
+
+<table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td valign="top" class="leftstyle"><strong>VLAN  
+  </strong></td>
+<td class="rightstyle" valign="top">
+Enabling VLAN to enable 802.1p and 802.1q protocol. Access Point will bridge wireless and wired traffic with VLAN tagged packets. Each SSID will be placed in its own virtual network (VLAN) and traffic will not be passed from one VLAN to the other. 
+
+<br>&nbsp;
+</TD></TR>
+
+
+<tr>
+<td valign="top" class="leftstyle"><strong>Default VLAN ID     
+  </strong></td>
+<td class="rightstyle" valign="top">
+Enter the default VLAN ID number (1 - 4094), the default value is 1. The default VLAN number should match with your switch's settings. For example, SRW2024 has Trunk port mode which set default VLAN (PVID) to 1 untagged, while General port mode can set PVID to any VLAN either tagged or untagged.
+<br>&nbsp;
+</TD></TR>
+
+
+<tr>
+<td valign="top" class="leftstyle"><strong>VLAN Tag    
+  </strong></td>
+<td class="rightstyle" valign="top">
+Set the tagging option for default VLAN ID. This has to match with your switch's settings. The default is untagged.
+<br>&nbsp;
+</TD></TR>
+
+
+
+
+<tr>
+<td valign="top" class="leftstyle"><strong>AP management VLAN     
+  </strong></td>
+<td class="rightstyle" valign="top">
+When the VLAN option is enabled, the value entered (VLAN ID) in this field defines the VLAN that connects to the Access Point. The VLAN should be reachable from the wired side in order to use web-based utility. To access web-based utility from wireless side, the SSID needs to map to the same VLAN. Remember to enable wireless web access on Administration/Management Tab. The default value is 1.
+<br>&nbsp;
+</TD></TR>
+
+
+<tr>
+<td valign="top" class="leftstyle"><strong>VLAN Tag over WDS  <br>&nbsp;
+  </strong></td>
+<td class="rightstyle" valign="top">
+Set the<b> Enabled</b> option for packets over WDS. The default is<b> Disabled</b>.
+<br>&nbsp;
+</TD></TR>
+<!--
+<tr>
+<td valign="top" class="leftstyle"><strong>VLAN Table  <br>&nbsp;
+  </strong></td>
+<td class="rightstyle" valign="top">
+Add or delete VLAN ID manually here. It's up to 4.
+<br>&nbsp;
+</TD></TR>
+-->
+<tr>
+<td valign="top" class="leftstyle"><strong>VLAN ID    
+  </strong></td>
+<td class="rightstyle" valign="top">
+Select a VLAN ID (1 - 4094) for the SSID where you want to map the traffic to on the wired side. The wireless traffic will not carry VLAN information. Multiple SSIDs can map to the same VLAN on the wired side. <br>
+            <br>
+&nbsp;&nbsp;&nbsp;&nbsp;Note: To use wireless security which requires RADIUS server (802.1X) 
+authentication, the VLAN ID needs to be the same as AP management VLAN ID. We will remove this restriction in future releases.
+<br>&nbsp;
+</TD></TR>
+
+
+<tr>
+<td valign="top" class="leftstyle"><strong>Priority  
+  </strong></td>
+<td class="rightstyle" valign="top">
+Assign VLAN ID and VLAN Priority to the specific SSID, Access Point will lead Ethernet to receive / transmit VLAN tagged packets from / to another device. 
+<br>&nbsp;
+</TD></TR>
+
+
+
+<tr>
+<td valign="top" class="leftstyle"><strong>WMM  
+  </strong></td>
+<td class="rightstyle" valign="top">
+WMM (Wi-Fi Multimedia) is a component of the IEEE 802.11e wireless LAN standard for quality of service (QoS). It specifically supports priority tagging and queuing. Click the check box to <b>Enabled</b> WMM support.
+<br>&nbsp;
+</TD></TR>
+
+</TABLE>
+<!-- End Help Content -->
+            </div> </td>
+          </TR>
+        </TABLE>
+</FORM>
+
+</div>
+</div>
+
+<div id="HCopyright" class="HCopyright"  >
+      &copy; 2010 Cisco Systems, Inc. All rights reserved.
+    </div>
+
+
+</div></BODY></HTML>

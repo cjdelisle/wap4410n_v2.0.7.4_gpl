@@ -1,0 +1,1 @@
+#undef CONFIG_USB_AR9130_OTG

@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+parent.document.title=titl_log;
+strHtml='<title>'+titl_log+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!--
+function Refresh()
+{
+	//Refresh textarea
+}
+function showHelp()
+{
+	openHelpWin('help/h_Log.htm');
+}
+function SetNotificationMode()
+{
+    var cf = document.forms[0];
+
+    if(cf.syslog_notify[0].checked)
+    {
+       cf.Syslog_ipaddr_1.disabled = false;
+       cf.Syslog_ipaddr_2.disabled = false;
+       cf.Syslog_ipaddr_3.disabled = false;
+       cf.Syslog_ipaddr_4.disabled = false;
+    }
+    else
+    {
+       cf.Syslog_ipaddr_1.disabled = true;
+       cf.Syslog_ipaddr_2.disabled = true;
+       cf.Syslog_ipaddr_3.disabled = true;
+       cf.Syslog_ipaddr_4.disabled = true;
+    }
+}
+
+function ChangeMailAlert()
+{
+	var cf = document.forms[0];
+	
+	if(cf.mail_type[0].checked)
+	{
+		cf.email_server.disabled = false;
+		cf.email_addr.disabled = false;
+		cf.log_length.disabled = false;
+		cf.log_threshold.disabled = false;
+	}
+	else
+	{
+		cf.email_server.disabled = true;
+		cf.email_addr.disabled = true;
+		cf.log_length.disabled = true;
+		cf.log_threshold.disabled = true;
+	}
+}
+
+function checkData()
+{
+ 	var cf = document.forms[0];
+ 	var msg = ""; 	
+ 	
+    if(cf.syslog_notify[0].checked)
+    {
+        msg+= checkIPorBroadcastAddress(cf.Syslog_ipaddr_1, cf.Syslog_ipaddr_2, cf.Syslog_ipaddr_3, cf.Syslog_ipaddr_4, msg_slog_server);
+    }	
+	if(cf.mail_type[0].checked)
+	{
+	    msg+= checkInt(cf.log_threshold,msg_emailInterval,1,600,true);
+	    msg+= checkInt(cf.log_length,msg_emailQlen,1,500,true);
+	    msg+= checkSMTPserver(cf.email_server,msg_smtpServer); 
+	    if(cf.email_addr.value.length!=0)
+	        msg+= checkMail(cf.email_addr,msg_emailForLog);
+	    else
+	        msg+= msg_log_email;
+	}
+	if (msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "Log.htm", "Warn", msg, "", ABBtnOK, "");
+
+		return false;
+	}
+	dataToHidden(cf);
+	cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+	return true;
+}
+
+function init() 
+{  
+	 var cf = document.forms[0];
+	 
+	parent.parent_menu_clk("4-2");
+	dataToVisible(document.forms[0]);
+	SetNotificationMode();
+	ChangeMailAlert();
+	 cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+-->
+</script>
+</head>
+<style type="text/css">
+.style1 {color: #FFFFFF}
+</style>
+
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(al_type);
+			</script>
+	</div>
+<br> 
+
+<form name="log" method="POST" action="setup.cgi?next_file=Log.htm">
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+<!-- header 1 -->
+<!-- header 2 -->
+<!-- header 3 -->
+
+<!-- header 3 -->
+
+<!-- main menu-->
+  <!-- sub menu-->
+
+<!-- data table-->
+
+ <div class="TitleofGroupBox" >
+ <script language="javascript" type="text/javascript">
+				dw(al_subtype1);
+			</script>	
+ </div>
+<table border="0" cellpadding="0" cellspacing="0">
+
+    <tr class=ContentCrlHeight>
+      <td width="148" nowrap><script language="javascript" type="text/javascript">
+				dw(al_mail);
+			</script></td>
+      <td colspan="2" nowrap>
+      	<input name="mail_type" value="enable" onClick="ChangeMailAlert();" type="radio" class="RadioLeftIE">
+  <script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+        <input name="mail_type" value="disable" onClick="ChangeMailAlert();" type="radio" checked="true" class="RadioRightIE">
+  <script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+				dw(al_mserv);
+			</script> </td>
+      <td nowrap><input type="text" name="email_server" value="@email_server#" maxLength="64" width="140">
+      </td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+				dw(al_maddr);
+			</script></td>
+      <td  nowrap><input type="text" name="email_addr" value="@email_addr#" maxLength="64" width="140"></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+				dw(al_qlen);
+			</script></td>
+      <td width="220" nowrap ><input type="text" name="log_length" value="@log_length#" width="140" style="margin-right: 8px;">
+      <script language="javascript" type="text/javascript">
+				dw(al_ent);
+			</script></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+				dw(al_timeth);
+			</script></td>
+      <td width="220" nowrap><input type="text" name="log_threshold" value="@log_threshold#" width="140" style="margin-right: 8px;">
+      <script language="javascript" type="text/javascript">
+				dw(al_sec);
+			</script></td>
+    </tr>
+
+  </table>
+
+
+
+<hr class="stdHRGrp">
+ 
+<table border="0" cellpadding="0" cellspacing="0">
+          <tr class=ContentCrlHeight>
+          	<td   class="TitleofGroupBox" >
+          		<script language="javascript" type="text/javascript">
+				dw(al_subtype2);
+			</script>
+          		</td>
+          	</tr>
+          	<tr class=ContentCrlHeight>
+          	<td width="148"   >
+          		<script language="javascript" type="text/javascript">
+				dw(al_subtype2);
+			</script>
+          		</td>
+            <td  >
+            	<input name="syslog_notify" value="enable" onClick="SetNotificationMode();" type="radio" class="RadioLeftIE">
+               <script language="javascript" type="text/javascript">dw(enable);</script>
+                <input name="syslog_notify" value="disable" onClick="SetNotificationMode();" onClick="SetNotificationMode();" type="radio" checked="true" class="RadioRightIE">
+               <script language="javascript" type="text/javascript">dw(disable);</script> </td>
+            <td  nowrap> </td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap colspan="2"><script language="javascript" type="text/javascript">dw(al_slogip);</script>
+                <INPUT type="text" name="Syslog_ipaddr_1" value="" class=num maxLength=3 size="3" style="margin-left: 8px;">
+                .<INPUT type="text" name="Syslog_ipaddr_2" value="" class=num maxLength=3 size="3">
+                .<INPUT type="text" name="Syslog_ipaddr_3" value="" class=num maxLength=3 size="3">
+                .<INPUT type="text" name="Syslog_ipaddr_4" value="" class=num maxLength=3 size="3"></td>
+          </tr>
+        </table>
+        
+<hr class="stdHRGrp">
+ <div class="TitleofGroupBox" >
+<script language="javascript" type="text/javascript">dw(al_subtype3);</script>
+ 	</div>
+<table border="0" cellpadding="0" cellspacing="0">
+    <tr style="height:25px;">
+        <td  nowrap><input type="checkbox" name="unauth_log" class="CheckboxIE">
+            <script language="javascript" type="text/javascript">dw(al_ltype1);</script> </td>
+      <td colspan="2" nowrap><input type="checkbox" name="unauth_log2" style="margin-left: 15px;" class="CheckboxIE">
+        <script language="javascript" type="text/javascript">dw(al_ltype2);</script> </td>
+    </tr>
+    <tr style="height:25px;">
+      <td nowrap><input type="checkbox" name="unauth_log3" class="CheckboxIE">
+      <script language="javascript" type="text/javascript">dw(al_ltype3);</script> </td>
+      <td  nowrap><input type="checkbox" name="unauth_log4" style="margin-left: 15px;" class="CheckboxIE">
+       <script language="javascript" type="text/javascript">dw(al_ltype4);</script>  </td>
+    </tr>
+	<tr style="height:40px;">
+	  <td nowrap><script language="javascript" type="text/javascript">
+		  	dw('<input type="BUTTON" name="showlog" value="');
+		  	dw(al_vlog);
+		  	dw('" onClick="openDataSubWin(\'log_data.htm\',logDsub)">');</script>
+	  	</tr>
+  </table>
+
+ 
+<!--FormePane end-->
+</div>
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("Log.htm");
+  </script>
+</div>
+<input type="hidden" name="h_mail_type" value="@h_mail_type#">
+<input type="hidden" name="h_syslog_notify" value="@h_syslog_notify#">
+<input type="hidden" name="c4_Syslog_ipaddr_" value="@c4_Syslog_ipaddr_#">
+<input type="hidden" name="h_unauth_log" value="@h_unauth_log#">
+<input type="hidden" name="h_unauth_log2" value="@h_unauth_log2#">
+<input type="hidden" name="h_unauth_log3" value="@h_unauth_log3#">
+<input type="hidden" name="h_unauth_log4" value="@h_unauth_log4#">
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="Log.htm">
+<input type="hidden" name="next_file" value="Log.htm">
+<input type="hidden" name="message" value="@msg_text#">
+</form>
+<!--ContentArea end-->
+
+</div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  </body>
+
+</html>

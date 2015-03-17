@@ -1,0 +1,4 @@
+ln -f -s  libcrypto.so.0 ssl/lib/libcrypto.so
+ln -f -s  libcrypto.so.0.9.7 ssl/lib/libcrypto.so.0
+ln -f -s  libssl.so.0 ssl/lib/libssl.so
+ln -f -s  libssl.so.0.9.7 ssl/lib/libssl.so.0

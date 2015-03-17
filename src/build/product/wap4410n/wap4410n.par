@@ -1,0 +1,7 @@
+:u-boot.bin                          &00000000
+:download.bin                       &00037FF0
+:rootfs.sqsh                       &0004FFF0
+:vmlinux.gz.uImage                   &0069FFF0
+:wap4410n.radio                          &007F0FF0
+%wap4410n.pid                          &0003FFEF &007DFFF0
+$SIZE                              &2000

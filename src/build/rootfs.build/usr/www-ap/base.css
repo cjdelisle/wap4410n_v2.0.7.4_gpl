@@ -1,0 +1,1076 @@
+html, body
+{
+  margin: 0;
+  padding-right:15px;
+  padding-left:15px;
+  overflow-x: auto; /* Remove scroll bars on browser window */
+  overflow-y: hidden; /* Remove scroll bars on browser window */
+}
+#header { padding: 1em; }
+
+#MySplitter {
+  /* Height is set to match window size in $().ready() below */
+  /*border: 3px solid #669;*/
+  min-width:  600px;
+  min-height: 300px;
+}
+
+#TreePane
+{
+  /*min-width:170px;*/
+  width:170px;
+  overflow: hidden;
+}
+
+#ContentPane
+{
+  background: #def;
+  overflow: hidden;
+  /* No margin or border allowed */
+}
+
+#MySplitter .vsplitbar
+{
+  width: 4px;
+  background: url(cisco_NavPaneGripperT_V.gif) no-repeat center;
+}
+#MySplitter .vsplitbar.active,
+#MySplitter .vsplitbar:hover
+{
+  width: 4px;
+  opacity: 0.5;
+  filter: alpha(opacity=50); /* IE */
+ background-color:#0088C2;
+}
+#MySplitter .splitterMask
+{
+   position:absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   background-image: url(cisco_transparentGif.gif);
+   z-index: 20000;
+}
+
+html, body {height:100%; margin:0; padding:0;}
+#page-background {position:fixed; top:0; left:0; width:100%; height:100%;z-index:-1;background-color:#407BB3}
+#page-background-transparant {position:fixed; top:0; left:0; width:100%; height:100%;z-index:-1;}
+#content {position:relative; z-index:1;height:100%;}
+
+<!--[if IE 6]>
+/* some css fixes for IE browsers */
+html {overflow-y:hidden;}
+body {overflow-y:hidden;}
+#page-background{position:absolute; z-index:-1;}
+#page-background-transparant {position:absolute;z-index:-1;}
+#content {position:static;}
+<![endif]-->
+
+#headerNavigation{vertical-align:top;}
+#headerLinksUsrName{padding-right:15px;text-decoration:none;color:white;font-family:Arial;font-size:11px;vertical-align:top;white-space:nowrap;font-weight:bold;padding-top:1px;}
+#headerLinks{padding-right:15px;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;white-space:nowrap;}
+#headerLinksUsrName A:link{font-weight:bold;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksUsrName A:visited{font-weight:bold;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksUsrName A:hover{font-weight:bold;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+
+#headerLinksLangLabel{padding-right:15px;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;white-space:nowrap;}
+#headerLinksLangLabel A:link{text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksLangLabel A:visited{text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksLangLabel A:hover{text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+
+#headerLinks A:link{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinks A:visited{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinks A:hover{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;text-decoration:underline;}
+#headerLinksSave A:link{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksSave A:visited{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksSave A:hover{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;text-decoration:underline;}
+#headerLinksSave{padding-right:15px;}
+
+#headerLinksError A:link{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksError A:visited{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksError A:hover{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;text-decoration:underline;}
+#headerLinksError{padding-right:15px;}
+
+#headerLinksLang{padding-right:15px;}
+#logo{vertical-align:top;width:62px;padding:12px 12px 11px;}
+#applicationInfo{width:200px;}
+#mainTable{height:100%; width:100%;}
+#prodName{color:#FFFFFF;font-family:Arial;font-size:14px;font-style:normal;vertical-align:top;white-space:nowrap;padding-right:15px;padding-top:4px}
+#applicationName{color:#FFFFFF;font-family:Arial;font-size:22px;font-style:normal;vertical-align:top;white-space:nowrap;padding-right:15px;}
+#topNavigation {text-align:right; padding-top:12px; vertical-align:top;}
+
+/* application footer */
+.footer {
+  height: 100%;
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+  padding-bottom: 14px;
+  width: 100%;
+}
+
+.footer-left {
+  color: #ffffff;
+  font-size: 12px;
+  font-family: arial;
+  margin: 0px;
+  padding-left: 15px;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.footer-right, .footer-right a:link, .footer-right a:visited {
+  color: #ffffff;
+  font-size: 12px;
+  font-family: arial;
+  margin: 0px;
+  padding-right: 15px;
+  text-align: right;
+  text-decoration: none;
+  vertical-align: bottom;
+}
+
+#headerTR{height:40px;padding-bottom:15px;}
+#footerTR{width:100%;vertical-align:top;}
+#licenseTD{padding:1px 0px 14px 15px;color:#FFFFFF;font-family:Arial;font-size:12px;}
+#legal{z-index:1000;font-style:normal;font-size:11px;font-family:Arial;color:#FFFFFF;clear:both;position: absolute;bottom: 0;}
+
+.field_select {font-family:Arial;font-size:12px;}
+html, body {height:100%; margin:0; padding:0;}
+
+form {
+	padding: 0px;
+	margin: 0px;
+}
+
+hr {
+	color: #000000;
+	height: 3px;
+}
+
+/* input with type selectors not supported by IE 6.x */
+input[type="submit"] {
+	text-transform: capitalize;
+}
+
+input[type="reset"] {
+	text-transform: capitalize;
+}
+
+input[type="button"] {
+	text-transform: capitalize;
+}
+
+.button {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+/* for text to fit input width, we use a fixed font. */
+input.ip-filter {
+	font-family:"Courier New", Courier, mono;
+}
+
+/* for text to fit input width, we use a fixed font. */
+input.fixed {
+	font-family:"Courier New", Courier, mono;
+}
+
+select.fixed {
+	width: 150px;
+}
+
+.debug {
+	color: #3D72C2;
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	border: 1px solid #000000;
+	padding: 4px;
+}
+
+.error {
+	background-color:#AA0000;
+	border: 1px solid #660000;
+	color:#FFFFFF;
+	font-size: 11px;
+	padding: 0px 3px 0px 3px;
+	z-index:99;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+.warning {
+	color: #666666;
+	font-size: 10px;
+}
+
+/* since IE fails to support input selectors let's define the following */
+
+.input-button {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-button-wide {
+        background-image: url("kub-button-120-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 120px;
+}
+
+.input-button-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.input-reset {
+	text-transform: capitalize;
+}
+
+.input-reset-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.input-button-disabled {
+        background-image: url("kub-button-80-disabled.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-submit {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-submit-hover
+{
+  background-image: url(kub-button-80-hover.png);
+  border-style: none;
+  cursor: pointer;
+  border-color: #53636a;
+  border-width: 1px;
+  text-transform: capitalize;
+  font-size: 12px;
+  font-weight: normal;
+  font-family: arial;
+  color: #000000;
+  height: 22px;
+  width: 80px;
+}
+
+.input-submit-disable {
+    /*    border-style: none;
+	border-color: #53636a; */
+	/* text-transform: capitalize; */
+        height: 24px;
+        width: 80px;
+}
+.input-submit:hover {
+        background-image: url("kub-button-80-hover.png");
+        border-style: none;
+	border-color: #1fa0d5;
+        border-width: 1px;
+}
+
+.input-submit-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.input-radio {
+}
+
+.input-radio-small {
+	font-size: 10px;
+}
+
+.input-text {
+}
+
+.input-text-small {
+	font-size: 10px;
+}
+
+.option {
+}
+
+.option-small {
+	font-size: 10px;
+}
+
+.med-content {
+	font-size: 11px;
+}
+
+.small-content {
+	font-size: 10px;
+}
+
+.tiny-content {
+	font-size: 9px;
+}
+
+/* <a> pseudo button behavior */
+a.button {
+        /* display: block; */
+        background-color: transparent;
+        background-image: url(kub-buttons-80.png);
+        background-repeat: no-repeat;
+        padding: 3px 0 0 0;
+        border-style: none;
+        border-color: #53636a;
+        border-width: 1px;
+        text-transform: capitalize;
+        text-align: center;
+        text-decoration:none;
+        font-size: 12px;
+        font-weight: normal;
+        font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+a.button:link, a.button:visited {
+        text-decoration:none;
+        color: #000000;
+}
+a.button:hover, a.button:active {
+        background-position: 0 -28px;
+        text-decoration:none;
+        color: #000000;
+}
+
+a.button-wide {
+        display: block;
+        background-color: transparent;
+        background-image: url(kub-buttons-120.png);
+        background-repeat: no-repeat;
+        padding: 3px 0 0 0;
+        border-style: none;
+        border-color: #53636a;
+        border-width: 1px;
+        text-transform: capitalize;
+        text-align: center;
+        text-decoration:none;
+        font-size: 12px;
+        font-weight: normal;
+        font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 120px;
+}
+
+a.button-wide:link, a.button-wide:visited {
+        text-decoration:none;
+        color: #000000;
+}
+a.button-wide:hover, a.button-wide:active {
+        background-position: 0 -33px;
+        text-decoration:none;
+        color: #000000;
+}
+
+html, body
+{
+  margin: 0;
+  padding-right:15px;
+  padding-left:15px;
+  overflow-x: auto; /* Remove scroll bars on browser window */
+  overflow-y: hidden; /* Remove scroll bars on browser window */
+}
+#header { padding: 1em; }
+
+#MySplitter {
+  /* Height is set to match window size in $().ready() below */
+  /*border: 3px solid #669;*/
+  min-width:  600px;
+  min-height: 300px;
+}
+
+#TreePane
+{
+  /*min-width:170px;*/
+  width:170px;
+  overflow: hidden;
+}
+
+#ContentPane
+{
+  background: #def;
+  overflow: hidden;
+  /* No margin or border allowed */
+}
+
+#MySplitter .vsplitbar
+{
+  width: 4px;
+  background: url(cisco_NavPaneGripperT_V.gif) no-repeat center;
+}
+#MySplitter .vsplitbar.active,
+#MySplitter .vsplitbar:hover
+{
+  width: 4px;
+  opacity: 0.5;
+  filter: alpha(opacity=50); /* IE */
+ background-color:#0088C2;
+}
+#MySplitter .splitterMask
+{
+   position:absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+   background-image: url(cisco_transparentGif.gif);
+   z-index: 20000;
+}
+
+html, body {height:100%; margin:0; padding:0;}
+#page-background {position:fixed; top:0; left:0; width:100%; height:100%;z-index:-1;background-color:#407BB3}
+#page-background-transparant {position:fixed; top:0; left:0; width:100%; height:100%;z-index:-1;}
+#content {position:relative; z-index:1;height:100%;}
+
+<!--[if IE 6]>
+/* some css fixes for IE browsers */
+html {overflow-y:hidden;}
+body {overflow-y:hidden;}
+#page-background{position:absolute; z-index:-1;}
+#page-background-transparant {position:absolute;z-index:-1;}
+#content {position:static;}
+<![endif]-->
+
+#headerNavigation{vertical-align:top;}
+#headerLinksUsrName{padding-right:15px;text-decoration:none;color:white;font-family:Arial;font-size:11px;vertical-align:top;white-space:nowrap;font-weight:bold;padding-top:1px;}
+#headerLinks{padding-right:15px;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;white-space:nowrap;}
+#headerLinksUsrName A:link{font-weight:bold;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksUsrName A:visited{font-weight:bold;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksUsrName A:hover{font-weight:bold;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+
+#headerLinksLangLabel{padding-right:15px;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;white-space:nowrap;}
+#headerLinksLangLabel A:link{text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksLangLabel A:visited{text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksLangLabel A:hover{text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+
+#headerLinks A:link{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinks A:visited{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinks A:hover{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;text-decoration:underline;}
+#headerLinksSave A:link{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksSave A:visited{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksSave A:hover{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;text-decoration:underline;}
+#headerLinksSave{padding-right:15px;}
+
+#headerLinksError A:link{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksError A:visited{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;}
+#headerLinksError A:hover{font-weight:normal;text-decoration:none;color:white;font-family:Arial;font-size:12px;vertical-align:top;cursor:pointer;white-space:nowrap;text-decoration:underline;}
+#headerLinksError{padding-right:15px;}
+
+#headerLinksLang{padding-right:15px;}
+#logo{vertical-align:top;width:62px;padding:12px 12px 11px;}
+#applicationInfo{width:200px;}
+#mainTable{height:100%; width:100%;}
+#prodName{color:#FFFFFF;font-family:Arial;font-size:14px;font-style:normal;vertical-align:top;white-space:nowrap;padding-right:15px;padding-top:4px}
+#applicationName{color:#FFFFFF;font-family:Arial;font-size:22px;font-style:normal;vertical-align:top;white-space:nowrap;padding-right:15px;}
+#topNavigation {text-align:right; padding-top:12px; vertical-align:top;}
+
+/* application footer */
+.footer {
+  height: 100%;
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+  padding-bottom: 14px;
+  width: 100%;
+}
+
+.footer-left {
+  color: #ffffff;
+  font-size: 12px;
+  font-family: arial;
+  margin: 0px;
+  padding-left: 15px;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+.footer-right, .footer-right a:link, .footer-right a:visited {
+  color: #ffffff;
+  font-size: 12px;
+  font-family: arial;
+  margin: 0px;
+  padding-right: 15px;
+  text-align: right;
+  text-decoration: none;
+  vertical-align: bottom;
+}
+
+#headerTR{height:40px;padding-bottom:15px;}
+#footerTR{width:100%;vertical-align:top;}
+#licenseTD{padding:1px 0px 14px 15px;color:#FFFFFF;font-family:Arial;font-size:12px;}
+#legal{z-index:1000;font-style:normal;font-size:11px;font-family:Arial;color:#FFFFFF;clear:both;position: absolute;bottom: 0;}
+
+.field_select {font-family:Arial;font-size:12px;}
+html, body {height:100%; margin:0; padding:0;}
+
+form {
+	padding: 0px;
+	margin: 0px;
+}
+
+hr {
+	color: #000000;
+	height: 3px;
+}
+
+/* input with type selectors not supported by IE 6.x */
+input[type="submit"] {
+	text-transform: capitalize;
+}
+
+input[type="reset"] {
+	text-transform: capitalize;
+}
+
+input[type="button"] {
+	text-transform: capitalize;
+}
+
+.button {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+.title
+{
+  background-color: #FFFFFF;
+}
+/* for text to fit input width, we use a fixed font. */
+input.ip-filter {
+	font-family:"Courier New", Courier, mono;
+}
+
+/* for text to fit input width, we use a fixed font. */
+input.fixed {
+	font-family:"Courier New", Courier, mono;
+}
+
+select.fixed {
+	width: 150px;
+}
+
+.debug {
+	color: #3D72C2;
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	border: 1px solid #000000;
+	padding: 4px;
+}
+
+.error {
+	background-color:#AA0000;
+	border: 1px solid #660000;
+	color:#FFFFFF;
+	font-size: 11px;
+	padding: 0px 3px 0px 3px;
+	z-index:99;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+.warning {
+	color: #666666;
+	font-size: 10px;
+}
+
+/* since IE fails to support input selectors let's define the following */
+
+.input-button {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-button-wide {
+        background-image: url("kub-button-120-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 120px;
+}
+
+.input-button-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.input-reset {
+	text-transform: capitalize;
+}
+
+.input-reset-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.input-button-disabled {
+        background-image: url("kub-button-80-disabled.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-submit {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-submit:hover {
+        background-image: url("kub-button-80-hover.png");
+        border-style: none;
+	border-color: #1fa0d5;
+        border-width: 1px;
+}
+
+.input-submit-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.input-radio {
+}
+
+.input-radio-small {
+	font-size: 10px;
+}
+
+.input-text {
+}
+
+.input-text-small {
+	font-size: 10px;
+}
+
+.option {
+}
+
+.option-small {
+	font-size: 10px;
+}
+
+.med-content {
+	font-size: 11px;
+}
+
+.small-content {
+	font-size: 10px;
+}
+
+.tiny-content {
+	font-size: 9px;
+}
+
+/* <a> pseudo button behavior */
+a.button {
+        /* display: block; */
+        background-color: transparent;
+        background-image: url(kub-buttons-80.png);
+        background-repeat: no-repeat;
+        padding: 3px 0 0 0;
+        border-style: none;
+        border-color: #53636a;
+        border-width: 1px;
+        text-transform: capitalize;
+        text-align: center;
+        text-decoration:none;
+        font-size: 12px;
+        font-weight: normal;
+        font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+a.button:link, a.button:visited {
+        text-decoration:none;
+        color: #000000;
+}
+a.button:hover, a.button:active {
+        background-position: 0 -28px;
+        text-decoration:none;
+        color: #000000;
+}
+
+a.button-wide {
+        display: block;
+        background-color: transparent;
+        background-image: url(kub-buttons-120.png);
+        background-repeat: no-repeat;
+        padding: 3px 0 0 0;
+        border-style: none;
+        border-color: #53636a;
+        border-width: 1px;
+        text-transform: capitalize;
+        text-align: center;
+        text-decoration:none;
+        font-size: 12px;
+        font-weight: normal;
+        font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 120px;
+}
+
+a.button-wide:link, a.button-wide:visited {
+        text-decoration:none;
+        color: #000000;
+}
+a.button-wide:hover, a.button-wide:active {
+        background-position: 0 -33px;
+        text-decoration:none;
+        color: #000000;
+}
+input::-moz-focus-inner {border:0;}
+
+
+/*New Css Classes are Created for Table Related data */
+ 
+
+.label
+{
+color:#000000;
+font-size:12px;
+font-family:arial;
+font-weight:normal;
+text-decoration:none;
+white-space:nowrap;
+text-align:left;
+
+}
+tr.section-header-super,
+td.section-header-super,td.section-header
+{
+background-color: #D9E3E9;
+font-family: arial;
+font-size:12px;
+font-weight: normal;
+border-left:1px solid #A2B9C9;
+border-right:1px solid #FFFFFF;
+border-bottom:1px solid #8499A2;
+height:20px;
+vertical-align:middle;
+padding-left:8px;
+padding-right:4px;
+white-space:nowrap;
+text-align-center;
+
+}
+.section-title
+{
+font-weight:bold;
+padding-bottom:15px;
+}
+.section_table_title
+{
+font-family:arial;
+ font-size:12px;
+ font-weight:bold;
+ color:#000000;
+ background-color:#A2B9C9;
+ border-top:1px solid #8499A2;
+ border-bottom:1px solid #8499A2;
+ height:24px;
+ padding-left:8px;
+ text-align:left;
+ white-space:nowrap;
+}
+.table_label_heading,tr.section-row
+{
+background-color: #D9E3E9;
+font-family: arial;
+font-size:12px;
+font-weight: normal;
+border-left:1px solid #A2B9C9;
+border-right:1px solid #FFFFFF;
+border-bottom:1px solid #8499A2;
+height:20px;
+vertical-align:middle;
+padding-left:4px;
+padding-right:4px;
+white-space:nowrap;
+text-align:left;
+}
+td.section-cell
+{
+font-family:arial;
+font-size:12px;
+white-space:nowrap;
+height:22px;
+padding-right:5px;
+padding-left:8px;
+text-align:left;
+border-left: 1px dotted #A3BBCA;
+border-bottom:1px solid #A3BBCA;
+}
+table.sectioned
+{
+width:100%;
+border-collapse: separate;
+}
+tr.section-row.eventablerow
+{
+background-color:#F1F5FA;
+}
+tr.section-row.oddtablerow
+{
+background-color:#E5EBF3;
+} 
+td.section-separator
+{
+border-top:none;
+}
+tr.section-row:hover
+{
+background-color:#B7F3FD;
+}
+table.section_first_table
+{
+background-color:#D7E3EE;
+width:100%;
+padding-left:10px;
+padding-top:10px;
+padding-bottom:10px;
+border:1px solid #8499A2;
+height:35px;   
+}
+.thLastcolumn
+{
+font-family: arial;
+font-size:12px;
+font-weight: normal;
+width:100%;
+background-color: #A2B9C9;
+border-left:1px solid #A2B9C9;
+border-bottom:1px solid #8499A2;
+height:20px;
+padding-left:4px;
+padding-right:4px;
+white-space:nowrap;
+}
+.tdLastcolumn
+{
+font-family:arial;
+font-size:12px;
+white-space:nowrap;
+height:22px;
+padding-left:5px;
+padding-right:5px;
+width:100%;
+}
+.first_table_left
+{
+font-family:arial;
+font-size:12px;
+white-space:nowrap;
+vertical-align:middle;
+width:1%;
+padding-right:8px;
+padding-bottom:0px;
+padding-top:0;
+}
+.first_table_right
+{
+font-family:arial;
+font-size:12px;
+white-space:nowrap;
+padding-bottom:0px;
+vertical-align:middle;
+padding-right:8px;
+padding-top:0;
+}
+
+
+/*New CSS Classes are defined below for Background-color, Border and font (cosmetic changes) */
+          
+/* Page Head line */
+
+ .page-title
+      {
+       font-size:18px;
+       padding-bottom: 10px;
+       padding-top: 10px;
+      }
+
+/* Style for behind control text */ 
+.label1
+     {
+      color:#000000;
+      font-size:12px;
+      font-family:arial;
+      font-weight:normal;
+      text-decoration:none;
+      white-space:nowrap;
+      text-align:left;
+      padding-left: 10px;
+}           
+ .controls-label 
+       {
+        font-size: 12px;
+        font-family: arial;
+        padding-left: 8px;
+       }
+                                                                 
+ .border-table
+       {
+         border: 1px solid #8499A2;
+         background-color: #D7E3EE;
+       }
+ .nav-client-content
+       {
+         border: 0px solid #8499A2;
+         margin: 10px;
+         padding: 0px;
+         background: #C0D4E6;
+        }
+ #content-container
+        {
+         width: 100%;
+        }        
+                 
+.alert_overlay
+{
+  display: none;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+/*background-color: #fff;*/
+  z-index: 1001;
+/*opacity: .20;
+  filter: alpha(opacity=20);*/
+}
+.alerthead
+{
+  height: 22px;
+  background-color: #ACC6DF;
+  font-family: arial;
+  font-size: 12px;
+  padding-left: 5px;
+}
+.popup
+{
+  left: 346px; top: 200px;
+  position: absolute;
+  display: none;
+/*z-index: 2;*/
+  background-color:#DDDDDD;
+/*border: 5px solid #666;
+  width: 552px;*/
+  margin-left:auto;
+  margin-right:auto;
+  z-index:100002;
+  -moz-box-shadow: 5px 5px 5px #000000;
+  -webkit-box-shadow: 5px 5px 5px #000000;
+  box-shadow: 5px 5px 5px #000000;
+}
+
+.outer_Table
+ {
+ background-color:#D7E3EE;
+ padding-left:10px;
+ padding-top:10px;
+ padding-bottom:10px;
+ border:1px solid #8499A2;
+ #width:100%;
+ }
+
+.pre_text
+ {
+  color:#000000;
+  font-size:11px;
+  font-family:arial;
+  font-weight:bold;
+ }
+ 

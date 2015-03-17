@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+
+parent.document.title=titl_diag;
+strHtml='<title>'+titl_diag+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!-- hide script from old browsers
+
+//var arVersion = navigator.appVersion.split("MSIE")
+//var version = parseFloat(arVersion[1])
+
+if (1) 
+{
+   for(var i=0; i<document.images.length; i++)
+   {
+      var img = document.images[i]
+      var imgName = img.src.toUpperCase()
+      if (imgName.substring(imgName.length-3, imgName.length) == "PNG")
+      {
+         var imgID = (img.id) ? "id='" + img.id + "' " : ""
+         var imgClass = (img.className) ? "class='" + img.className + "' " : ""
+         var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "
+         var imgStyle = "display:inline-block;" + img.style.cssText 
+         if (img.align == "left") imgStyle = "float:left;" + imgStyle
+         if (img.align == "right") imgStyle = "float:right;" + imgStyle
+         if (img.parentElement.href) imgStyle = "cursor:hand;" + imgStyle
+         var strNewHTML = "<span " + imgID + imgClass + imgTitle
+         + " style=\"" + "width:" + img.width + "px; height:" + img.height + "px;" + imgStyle + ";"
+         + "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader"
+         + "(src=\'" + img.src + "\', sizingMethod='scale');\"></span>" 
+         img.outerHTML = strNewHTML
+         i = i-1
+      }
+   }
+}
+function checkData()
+{
+    var c,i,str1,str2,s;
+    var cf = document.forms[0];   
+    str1 = cf.ping_ipaddr.value;
+    str2 = cf.ping_size.value;      
+    s = str1.split("."); 
+   // mtu = cf.MTU.value;
+    if(str1.length == 0 || s[0]=="127" || s[0]=="0" || s[0]=="224" || s[0]=="255")
+    {
+       ALERT(parent, "CON", titl_warn, "Diagnostics.htm", "Warn", msg_Ping_input, "", ABBtnOK, "");
+        return false;
+    }
+ 
+    if(str2.length == 0 )
+    {
+	 ALERT(parent, "CON", titl_warn, "Diagnostics.htm", "Warn", msg_Packet_input, "", ABBtnOK, "");
+
+        return false;
+    }
+
+    if( !isInt(str2,32,65500,false) )
+    {
+  	 ALERT(parent, "CON", titl_warn, "Diagnostics.htm", "Warn", msg_Packet_input, "", ABBtnOK, "");
+      
+        return false;
+    }
+    cf.todo.value="ping_test"
+    cf.message.value="ping";
+    dataToHidden(cf);
+    cf.ping.disabled=true;
+    cf.submit();
+	return true;
+}
+function opensubWin()
+{
+    openDataSubWin('Ping.htm',logDsub);
+}
+function showHelp()
+{
+	openHelpWin('help/h_Diagnostics.htm');
+}
+
+function whichLoad()
+{
+    var cf = document.forms[0];
+    var msgVar= cf.message.value;
+    
+    parent.parent_menu_clk("4-3");
+	if(msgVar == "ping")
+        openDataSubWin('Ping.htm',logDsub);
+	cf.ping.disabled=false;
+	
+}
+
+
+//-->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="whichLoad();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(ad_type);
+			</script>
+	</div>
+<br>
+
+<form name="diagnostics" method="POST" action="setup.cgi?next_file=Diagnostics.htm">
+<!--formPane begin-->
+<div id="formpane" class="RFormPane">
+<!-- header 1 -->
+<!-- header 2 -->
+<!-- header 3 -->
+<!-- header 3 -->
+<!-- main menu-->
+<!-- sub menu-->
+<!-- data table-->
+
+ <div class="TitleofGroupBox" >
+<script language="javascript" type="text/javascript">
+				dw(ad_subtype);
+			</script>
+</div>
+<table border="0" cellpadding="0" cellspacing="0" >
+ <tr class=ContentCrlHeight>
+  <td width="115"  nowrap> <script language="javascript" type="text/javascript">
+				dw(ad_ip);
+			</script></td>
+  <td width="220" nowrap><INPUT type="text" name="ping_ipaddr" value="@ping_ipaddr#" maxLength=64 size=26></td>
+ </tr>
+ <tr>
+  <td height="29" nowrap><script language="javascript" type="text/javascript">
+				dw(ad_size);
+			</script></td>
+  <td nowrap><INPUT type="text" name="ping_size" value="@ping_size#" class=num maxLength=5 size=5 style="margin-right:8px;">
+    <script language="javascript" type="text/javascript">
+				dw(ad_byte);
+			</script></td>
+ </tr>
+ <tr class=ContentCrlHeight>
+  <td nowrap><script language="javascript" type="text/javascript">
+				dw(ad_time);
+			</script></td>
+  <td nowrap><SELECT class="SelectStd" name="ping_number"> 
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+    <option value="0"><script language="javascript" type="text/javascript">
+				dw(ad_unlimit);
+			</script></option>
+                </SELECT></td>
+ </tr>
+ <tr class=ContentCrlHeight>
+ <!-- <td  nowrap> </td>-->
+  <td nowrap>
+  	<script language="javascript" type="text/javascript">
+  		dw('<INPUT type="submit" name="ping"  value="');
+				dw(ad_bsping);
+				dw('" onClick="return checkData();" >');
+			</script>
+  	</td>
+ </tr>
+ </table>
+
+
+ 
+<!--FormPane end-->
+</div>
+<br style="height:10px;">
+<input type="hidden" name="h_ping_number" value="@h_ping_number#">
+<input type="hidden" name="message" value="@message#">
+<input type="hidden" name="todo" >
+<input type="hidden" name="this_file" value="Diagnostics.htm">
+<input type="hidden" name="next_file" value="Diagnostics.htm">
+
+
+</form>
+<!--ContentArea end-->
+</div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  </body>
+
+</html>

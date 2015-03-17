@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="description" content="Cisco WAP4410N">
+        <META http-equiv="Pragma" CONTENT="no-cache">
+        <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+        <script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+        <script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+        <script language="javascript" type="text/javascript" src="func.js"></script>
+        <script language="javascript" type="text/javascript" src="linux.js"></script>
+        <script language="javascript" type="text/javascript" src="ajax.js"></script>
+        <script language="javascript" type="text/javascript">
+            <!-- hide script from old browsers
+            parent.document.title=titl_cert;
+            strHtml='<title>'+titl_cert+'</title>';
+            dw(strHtml);
+            strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+            dw(strHtml);
+
+    <!-- hide script from old browsers
+function showHelp()
+{
+    openHelpWin("help/h_Cert.htm");
+}
+
+function check_restore(fObj)
+{
+    var a;
+    var msg="";
+    var t_str = fObj.restorefilename.value;	
+    if(t_str.split) 
+        a = t_str.split(".");
+    else
+        a = cdisplit(t_str,".");
+    if(t_str.length == 0)
+    {
+        ALERT(parent, "CON", titl_warn, "CertManagement.htm", "Warn", msg_nocfg_file, "", ABBtnOK,"");
+        return false;
+    }
+    if(fObj.restorefilename.value.indexOf(';') >= 0)
+    {    
+        ALERT(parent, "CON", titl_warn, "CertManagement.htm", "Warn", msg_invalidpath, "", ABBtnOK,"");
+
+        return false;
+    } 
+    if((a.length<2)||(a[0]=="")||(a[a.length-1].toLowerCase()!="pem"))
+    {    
+        ALERT(parent, "CON", titl_warn, "CertManagement.htm", "Warn", msg_invalidcertfile, "", ABBtnOK,"");
+
+        return false;
+    }
+	ALERT(parent, "CON", titl_confirm, "CertManagement.htm", "Warn", msg_importpem, "", ABBtnSubmit,ABBtnCANCEL);
+
+    return true;		
+}
+function init()
+{
+    var cf = document.forms[0];
+    
+    parent.parent_menu_clk("4-8");
+    ScreenClean();
+}
+//-->
+</script>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+    <div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+        <div width="100%" class="TitleofContent">
+            <script language="javascript" type="text/javascript">dw(ace_type);</script>
+        </div>
+        <br> 
+
+        <!--FormPane begin-->
+        <div id="formpane" class="RFormPane">
+            <div class="TitleofGroupBox" >
+                <script language="javascript" type="text/javascript">dw(ace_subtype1);</script> 
+            </div>
+            <form name="backupcfg" method="POST" action="download.cgi?next_file=CertManagement.htm">
+                <table border="0" cellpadding="0" cellspacing="0" >
+                    <tr>
+                        <td  nowrap>
+                            <script language="javascript" type="text/javascript">
+                                dw('<input type="BUTTON" name="Backup" value="');
+                                dw(ace_backcert);
+                                dw('" width="160px" onClick="window.location.href = \'download.cgi?next_file=wap4410n.pem\'">');</script>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <HR class="stdHRGrp">
+            <div class="TitleofGroupBox" >
+                <script language="javascript" type="text/javascript">dw(ace_subtype2);</script>
+            </div>
+            <form name="restorecfg" method="POST" action="upload.cgi?next_file=CertManagement.htm" ENCTYPE="multipart/form-data">
+                <input type="hidden" name="uploadType" value="cert">
+                <table  border="0" cellpadding="0" cellspacing="0" >
+                    <tr height="30px">     
+                        <td >
+                            <script language="javascript" type="text/javascript">dw(ace_load_desc);</script>
+                            <input name="restorefilename" style="width:250px" type="FILE"></td>
+                        <td width="20px">&nbsp;</td>
+                    </tr>
+                    <tr height="30px">
+                        <td><script language="javascript" type="text/javascript">
+                                dw('<input name="restore"  type="BUTTON" onClick="check_restore(this.form);" value="');
+                                dw(ace_load);
+                                dw('" width="160px">');</script></td>
+                    </tr>
+                    <!--
+                    <tr>
+                        <td><script language="javascript" type="text/javascript">dw(ace_status);</script></script>&nbsp;#cert_status@</td>
+                    </tr>
+                    -->
+                </table> 
+            </form> 
+
+            <!--FormPane end-->
+        </div>
+
+        <!--contentArea end-->
+    </div>
+    <script>
+        if (document.addEventListener) 
+        window.addEventListener('resize', CntOnresizeHandler, false);
+        else if (document.attachEvent) 
+        window.attachEvent('onresize', CntOnresizeHandler);
+        ResizeContent(null);</script>
+</body>
+</html>

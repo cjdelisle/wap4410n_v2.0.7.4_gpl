@@ -1,0 +1,55 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+<meta name="description" content="WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+
+<script language="javaScript" type="text/javascript">
+<!-- Start Script
+
+strHtml='<title>'+ap_site+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+function redirect()
+{
+	window.location.href = "RogueList.htm" ;
+}
+
+function initialValue()
+{
+	if(	!opener.document.forms[0].ap_mode[4].checked )
+	{
+	//	alert( "Warning! Loss of main page!" );
+        // maybe rm this file jick
+		ALERT(parent, "CON", "Warning", "DetectWait.htm", "Warn", "Warning! Loss of main page!", "", ABBtnOK,"");
+
+		self.close();
+	}
+	setTimeout( "redirect()", 3500 );
+}
+
+</script></head>
+<body   onLoad="initialValue()">
+<br><br><br>
+
+<center>
+<h3 align="center">
+<b><blink><strong><font color="#0000FF" face="Verdana"> Dectet Now<br>
+Please wait....
+
+</font></strong></blink></b></h3>
+</center>
+<!--
+<center>
+<img src="wait.gif" >
+</center>
+
+-->
+</body></html>

@@ -1,0 +1,1 @@
+cmd_/home/shearer/Projects/WAP4410N/build/../linux/drivers/net/ag7100/ag7100_mod.ko := mips-linux-uclibc-ld  -m elf32btsmip -r -o /home/shearer/Projects/WAP4410N/build/../linux/drivers/net/ag7100/ag7100_mod.ko /home/shearer/Projects/WAP4410N/build/../linux/drivers/net/ag7100/ag7100_mod.o /home/shearer/Projects/WAP4410N/build/../linux/drivers/net/ag7100/ag7100_mod.mod.o

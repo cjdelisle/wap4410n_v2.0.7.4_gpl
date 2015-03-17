@@ -1,0 +1,1 @@
+#define CONFIG_SND_TIMER_MODULE 1

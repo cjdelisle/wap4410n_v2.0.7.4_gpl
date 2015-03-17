@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<link REL="stylesheet" TYPE="text/css" HREF="./help_@sys_lang#/help.css">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+<!-- hide script from old browsers
+
+parent.document.title=titl_ldata;
+strHtml='<title>'+titl_ldata+'</title>';
+dw(strHtml);
+
+function refresh()
+{
+	window.location.replace("log_data.htm");
+}
+//-->	
+</script>
+</HEAD>
+<body class="sbody" onLoad="dataToVisible(document.forms[0]);">
+<form name="logdata" method="POST" action="setup.cgi">
+	<table border="0" cellspacing="0" cellpadding="0" >
+		<tr>
+			<td>
+<div class="SFormPane">
+<div class="TitleofGroupBox">
+	 <script language="javascript" type="text/javascript">
+				dw(al_log);
+		</script>
+	</div>
+    	
+		
+  <table border="0" cellspacing="0" cellpadding="0" >
+
+	<textarea name="ping_result" class="num" cols="62" rows="20" wrap="off" readonly>@log_data#</textarea>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+	<td align="left">
+<div  class="ButtonRow">
+    <script language="javascript" type="text/javascript">
+        dw('<input type="submit" value="');
+        dw(clear);
+        dw('" class="stdbutton"> ');
+
+        showRefresh();
+
+        dw(' <input type="button" value="');
+        dw(save);
+        dw('" class="stdbutton" onClick="window.location.href = \'download.cgi?next_file=wap4410n.log\'">');
+    </script>
+</div>
+</td>
+
+</tr>
+
+</table>
+
+<input type="hidden" name="h_sel_sysLogType" value="@h_sel_sysLogType#">
+
+<input type="hidden" name="pagenum" value="@pagenum#"> <!-- which page this is -->
+
+<input type="hidden" name="todo" value="clear">
+<input type="hidden" name="this_file" value="log_data.htm">
+<input type="hidden" name="next_file" value="log_data.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+</FORM>
+</BODY>
+</HTML>

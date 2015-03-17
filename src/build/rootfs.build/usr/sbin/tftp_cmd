@@ -1,0 +1,35 @@
+
+if [ "$3" = "" ]; then
+    echo ""
+    echo "Uploading Firmware ..."
+    
+    /usr/bin/tftp -g $1 -l /var/$2 -r $2
+    
+    echo ""
+    echo "Upload Firmware end."
+    
+    up_load $2
+    exit 1
+fi
+
+if [ "$3" = "up" ]; then
+    echo "Uploading Config File ..."
+    
+    /usr/bin/tftp -g $1 -l /var/$2 -r $2
+    
+    echo ""
+    echo "Upload Config File end."
+    
+    up_load $2
+    exit 1
+fi    
+    
+if [ "$3" = "down" ]; then
+    echo "Downloading Config File ..."
+    
+    down_load $1 $2
+    
+    echo ""
+    echo "Download Config file end."
+    exit 1    
+fi

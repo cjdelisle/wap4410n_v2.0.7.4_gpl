@@ -1,0 +1,1 @@
+#define CONFIG_ATHRF1_PHY 1

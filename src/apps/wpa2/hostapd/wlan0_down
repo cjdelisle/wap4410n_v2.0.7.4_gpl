@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/etc/ath/ath_WLAN_stop 0 
+/usr/sbin/snmptrap -t 2

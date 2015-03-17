@@ -1,0 +1,852 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="ajax.js"></script>
+<script language="javascript" type="text/javascript" src="utility.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+<!--
+parent.document.title=titl_setup;
+strHtml='<title>'+titl_setup+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+var connMethods = ["static","auto"];
+var wanMethod, ipv6_dhcp6c ;
+function sync_to_wizard()
+{
+	var cf = document.forms[0];
+	var f = window.top.document.forms[0];
+	
+	f.elements['h_ipv4_ip_type'].value=cf.h_wan_encapmode.value;
+	f.elements['c4_wan_ip_'].value=cf.c4_wan_ip_.value;
+	f.elements['c4_wan_mask_'].value=cf.c4_wan_mask_.value;
+	f.elements['c4_wan_gw_'].value=cf.c4_wan_gw_.value;
+	f.elements['c4_wan_dns1_'].value=cf.c4_wan_dns1_.value;
+	f.elements['h_ipv6_mode'].value=cf.h_ipv6_mode.value;
+	if(cf.h_ipv6_dhcp6c.value=="enable")
+		f.elements['h_ipv6_ip_type'].value="dhcp";
+	else
+		f.elements['h_ipv6_ip_type'].value="static";
+	f.elements['h_ipv6_radvd6c'].value=cf.h_ipv6_radvd6c.value;
+	f.elements['r_ipv6_addr'].value=cf.r_ipv6_addr.value;
+	f.elements['r_ipv6_gw'].value=cf.r_ipv6_gw.value;
+	f.elements['ip6_dns1'].value=cf.ip6_dns1.value;
+	f.elements['ip6_dns2'].value=cf.ip6_dns2.value;
+	f.elements['ip6_address'].value=cf.ip6_address.value;
+	f.elements['ip6_prelen'].value=cf.ip6_prelen.value;
+	f.elements['ip6_getway'].value=cf.ip6_getway.value;
+}
+
+function init()
+{
+ 	var cf = document.forms[0];
+ 	
+ 	parent.parent_menu_clk("1-1");
+ 	ScreenClean();
+	dataToVisible(cf);
+    onChangeIPv4ConnType();
+	onChangeIPv6ConnType();
+	ipv6modeChange();	
+	sync_to_wizard();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+function setIPv4Divs()
+{
+ 	var cf = document.forms[0];
+	wanMethod = connMethods[cf.wan_encapmode.selectedIndex];
+	show_hide("dhcpDIV", (wanMethod == "auto"));
+	show_hide("fixedDIV", (wanMethod == "static"));
+}
+
+function setIPv6Divs()
+{
+ 	var cf = document.forms[0];
+	ipv6_dhcp6c = connMethods[cf.ipv6_dhcp6c.selectedIndex];
+	show_hide("ipv6dhcpDIV", (ipv6_dhcp6c == "auto"));
+	show_hide("ipv6fixedDIV", (ipv6_dhcp6c == "static"));
+	RadvdShow();
+}
+
+function onChangeIPv6ConnType()
+{
+ 	var cf = document.forms[0];
+	var mtuValArray = new Array();
+	var mtuTypeArray = new Array();
+	
+	ipv6_dhcp6c = connMethods[cf.ipv6_dhcp6c.selectedIndex];
+	
+	//hidden other connection part
+    setIPv6Divs();    
+}
+
+function onChangeIPv4ConnType()
+{
+ 	var cf = document.forms[0];
+	var mtuValArray = new Array();
+	var mtuTypeArray = new Array();
+	
+	wanMethod = connMethods[cf.wan_encapmode.selectedIndex];
+	
+	//hidden other connection part
+    setIPv4Divs();    
+}
+
+function ipv6modeChange()
+{
+    var cf = document.forms[0];
+
+    if(cf.ipv6_mode[0].checked)
+    {
+        cf.ip6_address.disabled = false;        
+        cf.ip6_prelen.disabled = false;
+        cf.ip6_getway.disabled = false;
+        cf.ipv6_dhcp6c.disabled = false;
+        cf.ipv6_radvd6c.disabled = false;
+        cf.ip6_dns1.disabled = false;
+        cf.ip6_dns2.disabled = false;
+    }
+    else
+    {
+        cf.ip6_address.disabled = true;
+        cf.ip6_prelen.disabled = true;
+        cf.ip6_getway.disabled = true;
+        cf.ipv6_dhcp6c.disabled = true;
+        cf.ipv6_radvd6c.disabled = true;
+        cf.ip6_dns1.disabled = true;
+        cf.ip6_dns2.disabled = true;
+    }
+}
+function RadvdShow()
+{
+    var cf = document.forms[0]; 
+        
+    show_hide("radvdip", (cf.r_ipv6_addr.value == "show"));
+    show_hide("radvdgw", (cf.r_ipv6_gw.value == "show"));    
+    
+}
+function checkData()
+{
+	var ipaddr=0, netmask=0, gateway=0, dns1=0, dns2=0;
+ 	var cf = document.forms[0]; 
+	var msg = "";	
+        
+
+
+	msg += chkHostName(cf.hostname, msg_ap_name);
+    msg += chkMSname(cf.devicename, msg_device_name);
+    
+    if(cf.wan_encapmode.selectedIndex == 0)
+	{
+		ipaddr	=	(cf.wan_ip_1.value << 24)	|
+					(cf.wan_ip_2.value << 16)	|
+					(cf.wan_ip_3.value << 8)	|
+					 cf.wan_ip_4.value;
+		netmask	=	(cf.wan_mask_1.value<< 24)	|
+					(cf.wan_mask_2.value<< 16)	|
+					(cf.wan_mask_3.value<< 8)	|
+					 cf.wan_mask_4.value;
+		gateway	=	(cf.wan_gw_1.value<< 24)	|
+					(cf.wan_gw_2.value<< 16)	|
+					(cf.wan_gw_3.value<< 8)		|
+					 cf.wan_gw_4.value;
+		dns1	= 	(cf.wan_dns1_1.value<< 24)	|
+					(cf.wan_dns1_2.value<< 16)	|
+					(cf.wan_dns1_3.value<< 8)	|
+					 cf.wan_dns1_4.value;
+	    dns2	= 	(cf.wan_dns2_1.value<< 24)	|
+					(cf.wan_dns2_2.value<< 16)	|
+					(cf.wan_dns2_3.value<< 8)	|
+					 cf.wan_dns2_4.value;
+
+		msg+= checkIPAddress(cf.wan_ip_1,cf.wan_ip_2,cf.wan_ip_3,cf.wan_ip_4,msg_ip_address);
+		msg+= checkIpMask(cf.wan_mask_1,cf.wan_mask_2,cf.wan_mask_3,cf.wan_mask_4,msg_netmask);
+
+		//if(gateway != 0 )
+		    msg+= checkIp(cf.wan_gw_1,cf.wan_gw_2,cf.wan_gw_3,cf.wan_gw_4,msg_gatewayip,false);
+
+		//if(dns1 != 0)
+			msg+= checkIp(cf.wan_dns1_1,cf.wan_dns1_2,cf.wan_dns1_3,cf.wan_dns1_4,msg_DNS_ip,false);
+		//if(dns2 != 0)
+			msg+= checkIp(cf.wan_dns2_1,cf.wan_dns2_2,cf.wan_dns2_3,cf.wan_dns2_4,msg_DNS_ip,false);
+		
+		if(msg.length <= 0)
+		{
+			if (0 == (ipaddr&~netmask) || 0 == ~(ipaddr|netmask))
+			{
+				msg+=msg_ip_mask_mismatch;
+			}
+			if (0 != gateway)
+			{
+				if (0 == (gateway&~netmask) || 0 == ~(gateway|netmask))
+				{
+					msg += msg_invalid_gateway;
+				}
+				if ((ipaddr&netmask) != (gateway&netmask))
+				{
+					msg += msg_invalid_gateway_subnet;
+				}
+			}	
+		}
+	}
+	if(cf.ipv6_dhcp6c.selectedIndex==0){
+		//Check IPv6
+		if(cf.ipv6_mode[0].checked) {
+                    msg += check_v6_ip(cf.ip6_address.value,l_addr);
+                    if(cf.ip6_getway.value.length != 0)
+        	        msg += check_v6_ip(cf.ip6_getway.value,l_gateway);
+        	    msg += CheckPreLen(cf.ip6_prelen.value);
+                    if(cf.ip6_dns1.value.length != 0)
+	    	        msg += check_v6_ip(cf.ip6_dns1.value,l_dns1);
+                    if(cf.ip6_dns2.value.length != 0)
+		        msg += check_v6_ip(cf.ip6_dns2.value,l_dns2);
+	       }
+	}
+
+	if(msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "Setup.htm", "Warn", msg, "", ABBtnOK, "");
+
+		return false;
+	}
+	dataToHidden(cf);
+	//return checkMsg(msg);
+	
+	cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+}
+
+function check_v6_ip(val, flag)
+{
+    var size = val.length;
+    var i;
+    var j = 0;
+    var t;
+    var ret = 0;
+    var flagdotNo = 0;//=3
+    var flagcolNo = 0;//<=7
+    var flagcolCo =0;//<=1
+    var flaghex = 0;//<=4
+    var flagdec = 0;//<=3
+    var flagpre = 0;
+    var msg="";
+    msg = "IPv6 " + flag + "\n";
+    
+    if( size == 0 )
+    {
+        msg += msg_IPv6_Blank;
+        ret = 1;
+    }
+
+    for( i = 0; i < size && ret == 0; i ++ )
+    {
+        var c = val.substring(i, i+1);
+
+        if( c == "/" )
+        {
+            if(flag == l_addr || flag == l_dns1 || flag == l_dns2 )
+            {
+                msg += msg_IPv6_len;
+                break;
+            }
+            
+            if(flag == l_gateway)
+            {
+                flagpre = 1;
+                msg += CheckPreLen(val.substring(i+1, size));  
+                break;
+            }
+        }
+        else if( c == ":")
+        {
+            j = i+1;
+            if( val.substring(i, i+3) == ":::" )
+            {
+                msg +=msg_IPv6_col3;
+                break;
+            }
+
+            if( val.substring(i, i+2) == "::" )
+            {
+                if( flagcolCo >= 1 )
+                {
+                    msg +=msg_IPv6_col2;
+                    break;
+                }
+                else
+                {
+                    flagcolCo ++;
+                    flaghex = 0;
+                    flagdec = 0;
+                    i++;
+                    j=i+1;
+                }
+            }
+            else if( i == 0 )  //some error
+            {
+                msg +=msg_IPv6_col0;
+                break;
+            }
+            else if( i == size-1 )
+            {
+                msg +=msg_IPv6_col9;
+                break;
+            }
+
+            if( val.substring(i-1, i+1 ) != "::" && val.substring(i+1, i+2) == ".") //don't know
+            {
+                msg +=msg_IPv6_dot;
+                break;
+            }
+
+            if( flagdotNo == 0 && flagcolNo < 7 )
+            {
+                flagcolNo ++;
+                flaghex = 0;
+                flagdec = 0;
+            }
+            else
+            {
+                msg +=msg_IPv6_colNum;
+                break;
+            }
+        }
+        else if( isHex(c) )
+        {
+            flaghex ++;
+
+            if( 0 <= parseInt(c, 10) <= 9 )
+            {
+                flagdec ++;
+            }
+            else
+            {
+                flagdec = 0;
+            }
+
+            if( flaghex > 4 )
+            {
+                msg +=msg_IPv6_hex4;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
+        else if( c == "." )
+        {
+            if( 1<=flaghex<=3 && 1<=flagdec<=3 )
+            {
+                if(0 <= parseInt(val.substring(i+1, i+2)) && parseInt(val.substring(i+1, i+2)) <= 9)
+                {
+                    flagdotNo ++;
+
+                    flagdec = 0;
+                    flaghex = 0;
+                }
+                else
+                {
+                    msg +=msg_IPv6_dec;
+                    break;
+                }
+
+                if(flagdotNo == 1)
+                {
+                    t = val.substring(j, val.length);
+                    if(!isIPaddr(t))
+                    {
+                        msg += msg_IPv6_dec2;
+                    }
+                }
+
+                if( flagdotNo > 3 )
+                {
+                    msg +=msg_IPv6_dot3;
+                    break;
+                }
+            }
+            else
+            {
+                msg +=msg_IPv6_colNumdot;
+                break;
+            }
+        }
+        else
+        {
+            msg +=msg_IPv6_hex;            
+            break;
+        }
+    }
+
+    if( ( flagcolNo==1 && flagcolCo>7 ) || ( flagcolCo==0 && flagcolNo!=7 ) || ( flagdotNo!=0 && flagdotNo!=3 ) )
+    {
+        msg +=msg_IPv6_len;
+    }
+
+    if( flag == l_gateway && flagpre != 1)
+        msg += msg_IPv6_pre;
+	 if(flag == l_addr || flag == l_dns1 || flag == l_dns2 || flag == l_gateway ){
+		if((val=="0:0:0:0:0:0:0:0")||(val=="::"))
+			msg += msg_IPv6_unspec;
+		if((val=="0:0:0:0:0:0:0:1")||(val=="::1"))
+			msg += msg_IPv6_loopback;
+		if((val =="FF01:0:0:0:0:0:0:101")||(val=="FF01::101"))
+			msg += msg_IPv6_muti;
+	}
+		
+    if(msg == sub_ipv6+" "+l_addr+"\n" || msg == sub_ipv6+" "+l_gateway+"\n" || msg == sub_ipv6+" "+l_dns1+"\n" || msg == sub_ipv6+" "+l_dns2+"\n")
+        return "";
+    else
+        return msg;
+}
+
+
+function CheckPreLen(val)
+{
+    var msg="";
+    if( !isInt(val, 0, 128) )
+    {
+        msg +=msg_IPv6_prelen;
+    }
+
+    return msg;
+}
+function showHelp()
+{
+	openHelpWin("help/h_Setup.htm");
+}
+
+//-->
+</script>
+
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style></head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+
+<form name="setup" method="POST" action="setup.cgi">
+
+<div width="100%" class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+				dw(type_basic);
+			</script>
+			</div>
+<br>
+  
+<div id="formpane" class="RFormPane">
+
+ <div class="TitleofGroupBox" style="height:25px;">
+ 	<script language="javascript" type="text/javascript">
+				dw(type_dv);
+			</script>
+ 	</div>
+ 	  <!-- Basic Setup  -->  
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="top" width="50%">
+            <table border="0px" cellpadding="0" cellspacing="0" >
+         <tr>
+          <td width="150"  nowrap class="ContentCrlHeight">
+          	<script language="javascript" type="text/javascript">
+				dw(h_name);
+			</script>
+			</td>
+          <td width="159"  nowrap >
+          	<input type="text" name="hostname" value="@hostname#" maxlength=39 size=26 height="21"></td>
+        </tr>
+        <tr>
+          <td width="150"  nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(d_name);
+			</script></td>
+          <td width="159"  nowrap >
+          	<input type="text" name="devicename" value="@devicename#" maxlength=39 size=26 height="21"></td>
+        </tr>
+   
+</table>
+    </td>
+</tr>
+</table>
+
+<!-- Network Setup -->
+<hr class="stdHRGrp">
+
+	<div class="TitleofGroupBox" style="height:25px">
+		<script language="javascript" type="text/javascript">
+				dw(type_network);
+			</script>
+		</div>
+<table border="0" cellpadding="0" cellspacing="0">
+	
+		 <tr>
+		 	 <td valign="top">
+		 	 	<div>
+          <table border="0px" cellpadding="0" cellspacing="0" >
+          	<tr>
+			<td width="150" nowrap class=ContentCrlHeight>
+				<script language="javascript" type="text/javascript">
+					dw(sub_ip_set);
+				</script>
+			</td>
+		
+			 <td width="159" nowrap class=ContentCrlHeight>
+			 	<select name="wan_encapmode" class=SelectStd onChange="onChangeIPv4ConnType();" >
+              <option value="static"><script language="javascript" type="text/javascript">
+				dw(ip_static);
+			</script>
+			</option>
+			  <option value="dhcp"><script language="javascript" type="text/javascript">
+				dw(ip_dhcp);
+			</script></option>              
+          </select>
+          </td>
+        </tr>
+        </table>
+        </div>
+           </td>
+           
+		    </tr>
+		
+		
+		    
+		    
+		    <tr>
+			<td width="150" class="TitleofGroupBox" >
+				<script language="javascript" type="text/javascript">
+					dw(sub_ipv4);
+				</script>
+			</td>
+			</tr>
+			
+			 <tr>
+			 	 <td valign="top">
+			<div id="fixedDIV" style="display:none">
+          <table border="0px" cellpadding="0" cellspacing="0" >
+          <tr>
+            <td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_addr);
+			</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" name="wan_ip_1" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_ip_2" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_ip_3" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_ip_4" value="" class="num" maxlength="3" size="3" ></td>
+          </tr>
+           <tr>
+            <td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_mask);
+			</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" name="wan_mask_1" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_mask_2" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_mask_3" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_mask_4" value="" class="num" maxlength="3" size="3" ></td>
+          </tr>
+          <tr>
+            <td width="150" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_gateway);
+			</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" name="wan_gw_1" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_gw_2" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_gw_3" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_gw_4" value="" class="num" maxlength="3" size="3" ></td>
+          </tr>
+        
+          <tr>
+            <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_dns1);
+			</script>
+			</td>
+            <td nowrap class=ContentCrlHeight><input type="text" name="wan_dns1_1" value="" class="num" maxlength="3" size="3" >
+          .
+            <input type="text" name="wan_dns1_2" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_dns1_3" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_dns1_4" value="" class="num" maxlength="3" size="3" ></td>
+          </tr>
+          <tr>
+            <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_dns2);
+			</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" name="wan_dns2_1" value="" class="num" maxlength="3" size="3" >
+          .
+            <input type="text" name="wan_dns2_2" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_dns2_3" value="" class="num" maxlength="3" size="3" >
+          .
+          <input type="text" name="wan_dns2_4" value="" class="num" maxlength="3" size="3" ></td>
+          </tr>
+        </table>
+      </div>
+      <div id="dhcpDIV">
+	  <table border="0px" cellpadding="0" cellspacing="0" >
+      <tr  class=ContentTextHeight>
+        <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_addr);
+			</script></td>
+        <td nowrap  >@r_Local_IP#</td>
+      </tr>
+      <tr class=ContentTextHeight >
+        <td nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_mask);
+			</script></td>
+        <td nowrap  >@r_Subnet_Mask#</td>
+      </tr>
+      <tr class=ContentTextHeight>
+        <td nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_gateway);
+			</script></td>
+        <td nowrap  >@r_Default_Gw#</td>
+      </tr>
+      <tr class=ContentTextHeight >
+        <td nowrap ><script language="javascript" type="text/javascript">
+				dw(l_dns1);
+			</script></td>
+        <td nowrap >@r_Primary_DNS#</td>
+      </tr>
+      <tr class=ContentTextHeight >
+        <td nowrap ><script language="javascript" type="text/javascript">
+				dw(l_dns2);
+			</script></td>
+        <td nowrap  >@r_Second_DNS#</td>
+      </tr>
+    </table>
+    </div>
+    </td>
+	</tr>
+</table>
+<HR class="stdHRCnt">
+<table border="0" cellpadding="0" cellspacing="0">
+
+     <tr>
+     	 <td>
+		 <div>
+          <table border="0px" cellpadding="0" cellspacing="0" >
+          	<tr>
+                  <td width="150" nowrap  class="TitleofGroupBox"  > <script language="javascript" type="text/javascript">
+					dw(sub_ipv6);
+				</script> </td>
+		</tr>
+		<tr>
+                  <td nowrap   > <script language="javascript" type="text/javascript">
+					dw(sub_ipv6);
+				</script>
+                    : </td>
+                  <td   class=ContentCrlHeight  > <INPUT type=radio class="RadioLeftIE" value="enable" name="ipv6_mode" onClick="ipv6modeChange();"  > 
+			<script language="javascript" type="text/javascript">
+				dw(enable);
+			</script> <input type=radio  class="RadioRightIE" value="disable" name="ipv6_mode" onClick="ipv6modeChange();" > 
+                    <script language="javascript" type="text/javascript">
+				dw(disable);
+			</script> </td>
+                </tr>
+                <tr> 
+                  <td nowrap class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+					dw(sub_ip_set);
+				</script> </td>
+                  <td nowrap class=ContentCrlHeight> <select name="ipv6_dhcp6c" class=SelectStd onChange="onChangeIPv6ConnType();" >
+                      <option value="disable"> 
+                      <script language="javascript" type="text/javascript">
+				dw(ip_static);
+			</script>
+                      </option>
+                      <option value="enable"> 
+		 	<script language="javascript" type="text/javascript">
+				dw(ip_dhcp);
+			</script>
+                      </option>
+                    </select> </td>
+</tr>
+</table>
+</div>
+</td>
+	
+   </tr>
+	<tr>
+    <td valign="top">
+	<div id="ipv6fixedDIV">
+       <table border="0px" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="150" colspan="2"  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_ip6_addr);
+			</script>
+			</td>
+		<td width="8" class=ContentCrlHeight>&nbsp;</td>	
+        <td   class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_ip6_prefix);
+			</script></td>
+      </tr>
+      <tr>
+        <td width="150" nowrap  class=ContentCrlHeight>
+        	<script language="javascript" type="text/javascript">
+				dw(l_addr);
+			</script>
+			</td>
+        <td width="180"  class=ContentCrlHeight><input type="text" name="ip6_address" value="@ip6_address#" maxlength="46" size="64" ></td>
+       <td width="8" class=ContentCrlHeight>&nbsp;</td>	
+        <td  class=ContentCrlHeight><INPUT type="text" name="ip6_prelen" value="@ip6_prelen#" maxLength="3" size="6" ></td>
+      </tr>
+      <tr>
+                  <td height="20" nowrap   class=ContentCrlHeight>
+<script language="javascript" type="text/javascript">
+				dw(l_gateway);
+			</script></td>
+        <td nowrap  class=ContentCrlHeight><input type="text" name="ip6_getway" value="@ip6_getway#" maxlength="46" size="64" ></td>
+        <td nowrap  class=ContentCrlHeight>&nbsp;</td>
+      </tr>
+      <tr>
+         <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_dns1);
+			</script></td>
+            <td nowrap  class=ContentCrlHeight><input type="text" name="ip6_dns1" value="@ip6_dns1#" maxlength="46" size="64" ></td>
+            <td nowrap  class=ContentCrlHeight>&nbsp;</td>
+          </tr>
+          <tr>
+            <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(l_dns2);
+			</script></td>
+            <td nowrap  class=ContentCrlHeight><input type="text" name="ip6_dns2" value="@ip6_dns2#" maxlength="46" size="64" ></td>
+            <td nowrap  class=ContentCrlHeight>&nbsp;</td>
+          </tr>
+    </table>
+	</div>
+	<div id="ipv6dhcpDIV">
+	   <table border="0px" cellpadding="0" cellspacing="0" >
+        <tr class=ContentCrlHeight>
+        	
+          <td  nowrap  >
+          <input type=checkbox  class="CheckboxIE" value="radvd" name="ipv6_radvd6c" onClick="" >
+		</td><td>
+		<strong><script language="javascript" type="text/javascript">
+				dw(l_radvd);
+			</script></strong>
+			</td>
+        </tr>        
+      </table>
+        <table  border="0px" cellpadding="0" cellspacing="0">
+          <tr  class=ContentTextHeight >
+            <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_addr);
+			</script></td>
+            <td nowrap  >@r_Local_IPv6_1#</td>
+          </tr>
+        </table>
+        <div ID="radvdip">
+        <table  border="0px" cellpadding="0" cellspacing="0">
+          <tr class=ContentTextHeight >
+            <td width="150" nowrap  >&nbsp;</td>
+            <td nowrap  >@r_Local_IPv6_2#</td>
+          </tr>
+          </table>
+          </div>
+        <table  border="0px" cellpadding="0" cellspacing="0">
+          <tr  class=ContentTextHeight >
+            <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_gateway);
+			</script></td>
+            <td nowrap  >@r_Default_Gwv6_1#</td>
+          </tr>
+          </table>
+          <div ID="radvdgw">
+        <table  border="0px" cellpadding="0" cellspacing="0">
+          <tr class=ContentTextHeight >
+            <td width="150" nowrap  >&nbsp;</td>            
+            <td nowrap  >@r_Default_Gwv6_2#</td>
+          </tr>
+        </table>
+        </div>
+        <table  border="0px" cellpadding="0" cellspacing="0">
+          <tr  class=ContentTextHeight >
+            <td width="150" nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_dns1);
+			</script></td>
+            <td nowrap  >@r_Primary_DNSv6#</td>
+          </tr>
+          <tr class=ContentTextHeight >
+            <td nowrap  ><script language="javascript" type="text/javascript">
+				dw(l_dns2);
+			</script></td>
+            <td nowrap >@r_Second_DNSv6#</td>
+          </tr>
+        </table>
+    </div>
+	</td>
+  </tr>		
+			
+	
+
+
+</table>
+
+
+
+</div> <!-- end of FormPane -->
+<div class="ButtonRow">
+	
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("Setup.htm");
+  </script>
+  
+ </div>
+
+<input type="hidden" name="h_wan_encapmode" value="@h_wan_encapmode#">
+<input type="hidden" name="c4_wan_ip_" value="@c4_wan_ip_#">
+<input type="hidden" name="c4_wan_mask_" value="@c4_wan_mask_#">
+<input type="hidden" name="c4_wan_gw_" value="@c4_wan_gw_#">
+<input type="hidden" name="c4_wan_dns1_" value="@c4_wan_dns1_#">
+<input type="hidden" name="c4_wan_dns2_" value="@c4_wan_dns2_#">
+<input type="hidden" name="h_ipv6_mode" value="@h_ipv6_mode#">
+<input type="hidden" name="h_ipv6_dhcp6c" value="@h_ipv6_dhcp6c#">
+<input type="hidden" name="h_ipv6_radvd6c" value="@h_ipv6_radvd6c#">
+<input type="hidden" name="r_ipv6_addr" value="@r_ipv6_addr#">
+<input type="hidden" name="r_ipv6_gw" value="@r_ipv6_gw#">
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="Setup.htm">
+<input type="hidden" name="next_file" value="Setup.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+</form>
+</div>
+<script>
+	if (document.addEventListener) {
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+		}
+	 else if (document.attachEvent) {
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	}
+	 	 	ResizeContent(null);
+	 	 </script>
+  
+</body>
+
+</html>

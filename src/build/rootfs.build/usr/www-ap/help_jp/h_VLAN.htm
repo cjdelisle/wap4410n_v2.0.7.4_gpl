@@ -1,0 +1,114 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML><HEAD><TITLE>ヘルプ - VLAN および QoS </TITLE>
+
+<meta name="description" content="Cisco WAP4410N">
+
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+
+
+
+
+<link REL="stylesheet" TYPE="text/css" HREF="help.css">
+
+<script language="javascript" type="text/javascript">
+
+</SCRIPT></HEAD>
+
+<BODY class="hbody">
+<div align="center" class="HAllPane">
+	
+  <div align="center" class="HFormPane"> 
+    <div align="center" class="XFormPane">
+      <form name="dummy">
+        <TABLE cellSpacing="0" cellpadding="0" border="0" class="hTable">
+          <TR>  <td>
+            <div align="CENTER"> 
+              <!-- Start Help Content -->
+              <h1> VLAN および QoS </h1>
+              <BR>
+              <table class="MsoNormalTable" border="0" cellspacing="0" cellpadding="0">
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[VLAN] </strong></td>
+                  <td class="rightstyle" valign="top"> VLAN を有効にして、802.1p および 
+                    802.1q のプロトコルを有効にします。アクセス ポイントは、VLAN タグ付きのパケットで、ワイヤレスおよび有線のトラフィックをブリッジします。各 
+                    SSID がその仮想ネットワーク（VLAN）に配置され、トラフィックは 1 つの VLAN から別の VLAN に渡されません。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[デフォルトVLAN ID] </strong></td>
+                  <td class="rightstyle" valign="top"> デフォルトの VLAN ID 番号（1 ～ 4094）を入力します。デフォルト値は 
+                    1 です。デフォルトの VLAN 番号は、スイッチの設定と一致する必要があります。たとえば、SRW2024 のトランク 
+                    ポート モードはデフォルトの VLAN（PVID）を 1 のタグなしに設定しますが、一般ポート モードでは PVID 
+                    をタグ付きまたはタグなしの任意の VLAN に設定できます。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[VLANタグ] </strong></td>
+                  <td class="rightstyle" valign="top"> デフォルトの VLAN ID のタグ オプションを設定します。この設定は、スイッチの設定と一致する必要があります。デフォルトではタグなしになります。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[AP管理VLAN] </strong></td>
+                  <td class="rightstyle" valign="top"> VLAN オプションを有効にした場合、このフィールドに入力した値（VLAN 
+                    ID）によって、アクセス ポイントに接続する VLAN が定義されます。Web ベースのユーティリティを使用するには、有線の側から 
+                    VLAN に接続できる必要があります。ワイヤレスの側から Web ベースのユーティリティにアクセスするには、SSID 
+                    が同じ VLAN にマップされている必要があります。[各種管理] &gt; [管理] タブで必ずワイヤレス Web 
+                    アクセスを有効にしてください。デフォルト値は 1 です。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WDSによるVLANタグ] <BR>
+                    </strong></td>
+                  <td class="rightstyle" valign="top"> WDS で送受信されるパケット用に<B>有効</B>になるオプションを設定します。デフォルトでは<B>無効</B>になります。<BR>
+                  </TD>
+                </TR>
+                <!--
+<tr>
+<td valign="top" class="leftstyle"><strong>VLAN Table  <br>&nbsp;
+  </strong></td>
+<td class="rightstyle" valign="top">
+Add or delete VLAN ID manually here. It's up to 4.
+<br>&nbsp;
+</TD></TR>
+-->
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[VLAN ID] </strong></td>
+                  <td class="rightstyle" valign="top"> 有線側でトラフィックをマップする先の SSID 
+                    用に VLAN ID（1 ～ 4094）を選択します。ワイヤレス トラフィックでは VLAN 情報が伝えられません。複数の 
+                    SSID を有線側の同じ VLAN にマップできます。<BR>
+                    <BR>
+                    注：RADIUS サーバ（802.1X）認証が必要なワイヤレス セキュリティを使用するには、VLAN ID が AP 
+                    管理の VLAN ID と同じである必要があります。将来のリリースではこの制約が削除される予定です。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[プライオリティ] </strong></td>
+                  <td class="rightstyle" valign="top"> VLAN ID および VLAN プライオリティを特定の 
+                    SSID に割り当てると、アクセス ポイントはイーサネットが他のデバイスとの間で VLAN タグ付けされたパケットをやり取りするように制御します。<BR>
+                  </TD>
+                </TR>
+                <tr> 
+                  <td valign="top" class="leftstyle"><strong>[WMM] </strong></td>
+                  <td class="rightstyle" valign="top"> Wi-Fi Multimedia（WMM）は、Quality 
+                    of Service（QoS）用の IEEE 802.11e ワイヤレス LAN 規格のコンポーネントです。WMM 
+                    はプライオリティのタグ付けとキューイングをサポートしています。WMM サポートを<B>有効</B>にするには、チェックボックスをオンにします。<BR>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- End Help Content -->
+            </div> </td>
+          </TR>
+        </TABLE>
+      </FORM>
+    </div>
+  </div>
+
+<div id="HCopyright" class="HCopyright"  >
+      © 2010 Cisco Systems, Inc. All rights reserved.</div>
+
+
+</div></BODY></HTML>

@@ -1,0 +1,491 @@
+/*CSS Document*/
+DIV.wizard-class
+{
+	display: inline;
+	position: absolute;
+	left: 28%;
+	top: 10%;
+	border-style: none;
+	background-color: #D8E0FF;
+	width: 840px;
+	height: 520px;
+	right: auto;
+	/*font-weight: bold;*/
+}
+DIV.wizard-progress-class
+{
+	display: none;
+	position: absolute;
+	left: 40%;
+	top: 40%;
+	border-style: none;
+	background-color: #D8E0FF;
+	width: 300px;
+	height: 100px;
+	right: auto;
+	font-weight: bold;
+  z-index: 1003;
+}
+
+DIV.wps-search-class
+{
+	display: none;
+	background-image:url(bodyimage.png);
+	position: absolute;
+	width:480;
+	height:180;
+	left: 40%;
+	top: 40%;
+	right: auto;
+	border-style: none;
+	z-index: 1003;
+}
+
+DIV.wps-conn-fail-class
+{
+	display: none;
+	background-image:url(bodyimage.png);
+	position: absolute;
+	width:480;
+	height:220;
+	left: 40%;
+	top: 40%;
+	right: auto;
+	border-style: none;
+	z-index: 1003;
+}
+
+DIV.wps-conn-dev-class
+{
+	display: none;
+	background-image:url(bodyimage.png);
+	position: absolute;
+	width:480;
+	height:150;
+	left: 40%;
+	top: 40%;
+	right: auto;
+	border-style: none;
+	z-index: 1003;
+}
+
+DIV.wps-conn-dev-ok-class
+{
+	display: none;
+	background-image:url(bodyimage.png);
+	position: absolute;
+	width:480;
+	height:230;
+	left: 40%;
+	top: 40%;
+	right: auto;
+	border-style: none;
+	z-index: 1003;
+}
+
+DIV.wrap-class
+{
+	display: inline;
+	position: absolute;
+	border-style: none;
+	top: 8px;
+	bottom: 8px;
+	left: 8px;
+	right: 8px;
+	/*font-weight: bold;*/
+}
+DIV.pre-header-class
+{
+	position: relative;
+	left: 0px;
+	height: 30px;
+	top: 0px;
+	right: 0px;
+	text-align: left;
+	vertical-align: middle;
+	text-transform: capitalize;
+	line-height: normal;
+	font-size: 18px;
+	font-weight: bold;
+	font-family: arial;
+	display: table-cell;
+}
+DIV.header-class
+{
+	display: inline;
+	position: absolute;
+	left: 0px;
+	border-style: none;
+	background-color: #D8E0FF;
+	/*font-weight: bold;*/
+	height: auto;
+	bottom: 0px;
+	top: 38px;
+	right: 0px;
+}
+DIV.sub-header-class
+{
+	display: inline;
+	left: 8px;
+	border-style: none;
+	background-color: #D8E0FF;
+	font-weight: bold;
+	bottom: 50px;
+	top: 20px;
+}
+DIV.data-class
+{
+	display: inline;
+	position: absolute;
+	left: 10px;
+	top: 32px;
+	border-style: inset;
+	background-color: #FFFFFF;
+	width: 455px;
+	height: auto;
+	right: auto;
+	font-weight: bold;
+	border-top-color: #C1E0FF;
+	border-right-color: #AAD5FF;
+	border-bottom-color: #AAD5FF;
+	border-left-color: #AAD5FF;
+	border-top-style: inset;
+	border-right-style: inset;
+	border-bottom-style: inset;
+	border-left-style: inherit;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-left-width: thin;
+}
+DIV.footer-class
+{
+	display: inline;
+	position: relative;
+	left: 576px;
+	border-style: none;
+	height: 26px;
+	text-align: right;
+	top: 439px;
+	right: 0px;
+}
+SPAN.close-pointer
+{
+	float: right;
+	background-color: #808080;
+	color: #FFFFFF;
+	font-weight: bold;
+	width: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+TD.wizard-nav-active
+{
+	width: 10px;
+	height: 22px;
+	font-weight: bold;
+}
+TD.wizard-nav-complete
+{
+	background-position: left top;
+	border-color: transparent;
+	border-style: none;
+	border-width: 1px;
+	cursor: pointer;
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+	vertical-align: middle;
+	height: 22px;
+	width: auto;
+	text-transform: capitalize;
+	line-height: normal;
+	font-size: 12px;
+	font-weight: bold;
+	font-family: arial;
+}
+TD.wizard-nav-normal
+{
+	font-weight: normal;
+	width: 10px;
+	height: 22px;
+}
+IMG.wizard-img-active
+{
+	width: auto;
+	height: auto;
+}
+IMG.wizard-img-complete
+{
+	width: auto;
+	height: auto;
+}
+IMG.wizard-img-normal
+{
+	width: auto;
+	height: auto;
+}
+.black_overlay
+{
+	display: none;
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	z-index: 1001;
+	opacity: .30;
+  filter: alpha(opacity=30);
+}
+.white_content
+{
+	display: none;
+/*set block to display default*/
+	position: absolute;
+	top: 1px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 30002;
+	overflow: auto;
+}
+.navigation-class
+{
+	display: inline;
+	position: absolute;
+	left: 10px;
+	border-style: none;
+	background-color: #FFF;
+	font-weight: bold;
+	height: auto;
+	bottom: 10px;
+	width: 149px;
+	top: 10px;
+	right: 10px;
+	z-index: 2;
+}
+.navigation-form-content-class
+{
+	border-style: none;
+	background-color: #FFF;
+	height: 230px;
+	bottom: 30px;
+	top: 39px;
+}
+.wiz-content-bdr-class
+{
+	display: inline;
+	position: absolute;
+	left: 177px;
+	border-style: none;
+	background-color: #FFF;
+	/*font-weight: bold;*/
+	height: auto;
+	bottom: 10px;
+	right: 10px;
+	top: 10px;
+}
+.wiz-content-class
+{
+	display: inline;
+	position: absolute;
+	left: 10px;
+	border-style: none;
+	background-color: #D11;
+	font-weight: bold;
+	height: auto;
+	bottom: 10px;
+	top: 10px;
+	right: 10px;
+}
+DIV.header-nobtn-class
+{
+	display: inline;
+	position: absolute;
+	left: 0px;
+	border-style: none;
+	background-color: #FFF;
+	/*font-weight: bold;*/
+	height: auto;
+	bottom: 40px;
+	top: 0px;
+	right: 0px;
+	border: 1px solid #8499A2;
+}
+.navigation-img-class
+{
+	display: inline;
+	position: absolute;
+	left: 0px;
+	border-style: none;
+	font-weight: bold;
+	height: auto;
+	bottom: 10px;
+	width: 149px;
+	top: 0px;
+	right: 10px;
+}
+.step-tr-active-class
+{
+	background-color: #8DB71F;
+	color: #FFFFFF;
+	font-weight: bold;
+}
+.step-tr-normal-class
+{
+	background-color: #FFFFFF;
+}
+.step-tr-complete-class
+{
+	font-weight: bold;
+}
+.option
+{
+	font-family: arial;
+}
+.p-padding-class
+{
+	padding: 0px;
+}
+
+.step-div-header-class {
+	margin: 0px;
+	text-align: left;
+	vertical-align: middle;
+	height: 24px;
+	text-transform: capitalize;
+	line-height: normal;
+	font-size: 15px;
+	font-weight: normal;
+	font-family: arial;
+	display: table-cell;
+	position: relative;
+	color: #8E8E8E;
+}
+.step-div-footer-class {
+	margin: 0px;
+	text-align: left;
+	vertical-align: middle;
+/* 	height: 30px; */
+/*	text-transform: capitalize; */
+	line-height: normal;
+	font-size: 15px;
+	font-weight: normal;
+	font-family: arial;
+  font-color:
+	display: table-cell; 
+	position: absolute; 
+	color: #000000;
+	top:388px;
+}
+
+.desc-footer-class {
+	margin: 0px;
+	text-align: left;
+	vertical-align: middle;
+/* 	height: 30px; */
+/*	text-transform: capitalize; */
+	line-height: normal;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+  font-color:
+	display: table-cell; 
+	position: absolute; 
+	color: #000000;
+	top:300px;
+}
+
+.desc-footer-class1 {
+	margin: 0px;
+	text-align: left;
+	vertical-align: middle;
+/* 	height: 30px; */
+/*	text-transform: capitalize; */
+	line-height: normal;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+  font-color:
+	display: table-cell; 
+	position: absolute; 
+	color: #000000;
+	top:360px;
+}
+.step-div-header-padding-class {
+	height: 15px;
+}
+
+.input-button-disabled {
+        background-image: url("kub-button-80-disabled.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-submit {
+        background-image: url("kub-button-80-normal.png");
+        border-style: none;
+	border-color: #53636a;
+        border-width: 1px;
+	text-transform: capitalize;
+	font-size: 12px;
+	font-weight: normal;
+	font-family: arial;
+        color: #000000;
+        height: 22px;
+        width: 80px;
+}
+
+.input-submit-hover
+{
+  background-image: url(kub-button-80-hover.png);
+  border-style: none;
+  cursor: pointer;
+  border-color: #53636a;
+  border-width: 1px;
+  text-transform: capitalize;
+  font-size: 12px;
+  font-weight: normal;
+  font-family: arial;
+  color: #000000;
+  height: 22px;
+  width: 80px;
+}
+
+.input-submit-disable {
+    /*    border-style: none;
+	border-color: #53636a; */
+	/* text-transform: capitalize; */
+        height: 24px;
+        width: 80px;
+}
+.input-submit:hover {
+        background-image: url("kub-button-80-hover.png");
+        border-style: none;
+	border-color: #1fa0d5;
+        border-width: 1px;
+}
+
+.input-submit-small {
+	font-size: 10px;
+	text-transform: capitalize;
+}
+
+.wiz-tabs {
+        /* vertical-align: middle; */
+        border-color: #ffffff;
+        border-style: none;
+        border-width: 1px;
+        /* border-radius: 3em; */
+        height: 22px;
+    width: 100%;
+}

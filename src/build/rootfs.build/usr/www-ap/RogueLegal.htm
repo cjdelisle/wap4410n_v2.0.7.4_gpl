@@ -1,0 +1,371 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link REL="stylesheet" TYPE="text/css" HREF="./help_@sys_lang#/help.css">
+
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="JavaScript" type="text/javascript" src="P.js"></script>
+<!--[if gt IE 6]>
+<link href="ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script language="javascript" type="text/javascript">
+<!-- hide script from old browsers
+strHtml='<title>'+titl_rogue+'</title>';
+dw(strHtml);
+
+function init()
+{    
+	var cf = document.forms[0];
+    dataToVisible(cf);
+}
+
+function checkData_mac()
+{
+	var cf = document.forms[0];
+	var msg = "";
+	
+	msg+= checkMAC(cf.rougeAddAPMAC,msg_mac_address);
+	if(msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "RogueLegal.htm", "Warn", msg, "", ABSubBtnOK,"");
+
+		return false;
+	}
+	cf.todo.value = "addMac";
+ 	dataToHidden(cf);
+	return true;
+}
+
+function checkData_oui()
+{
+	var cf = document.forms[0];
+	var msg = "";
+    msg+= checkOUI(cf.rougeAddAPOUI,msg_ap_uio);
+	if(msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "RogueLegal.htm", "Warn", msg, "", ABSubBtnOK,"");
+
+		return false;
+	}	
+	cf.todo.value = "addOui";
+ 	dataToHidden(cf);	
+	return true;
+}
+
+function delAddrSubmit()
+{
+	var cf = document.forms[0];
+ 	
+ 	if(chkSelected(cf.trusted_ap_list,msg_wire_list)==0){
+ 		ALERT(parent, "CON", titl_warn, "RogueLegal.htm", "Warn", msg_wire_list, "", ABSubBtnOK,"");
+		return false;
+ 	}
+ 	cf.todo.value = "delAddr";
+ 	dataToHidden(cf);
+ 	return true;
+}
+
+function refresh()
+{
+	window.location.href='RogueLegal.htm'
+}
+function do_close()
+{
+	self.close();
+}
+
+
+//
+//-->
+</script>
+<style>
+	
+/* Alert Box */
+div.AB_ALL
+{
+POSITION:absolute; Z-INDEX:999999; TOP:20%; LEFT:2%; FILTER:alpha(opacity=100); background: transparent;
+}
+iframe.AB_FRAME
+{
+position: absolute; z-index: 9999px;
+ width: expression(this.nextSibling.offsetWidth);
+ height: expression(this.nextSibling.offsetHeight);
+ top:expression(this.nextSibling.offsetTop);
+ left:expression(this.nextSibling.offsetLeft);
+opacity:0; filter:alpha(opacity=0); display:block;
+}
+
+table.AB_TABLE
+{
+width:368px; background: transparent; cursor:move;
+}
+
+/* AB TOP */
+td.AB_TD_top
+{
+width:368px; height:25px;
+}
+table.top_TABLE
+{
+width:100%; height:25px;
+}
+td.top_td_ct
+{
+width:300px; height:25px; background-image:url(img_alert/bdr_TC.png); background-repeat:repeat-x; padding-left:2px; padding-top:3px; font-size:12px; font-weight:bold;
+}
+td.top_td_l
+{
+width:7px; height:25px; background-image:url(img_alert/bdr_TL.png); background-repeat: no-repeat;
+}
+
+tr.tct
+{
+cursor:move;
+}
+td.top_td_cc
+{
+width:47px; height:25px; background-image:url(img_alert/bdr_TC.png); background-repeat:repeat-x; text-align:right; padding-right:0px; padding-top:2px;
+}
+img.td_cc_img
+{
+cursor:pointer; 
+}
+td.top_td_r
+{
+width:14px; height:25px; background-image:url(img_alert/bdr_TR.png); background-repeat: no-repeat;*/
+}
+
+/* AB MID */
+td.AB_TD_Ml
+{
+width:5px; height:100%; background-position:top; background-image:url(img_alert/bdr_LC.png); background-repeat:repeat-y;*/
+}
+img.TD_Ml_img
+{
+width:5px; height:100%;
+}
+td.AB_TD_Mc
+{
+width:352px; background-color:#FFFFFF; vertical-align:top;
+}
+table.Help_TABLE
+{
+width:100%; height:15px;
+}
+span.Help_span
+{
+float:right; margin-top:1px; margin-right:6px; font-size:12px; font-weight:bold; cursor:pointer; color:#42E3FD;
+}
+table.MSG_TABLE
+{
+width:322px; margin: 0px 15px 5px 15px;
+}
+td.MSG_type
+{
+width:48px; vertical-align:top;
+}
+td.MSG_cont
+{
+vertical-align:top; white-space:normal; font-size:12px; font-weight:bold;
+}
+td.MSG_lc
+{
+width:48px; vertical-align:top;
+}
+td.MSG_no
+{
+vertical-align:top; white-space:normal; font-size:12px; font-weight:bold;
+}
+td.MSG_BTN_t
+{
+height:20px;
+}
+div.Norm2
+{
+	font-size: 12px;
+	font-weight: bold;
+	padding-top: 4px;
+	cursor: pointer;
+	text-align: center;
+	width: 37px;
+	height: 23px;
+	margin-left: 2px;
+	margin-right: 2px;
+	background: transparent url(img_alert/BT_Norm2.gif) no-repeat;
+}
+div.Norm3
+{
+font-size:12px; font-weight:bold; padding-top:4px; cursor:pointer; text-align:center; width:40px; height:23px; background: transparent url(img_alert/BT_Norm3.gif) no-repeat; margin-left:2px; margin-right:2px;
+}
+div.Norm5
+{
+font-size:12px; font-weight:bold; padding-top:4px; cursor:pointer; text-align:center; width:74px; height:23px; background: transparent url(img_alert/BT_Norm5.gif) no-repeat; margin-left:2px; margin-right:2px;
+}
+div.Over2
+{
+font-size:12px; font-weight:bold; padding-top:4px; cursor:pointer; text-align:center; width:37px; height:23px; background: transparent url(img_alert/BT_Over2.gif) no-repeat; margin-left:2px; margin-right:2px;
+}
+div.Over3
+{
+font-size:12px; font-weight:bold; padding-top:4px; cursor:pointer; text-align:center; width:40px; height:23px; background: transparent url(img_alert/BT_Over3.gif) no-repeat; margin-left:2px; margin-right:2px;
+}
+div.Over5
+{
+font-size:12px; font-weight:bold; padding-top:4px; cursor:pointer; text-align:center; width:74px; height:23px; background: transparent url(img_alert/BT_Over5.gif) no-repeat; margin-left:2px; margin-right:2px;
+}
+td.MSG_Num_t
+{
+height:15px;
+}
+td.MSG_Num
+{
+white-space:normal; font-size:12px; font-weight:bold;
+}
+td.AB_TD_Mr
+{
+width:11px; height:100%; background-position:top; background-image:url(img_alert/bdr_RC.png); background-repeat:repeat-y;*/
+}
+img.TD_Mr_img
+{
+width:11px; height:100%;
+}
+
+/* AB BOTTOM */
+td.AB_TD_btm
+{
+width:368px; height:12px;
+}
+table.btm_TABLE
+{
+width:100%; height:100%;
+}
+td.btm_td_l
+{
+width:13px; height:12px; background-image:url(img_alert/bdr_BL.png); background-repeat: no-repeat;*/
+}
+td.btm_td_cc
+{
+width:341px; height:12px; background-image:url(img_alert/bdr_BC.png); background-repeat:repeat-x;*/
+}
+img.btm_cc_img
+{
+width:341px; height:12px;
+}
+td.btm_td_r
+{
+width:14px; height:12px; background-image:url(img_alert/bdr_BR.png); background-repeat: no-repeat;*/
+}
+
+
+
+	</style>
+</HEAD>
+<BODY class="sbody" onLoad="init();">
+<FORM name="editlist" method="POST" action="setup.cgi">
+	<table border="0" cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<td>
+<div  class="SFormPane">
+	<div class="TitleofGroupBox">
+            	<script language="javascript" type="text/javascript">
+				dw(ap_laplist);
+			</script>
+		</div>
+ <table border="0" cellspacing="0" cellpadding="0" >
+        <tr>
+        	 <td colspan=3>
+        	<SELECT name="trusted_ap_list" size=6 multiple style="{width:250;margin-top:4px;margin-bottom:4px;}">
+	@trusted_ap_list# 
+	</SELECT>
+	</td>
+	</tr>
+     <tr height="30px">
+        <td  colspan=3>
+      <script language="javascript" type="text/javascript">
+		dw('<input type="submit" class="delbutton" name="delete" value="');
+			dw(ap_del);
+			dw('" onClick="return delAddrSubmit();">')
+		</script>
+       </td>
+       </tr>
+       <TR height="30px" >
+          <TD width="116px">
+          	<script language="javascript" type="text/javascript">
+					dw(ap_amac);
+			</script> </td>
+                                      <td width="145px">
+			<INPUT TYPE="text" maxLength=17 name="rougeAddAPMAC" value="@rougeAddAPMAC#" size="17" >
+			 </td>
+                                      <td >
+                                      	<script language="javascript" type="text/javascript">
+										dw('<input type="submit"  class="stdbutton" name="addmac" value="');
+										dw(ap_add);
+										dw('" onClick="return checkData_mac();">')
+			
+			</script>
+           
+            </TD>
+            
+            </TR>
+                                    <TR height="30px">
+                                      <TD ><script language="javascript" type="text/javascript">
+										dw(ap_aoui);
+									</script> </td>
+                                      <td ><INPUT TYPE="text" maxLength=8 name="rougeAddAPOUI" value="@rougeAddAPOUI#" size="9"  >
+                                      	 </td>
+                                      <td >
+                                      	<script language="javascript" type="text/javascript">
+										dw('<input type="submit" name="addoui"class="stdbutton" value="');
+										dw(ap_add);
+										dw('" onClick="return checkData_oui();">')
+									</script>
+                                     </TD>
+                                    </TR>
+                                   
+                                </table>
+      </div>
+
+         </td>
+</tr>
+<tr>
+	<td align="left">
+<div  class="ButtonRow">
+			<script language="javascript" type="text/javascript">
+                showRefresh();
+			</script>
+			<script language="javascript" type="text/javascript">
+            		dw('<input type="BUTTON" name="close" value="');
+            		dw(ap_bclose);
+            		dw('" class="stdbutton" onClick="self.close();">');
+            		
+			</script>        
+</div>
+</td>
+
+</tr>
+
+</table>
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="h_trusted_ap_list" value="@h_trusted_ap_list#">
+<input type="hidden" name="this_file" value="RogueLegal.htm">
+<input type="hidden" name="next_file" value="RogueLegal.htm">
+<input type="hidden" name="message" value="@msg_text#">
+</FORM>
+   
+  <!-- Alert Box -->
+<form name="ABox" method="POST" >
+	<iframe id="AB_IFrame" name="AB_IFrame" frameborder="0" class="AB_FRAME"></iframe>
+<div dragable="dragable" id="CON" onMouseDown="startDrag(this.id)" class="AB_ALL" style="display:block;">
+	</div>
+<input type="hidden" name="h_NoMsg" value="@h_NoMsg#">
+</form>
+</BODY>
+</HTML>

@@ -1,0 +1,81 @@
+##dyndns
+msg1=*@*No message.*@*
+msg2=*@*These fields must not be null*@*
+msg3=*@*IP address is the same, no update required.*@*
+msg4=*@*Fields can not be blank.*@*
+msg5=*@*DNS query error*@*
+msg6=*@*DNS server error*@*
+msg7=*@*DNS server error: No response or no internet connection*@*
+msg8=*@*Unable to establish HTTP connection*@*
+msg9=*@*Error in Username or password*@*
+msg10=*@*Update OK*@*
+msg11=*@*Connected*@*
+msg12=*@*Please wait ... *@*
+msg13=*@*Invalid Domain Name*@*
+msg14=*@*Error: The host (Domain) name is not recognized*@*
+msg15=*@*Error: The host (Domain) name is not owned by you*@*
+msg16=*@*Error: Connection blocked due to abuse*@*
+msg17=*@*Server error : numhost*@*
+msg18=*@*Service has been shut down*@*
+msg19=*@*Unknown return code received.*@*
+msg20=*@*Unknown error occurred.*@*
+msg21=*@*Can't open HTTP socket*@*
+msg22=*@*Error: No WAN port connection*@*
+msg23=*@*No password provided*@*
+msg24=*@*The password you supplied is not valid*@*
+msg25=*@*This account has not yet been activated*@*
+msg26=*@*Administrator has disabled this account*@*
+msg27=*@*Invalid character or characters in IP field*@*
+##url_f
+msg1=*@*Filter String can't be blank.\n*@*
+msg2=*@*No Filter String selected. \nPlease select one from the list.\n*@*
+msg3=*@*Filter String not found.\n*@*
+##static_dhcp
+msg1=*@*Error: This entry already exists in the Reserved PC DHCP Client Table.*@*
+msg2=*@*Error: Database is full, unable to add new WorkStation.\n*@*
+##factorydefaults
+msg1=*@*Restoring to factory default.... <br>Please wait 15 seconds to continue*@*
+##administration
+msg1=*@*Password and verification do not match.\n*@*
+msg2=*@*External Port number can not be used. \nIt is already assigned to the %s Virtual Server.\nPlease select another Port number.\n*@*
+##wireless
+msg1=*@*SSID name is too long. \nThe SSID must not exceed 32 charactors. \n*@*
+msg2=*@*USA/Canada*@*
+##backup
+msg1=*@*Error: Configuration terminated due to insufficient resources. \nRestore failed. Please try again when system is idle (no Internet traffic).*@*
+msg3=*@*Loading saved setting.<p>Please do not interrupt the process.<p>The Home page will appear automatically when loading is completed.*@*
+msg4=*@*Please select the correct configuration file.*@*
+##setup
+msg3=*@*DHCP Start IP Address or Finish IP Address is not in the correct Subnet*@*
+##lan
+msg1=*@*\nWarning!\n\nThe change in IP Address (Network Number) means your PC and this device have incompatible IP Addresses.\nPlease change your PC's IP Address to match the new IP address.\n(If using DHCP, just restart each PC)\n Then re-connect to this device's new IP Address: %u.%u.%u.%u\n*@*
+msg2=*@*\n\nWarning!\n\nThe change in IP Address means the IP Address used to connect to this device is now incorrect.\nPlease re-connect using the new IP Address: %s\n*@*
+##upg_fw
+msg2=*@*Error: Upgrade file is not the correct type or version for this device. \nUpgrade failed.<br>Please obtain the correct file and try again.*@*
+msg3=*@*Error: Firmware upgrade terminated due to insufficient resources. \nUpgrade failed. Please try again when system is idle (no Internet traffic).*@*
+msg4=*@*Cannot upload, please contact administrator*@*
+msg5=*@*Firmware upgrade in process. \nThis may take a few minutes. Please wait.*@*
+##vpc
+msg2=*@*Error: Database is full, unable to add this entry. \n*@*
+msg4=*@*IP Address field is invalid, valid range is 0..255 \n*@*
+##st_dhcp
+msg1=*@*Error: Failed to get IP address from remote DCHP Server.*@*
+msg2=*@*Enabled*@*
+msg3=*@*Disabled*@*
+##st_pptp
+msg1=*@*Error: PPTP server not found at specified IP address\n*@*
+##st_poe
+msg3=*@*Login to PPPoE server failed.\n*@*
+##dhrp
+msg1=*@* *@*
+msg2=*@* *@*
+msg3=*@* *@*
+msg4=*@* *@*
+msg5=*@* *@*
+msg6=*@* *@*
+msg7=*@* *@*
+msg8=*@* *@*
+msg9=*@* *@*
+msg10=*@* *@*
+msg11=*@* *@*
+msg12=*@* *@*

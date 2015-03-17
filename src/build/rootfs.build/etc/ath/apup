@@ -1,0 +1,104 @@
+#!/bin/sh
+##
+## Compatability script for earlier versions.
+## Note that if you are trying to create an mBSSID type of initialization scirpt,
+## then another script should be used (or this one should be changed)
+##
+
+MODLIST=`lsmod | grep ath_hal | cut -f1,0 -d" "`
+
+if [ "${MODLIST}" = "ath_hal" ]; then
+	echo "AP is already up"
+	exit
+fi
+. /etc/ath/apcfg
+
+if [ "${AP_STARTMODE}" = "standard" ]; then
+    makeVAP ap $AP_SSID ${AP_IFNUM}
+    activateVAP ath0 br0 $AP_SECMODE $AP_SECFILE
+fi
+
+##
+## See the activateVAP script for details on arguments.  Other configuration
+## examples are as follows:
+##
+
+##
+## Root AP for WDS
+##
+
+if [ "${AP_STARTMODE}" = "rootap" ]; then
+    makeVAP ap-wds $AP_SSID ${AP_IFNUM}
+    activateVAP ath0 br0 $AP_SECMODE $AP_SECFILE
+fi
+
+## REPEATER
+
+if [ "${AP_STARTMODE}" = "repeater" ]; then
+    makeVAP ap-wds  $AP_SSID ${AP_IFNUM}
+    makeVAP sta-wds $AP_SSID ${AP_IFNUM_2}
+
+    if [ "${ROOTAP_MAC}" != "" ]; then
+        iwconfig ath1 ap $ROOTAP_MAC
+    fi
+
+    activateVAP ath1 br0 $AP_SECMODE_2 $AP_SECFILE_2
+    activateVAP ath0 br0 $AP_SECMODE $AP_SECFILE
+fi
+
+##
+## "VIRTUAL WIRE" client
+##
+
+if [ "${AP_STARTMODE}" = "client" ]; then
+    makeVAP sta-wds $AP_SSID ${AP_IFNUM}
+
+    if [ "${ROOTAP_MAC}" != "" ]; then
+        iwconfig ath0 ap $ROOTAP_MAC
+    fi
+
+    activateVAP ath0 br0 $AP_SECMODE $AP_SECFILE
+fi
+
+##
+## mBSSID case with all types of authentication
+## Note that WEP MUST be the first VAP
+## This is brute force, but effective.  Note that we set the becon interval
+## to 400
+##
+
+if [ "${AP_STARTMODE}" = "multi" ]; then
+    if [ "${AP_SSID}" != "" ]; then
+        makeVAP $AP_MODE $AP_SSID ${AP_IFNUM} 400
+	fi
+
+    if [ "${AP_SSID_2}" != "" ]; then
+	    makeVAP $AP_MODE_2 $AP_SSID_2 ${AP_IFNUM_2}
+	fi
+
+    if [ "${AP_SSID_3}" != "" ]; then
+        makeVAP $AP_MODE_3 $AP_SSID_3 ${AP_IFNUM_3}
+	fi
+
+    if [ "${AP_SSID_4}" != "" ]; then
+        makeVAP $AP_MODE_4 $AP_SSID_4 ${AP_IFNUM_4}
+	fi
+
+    #
+    # Now, activate the VAPs
+    #
+
+    activateVAP ath0 br0 $AP_SECMODE $AP_SECFILE
+
+    if [ "${AP_SSID_2}" != "" ]; then
+        activateVAP ath1 br0 $AP_SECMODE_2 $AP_SECFILE_2
+	fi
+
+    if [ "${AP_SSID_3}" != "" ]; then
+        activateVAP ath2 br0 $AP_SECMODE_3 $AP_SECFILE_3
+	fi
+
+    if [ "${AP_SSID_4}" != "" ]; then
+        activateVAP ath3 br0 $AP_SECMODE_4 $AP_SECFILE_4
+	fi
+fi

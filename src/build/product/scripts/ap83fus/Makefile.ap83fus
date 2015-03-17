@@ -1,0 +1,112 @@
+export HAL=$(TOPDIR)/wlan/common/hal
+export ENETDIR=$(TOPDIR)/linux/drivers/net/ag7100/
+export USBMODPATH=$(INSTALL_ROOT)/lib/modules/$(KERNELVER)/usb
+export USBDIR=${KERNELPATH}/drivers/usb/
+
+#
+# Makefile for AP83 Fusion build.  It has dependancies for both
+# the "common" build and the "jffs2" build.  This is unique for
+# each board type, and must be configured for each board.
+#
+
+ap83fus_build: common_fusion fusion_build $(BUILD_TYPE)_build
+
+common_fusion:	check_tftp rootfs_prep toolchain_build uimage \
+		kernel_info enet_build usb_build busybox_build wsc_fus\
+		fus_supplicant sar
+
+common_build:	check_tftp rootfs_prep toolchain_build uimage \
+		kernel_info enet_build busybox_build hostapd wpa_supplicant sar
+
+#
+# Unique rules for the ag7100 PHY with the ar7100 (Hydra)  board
+#
+
+enet_build: kernel_build
+	cd $(ENETDIR) && rm -f *.o *.ko *.mod.*
+	$(MAKEARCH) -C $(KERNELPATH) SUBDIRS=$(ENETDIR) modules
+	test -d $(MODULEPATH) || mkdir -p $(MODULEPATH)
+	cp $(ENETDIR)/ag7100_mod.ko $(MODULEPATH)
+
+
+wireless_tools_fus:
+	@echo making wireless_tools
+	if test -n "$(WIRELESSTOOLS)"; then \
+	cd ../apps/$(WIRELESSTOOLS); make clean; make; \
+	$(STRIP) $(WIRELESSTOOLSLIB); \
+	$(STRIP) iwpriv;  \
+	$(STRIP) iwconfig; \
+	$(STRIP) iwlist; \
+	cp -f $(WIRELESSTOOLSLIB) $(INSTALL_ROOT)/lib; \
+	cp -f iwpriv $(INSTALL_ROOT)/sbin; \
+	cp -f iwconfig $(INSTALL_ROOT)/sbin; \
+	cp -f iwlist $(INSTALL_ROOT)/sbin; \
+	cd $(TOPDIR)/wlan/linux/tools && make clean; \
+	make wlanconfig BUILD_STATIC=$(BUILD_STATIC); \
+	$(STRIP) wlanconfig; \
+	cp -f wlanconfig $(INSTALL_ROOT)/sbin; \
+	fi
+
+ath_tools_fus: ath_tools_fus_clean
+	@echo makeing ath tools;\
+	cd ../wlan/linux/tools;\
+	make ath_tools;
+
+ath_tools_fus_clean:
+	@echo cleaning ath tools;\
+	cd ../wlan/linux/tools;\
+	make ath_tools_clean;
+
+#	cd $(TOPDIR)/wlan/linux/tools && make clean \
+#	&&  make BUILD_STATIC=$(BUILD_STATIC) &&  $(STRIP) wlanconfig && \
+#	cp -f wlanconfig $(INSTALL_ROOT)/sbin && \
+#	$(STRIP) athstats athstatsclr athdebug 80211stats 80211debug athkey athampdutrc athcwm atrc pktlogconf pktlogdump radartool && \
+#	tar -czvf $(INSTALL_ROOT)/sbin/debug.tgz athstats athstatsclr athdebug 80211stats 80211debug athkey athampdutrc athcwm atrc pktlogconf pktlogdump radartool; \
+
+hostapd_fus: openssl
+	if ( test -e ../apps/wpa/hostapd-0.4.8 ) then \
+	cd ../apps/wpa/hostapd-0.4.8; cp -f defconfig.fus .config; make clean; make; \
+	make PREFIX=$(INSTALL_ROOT)/sbin CONFIG_PATH=$(INSTALL_ROOT)/etc/ath DEFAULT_CFG=$(INSTALL_ROOT)/etc/ath/default install; \
+	fi
+
+wsc_fus: hostapd_fus
+	if (test -e ../apps/wpa/wsc/src/linux ) then \
+	chmod -R 755 ../apps/wpa/wsc/src/lunux; \
+	cd ../apps/wpa/wsc/src/linux; make clean; \
+	make PREFIX=$(INSTALL_ROOT)/sbin CONFIG_PATH=$(INSTALL_ROOT)/etc/ath DEFAULT_CFG=$(INSTALL_ROOT)/etc/ath/default install; \
+	fi
+
+fus_supplicant:
+	if (test -e ../apps/wpa/wpa_supplicant-0.5.5 ) then \
+	cd ../apps/wpa/wpa_supplicant-0.5.5; cp -f defconfig.fus .config; make clean; \
+    make; make PREFIX=$(INSTALL_ROOT)/sbin install; \
+	fi
+
+
+
+fusion_hal_build:
+	@echo making FUSION hal
+	if test -n "$(FUSIONTARGET)"; then \
+	cd $(HAL)/linux && make TARGET=$(FUSIONTARGET) clean &&  \
+	make TARGET=$(FUSIONTARGET) && make TARGET=$(FUSIONTARGET) release; \
+	fi
+
+fusion_build: fusion_hal_build wireless_tools_fus ath_tools_fus
+	@echo making fusion
+	cd $(TOPDIR)/wlan/linux && \
+	$(MAKEARCH) TARGET=$(FUSIONTARGET) clean \
+	&&  $(MAKEARCH) TARGET=$(FUSIONTARGET) && \
+	$(MAKEARCH) DESTDIR=$(INSTALLROOT) TARGET=$(FUSIONTARGET) install
+	$(MAKE) $(BUILD_TYPE)_build
+
+usb_build: kernel_build
+	test -d $(USBMODPATH) || mkdir -p $(USBMODPATH)
+	cp -f $(USBDIR)/core/usbcore.ko ${USBMODPATH}
+	cp -f ${USBDIR}/host/ehci-hcd.ko ${USBMODPATH}
+	cp -f ${USBDIR}/storage/usb-storage.ko ${USBMODPATH}
+
+#redboot_fusion:
+#	@echo making redboot...
+#	cd $(BOOTLOADERDIR) && make pb42_rom BOARD_TYPE=pb42
+#	cp $(BOOTLOADERDIR)/rom_bld/install/bin/redboot.rom $(IMAGEPATH)
+

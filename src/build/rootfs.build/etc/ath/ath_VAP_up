@@ -1,0 +1,38 @@
+#!/bin/sh
+####################################################################
+## ath_VAP_up
+##
+## This script is used to down a VAP, or if you want complete
+## destruction, specify all.
+##
+##
+## Examples:
+##      ath_VAP_up 0
+##
+###################################################################
+
+if [ "${1}" = "" ]; then
+    echo "    ath_VAP_up usage"
+    echo "    ath_VAP_up [ unit ]"
+    exit
+fi
+
+##
+## SPE-profing
+## Check to see if ath_VAP_down is already running.  If so, exit, because you should only
+## be doing one at a time
+##
+
+SPEPROOF=`ps | grep -c ath_VAP_up`
+if [ $SPEPROOF -gt 3 ]; then
+    ps
+    echo "Too much up!!  Give peace a chance!!"
+    exit
+fi
+
+athlist=`iwconfig | grep ath$1 | cut -b 1-5`
+for i in $athlist
+do
+#   echo "uping $i"
+    ifconfig $i up
+done

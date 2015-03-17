@@ -1,0 +1,1 @@
+#undef CONFIG_AG7100_USE_TRC

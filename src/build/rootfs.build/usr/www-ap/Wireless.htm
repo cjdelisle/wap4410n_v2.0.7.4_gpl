@@ -1,0 +1,501 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- Alert Box -->
+<!--[if lt IE 7.]>
+<script defer type="text/javascript" src="png.js"></script>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+parent.document.title=titl_wire;
+strHtml='<title>'+titl_wire+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+
+<!-- hide script from old browsers
+var MaxMSSID = 4;
+var channelList = "@r_channel_list#";
+//var channelList = "1 2 3 4 5 6 7 8 9 10 11 12 13";
+
+function sync_to_wizard()
+{
+	var cf = document.forms[0];
+	var f = window.top.document.forms[0];
+	
+	f.elements['wl_ssid1'].value=cf.wl_ssid1.value;
+	f.elements['wl_ssid2'].value=cf.wl_ssid2.value;
+	f.elements['wl_ssid3'].value=cf.wl_ssid3.value;
+	f.elements['wl_ssid0'].value=cf.wl_ssid0.value;
+	
+	f.elements['h_wl_hide_ssid0'].value=cf.h_wl_hide_ssid0.value;
+	f.elements['h_wl_hide_ssid1'].value=cf.h_wl_hide_ssid1.value;
+	f.elements['h_wl_hide_ssid2'].value=cf.h_wl_hide_ssid2.value;
+	f.elements['h_wl_hide_ssid3'].value=cf.h_wl_hide_ssid3.value;
+}
+
+function init()
+{
+	 var cf = document.forms[0];
+	
+	parent.parent_menu_clk("2-1");
+    setChannelList();
+    dataToVisible(document.forms[0]);
+    enableDisable();
+    ChangeWlMode();
+    sync_to_wizard();
+    cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+function ChangeWlMode()
+{
+    var cf = document.forms[0];
+    var wmode = cf.wl_mode[cf.wl_mode.selectedIndex].value;
+    
+    enableDisable();
+
+}
+
+function enableDisable()
+{
+	var cf = document.forms[0];
+	var dflag =  (cf.wl_mode[cf.wl_mode.selectedIndex].value == "disable");
+   
+	if(dflag==true)
+		setDisabled(dflag, cf.wl_channel,cf.wl_ssid0,cf.wl_ssid1,cf.wl_ssid2,cf.wl_ssid3,cf.wl_hide_ssid0, cf.wl_hide_ssid1, cf.wl_hide_ssid2, cf.wl_hide_ssid3 );
+	else
+	{
+		for(i=0;i<4;i++)
+		{
+			if(eval("cf.wl_ssid"+i).value != "")
+			{
+				eval("cf.wl_hide_ssid"+i).disabled = 0;
+			}
+			else{
+				eval("cf.wl_hide_ssid"+i).disabled = 1;
+			}
+		}
+		for(i=0;i<4;i++)
+		{
+			eval("cf.wl_ssid"+i).disabled = 0;
+		//	eval("cf.wl_hide_ssid"+i).disabled = 0;
+		}
+		cf.wl_channel.disabled = 0;
+		
+	}
+	  
+	if(cf.r_apmode.value == "wds")
+	{
+	    for(i=1;i<4;i++)
+		{
+			eval("cf.wl_ssid"+i).disabled = 1;
+			eval("cf.wl_hide_ssid"+i).disabled = 1;
+		}
+	}
+}
+function setChannelList()
+{
+    var cf = document.forms[0];
+    var channelArray;
+    var newOpt;
+    channelArray = channelList.split(" ");
+    cf.wl_channel.options.add(document.createElement("OPTION")); 
+    cf.wl_channel.options[0].text=wb_chann[0]; 
+    cf.wl_channel.options[0].value="0"; 
+    for(var i = 0; i < channelArray.length; i++) 
+	{ 
+	    newOpt = document.createElement("OPTION");
+    	cf.wl_channel.options.add(newOpt); 
+    	cf.wl_channel.options[i+1].text=wb_chann[channelArray[i]]; 
+    	cf.wl_channel.options[i+1].value=channelArray[i];
+    }
+    cf.wl_channel.options.length = channelArray.length+1;
+    	
+}
+
+function SSID_Focus(Index, value)
+{
+	var cf = document.forms[0];
+	
+	if(value == "" || eval("cf.wl_hide_ssid"+Index).disabled)
+	{
+		eval("cf.wl_hide_ssid"+Index).selectedIndex = 1;
+	}
+	eval("cf.wl_hide_ssid"+Index).disabled = 0;
+}
+function SSID_Blur(Index, value)
+{
+    var cf = document.forms[0];
+	if(value == "")
+	{   
+	//    if(Index == 0)
+	//    {    
+   	//	ALERT(parent, "CON", titl_warn, "Wireless.htm", "Warn", msg_invad_ssid0, "", ABBtnOK, "");
+	
+	       
+	//        return false;
+	//    }
+		eval("cf.wl_hide_ssid"+Index).disabled = 1;
+		eval("cf.wl_hide_ssid"+Index).selectedIndex = 0;
+	}
+}
+function CheckSSIDBlank(){
+	var cf = document.forms[0];
+	if(cf.wl_ssid0.value== "")
+	{
+			ALERT(parent, "CON", titl_warn, "Wireless.htm", "Warn", msg_invad_ssid0, "", ABBtnOK, "");
+	        return false;
+	}
+	return true;
+}
+
+function CheckSameSSID()
+{
+	var x=0;
+	var y=0;
+	
+	f = document.forms[0];
+
+	for (x=0; x<MaxMSSID; x++)
+	{
+	    if(f.r_apmode.value == "wds")
+	        break;
+		if ( eval("f.wl_ssid"+x+".value") != "" )
+		{
+			for(y=x+1; y<MaxMSSID; y++)
+			{
+				if ( x == y )
+					continue;
+				else
+				{
+					if ( eval("f.wl_ssid"+x+".value") == eval("f.wl_ssid"+y+".value") )
+					{
+					//	alert(same_ssid);
+						ALERT(parent, "CON", titl_warn, "Wireless.htm", "Warn", same_ssid, "", ABBtnOK, "");
+						return 0;
+					}
+				}
+			}
+		}
+	}
+	return 1;
+}
+
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg = ""; 
+    
+	//add checking
+   
+	if(!CheckSameSSID()) 
+	    return false;
+	if(!CheckSSIDBlank())
+	 	return false;
+	if(msg.length > 1 )
+	{
+		ALERT(parent, "CON", titl_warn, "Wireless.htm", "Warn", msg, "", ABBtnOK, "");
+		return false;
+	}
+	
+	dataToHidden(cf);
+	cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	
+	cf.submit();
+	
+    return true;
+}
+
+
+function showHelp()
+{
+	openHelpWin('help/h_BasicWSettings.htm');
+}
+
+
+
+// -->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+	 <script language="javascript" type="text/javascript">
+				dw(wb_type);
+			</script>
+	</div>
+<br> 
+<form name="wireless" method="POST" action="setup.cgi?next_file=Wireless.htm">
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+
+<!-- data table-->
+
+<tr>
+	<td valign="top"><table border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td width="180" class=ContentCrlHeight nowrap>
+        <script language="javascript" type="text/javascript">
+				dw(wb_wmode);
+			</script>
+	  </td>
+      <td   class=ContentCrlHeight nowrap>
+        <select name="wl_mode" class="SelectStd"  style="width:120px;" onChange="ChangeWlMode();" >
+      <option value="disable"><script language="javascript" type="text/javascript">
+				dw(wb_wmode0);
+			</script></option>
+	  <option value="11b"><script language="javascript" type="text/javascript">
+				dw(wb_wmodeb);
+			</script></option>
+	  <option value="11g"><script language="javascript" type="text/javascript">
+				dw(wb_wmodeg);
+			</script></option>
+	  <option value="11n"><script language="javascript" type="text/javascript">
+				dw(wb_wmoden);
+			</script></option>
+      <option value="11bg"><script language="javascript" type="text/javascript">
+				dw(wb_wmodebg);
+			</script></option>
+	  <!--option value="11gn"><script language="javascript" type="text/javascript">
+				dw(wb_wmodegn);
+			</script></option-->
+      <option value="11bgn"><script language="javascript" type="text/javascript">
+				dw(wb_wmodebgn);
+			</script></option>
+	  
+	  </select>
+      </td>
+    </tr>
+    <tr>
+      <td  class=ContentCrlHeight  nowrap> 
+      	<script language="javascript" type="text/javascript">
+				dw(wb_wchannel);
+			</script>
+			<br>
+			</td>
+      <td  class=ContentCrlHeight nowrap>
+          <select name="wl_channel" class="SelectStd" style="width:120px;"> 
+            <!--
+            <option value="0"><script language="javascript" type="text/javascript">
+				dw(wb_chann0);
+			</script></option>			
+            <option value="1"><script language="javascript" type="text/javascript">
+				dw(wb_chann1);
+			</script></option>
+            <option value="2"><script language="javascript" type="text/javascript">
+				dw(wb_chann2);
+			</script></option>
+            <option value="3"><script language="javascript" type="text/javascript">
+				dw(wb_chann3);
+			</script></option>
+            <option value="4"><script language="javascript" type="text/javascript">
+				dw(wb_chann4);
+			</script></option>
+            <option value="5"><script language="javascript" type="text/javascript">
+				dw(wb_chann5);
+			</script></option>
+            <option value="6"><script language="javascript" type="text/javascript">
+				dw(wb_chann6);
+			</script></option>
+            <option value="7"><script language="javascript" type="text/javascript">
+				dw(wb_chann7);
+			</script></option>
+            <option value="8"><script language="javascript" type="text/javascript">
+				dw(wb_chann8);
+			</script></option>
+            <option value="9"><script language="javascript" type="text/javascript">
+				dw(wb_chann9);
+			</script></option>
+            <option value="10"><script language="javascript" type="text/javascript">
+				dw(wb_chann10);
+			</script></option>
+            <option value="11"><script language="javascript" type="text/javascript">
+				dw(wb_chann11);
+			</script></option>
+            <option value="12"><script language="javascript" type="text/javascript">
+				dw(wb_chann12);
+			</script></option>
+            <option value="13"><script language="javascript" type="text/javascript">
+				dw(wb_chann13);
+			</script></option>   
+			-->    
+			
+          </select>
+      </td>
+    </tr>
+  </table></td>
+</tr>
+<br><br>
+<tr>
+<td valign="top">
+	<!-- <table border="1"    bordercolorlight="#FFFFFF" bordercolordark="#A2B9C9" cellpadding="0px" cellspacing="0"  >
+   -->
+   <table    class=TableTitleBg  cellpadding="0px" cellspacing="0" border="0"> 
+    <tr >
+    	
+      <td class=TableRowBottomRight  align="left"  class=ContentCrlHeight width="101" >
+      		<script language="javascript" type="text/javascript">
+				dw(wb_tab_ssid);
+			</script></td>
+      <td  class=TableRowBottomCenter  align="left"  class=ContentCrlHeight  width="177" >
+      <script language="javascript" type="text/javascript">
+				dw(wb_tab_name);
+			</script></td>
+      <td class=TableRowBottomleft  align="left"   class=ContentCrlHeight width="169" >
+        	<script language="javascript" type="text/javascript">
+				dw(wb_tab_broad);
+			</script></td>
+		
+    </tr>
+
+</table>
+ <table    class=TableContentBorder  cellpadding="0px" cellspacing="0" border="0"> 
+    
+   <tr >
+      <td  class=TableEvenRow align="left"  class=ContentCrlHeight width="103" >
+      		<script language="javascript" type="text/javascript">
+				dw(wb_ssid1);
+			</script></td>
+      <td     class=TableEvenRow  align="left"  class=ContentCrlHeight valign="middle" width="179">
+        	
+        	<input name="wl_ssid0" size="16" maxlength="32" onFocus="SSID_Focus(0, this.value);"  onBlur="SSID_Blur(0, this.value);" value="@wl_ssid0#">
+      </td>
+      <td   class=TableEvenRow  align="left"  class=ContentCrlHeight width="169">
+        <select name="wl_hide_ssid0" class="SelectStd"  >
+          <option value="disable"><script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></option>
+          <option value="enable"><script language="javascript" type="text/javascript">
+				dw(enable);
+			</script></option>
+      </select></td>
+    </tr>
+    <tr >
+      <td   class=TableOddRow align="left"  class=ContentCrlHeight  >
+      	<script language="javascript" type="text/javascript">
+				dw(wb_ssid2);
+			</script></td>
+      <td   class=TableOddRow  align="left"  class=ContentCrlHeight valign="middle" >
+        	
+        	<input name="wl_ssid1" size="16" maxlength="32" onFocus="SSID_Focus(1, this.value);" onBlur="SSID_Blur(1, this.value);" value="@wl_ssid1#">
+      </td>
+      <td   class=TableOddRow align="left"  class=ContentCrlHeight >
+        	
+        	<select disabled="disabled" name="wl_hide_ssid1" class="SelectStd"  >
+          <option value="disable"><script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></option>
+          <option value="enable"><script language="javascript" type="text/javascript">
+				dw(enable);
+			</script></option>
+      </select></td>
+    </tr>
+    <tr >
+      <td   class=TableEvenRow  align="left"  class=ContentCrlHeight  >
+      	<script language="javascript" type="text/javascript">
+				dw(wb_ssid3);
+			</script></td>
+      <td   class=TableEvenRow  align="left"  class=ContentCrlHeight valign="middle" >
+        	
+        	<input name="wl_ssid2" size="16" maxlength="32" onFocus="SSID_Focus(2, this.value);" onBlur="SSID_Blur(2, this.value);" value="@wl_ssid2#">
+      </td>
+      <td  class=TableEvenRow  align="left"  class=ContentCrlHeight >
+       
+       	 <select disabled="disabled" name="wl_hide_ssid2" class="SelectStd"  >
+          <option value="disable"><script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></option>
+          <option value="enable"><script language="javascript" type="text/javascript">
+				dw(enable);
+			</script></option>
+      </select></td>
+    </tr>
+    <tr >
+      <td    class=TableOddRow  align="left"  class=ContentCrlHeight  >
+      	<script language="javascript" type="text/javascript">
+				dw(wb_ssid4);
+			</script></td>
+      <td   class=TableOddRow   align="left"  class=ContentCrlHeight valign="middle" >
+       	
+       	 <input name="wl_ssid3" size="16" maxlength="32" onFocus="SSID_Focus(3, this.value);" onBlur="SSID_Blur(3, this.value);" value="@wl_ssid3#">
+      </td>
+      <td  class=TableOddRow  align="left"  class=ContentCrlHeight >
+      
+       	 <select disabled="disabled" name="wl_hide_ssid3" class="SelectStd"  >
+          <option value="disable"><script language="javascript" type="text/javascript">
+				dw(disable);
+			</script></option>
+          <option value="enable"><script language="javascript" type="text/javascript">
+				dw(enable);
+			</script></option>
+      </select></td>
+    </tr>
+
+  </table>
+  </td>
+</tr>
+
+<br>
+
+</div>
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("Wireless.htm");
+  </script>
+ </div>
+
+
+
+</div>
+
+ <!-- ServerStart --> 	 
+ <input type="hidden" name="h_wl_mode" value="@h_wl_mode#"> 	 
+ <input type="hidden" name="h_wl_channel" value="@h_wl_channel#"> 
+ <input type="hidden" name="h_wl_hide_ssid0" value="@h_wl_hide_ssid0#">
+ <input type="hidden" name="h_wl_hide_ssid1" value="@h_wl_hide_ssid1#">
+ <input type="hidden" name="h_wl_hide_ssid2" value="@h_wl_hide_ssid2#">
+ <input type="hidden" name="h_wl_hide_ssid3" value="@h_wl_hide_ssid3#">
+ <input type="hidden" name="r_apmode" value="@r_apmode#">
+ <!-- ServerEnd --> 	 
+  	 
+ <input type="hidden" name="todo" value="save"> 	 
+ <input type="hidden" name="this_file" value="Wireless.htm"> 	 
+ <input type="hidden" name="next_file" value="Wireless.htm"> 	 
+ <input type="hidden" name="message" value="@msg_text#"> 	 
+
+
+</form>
+
+
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>   
+</body>
+
+</html>
+

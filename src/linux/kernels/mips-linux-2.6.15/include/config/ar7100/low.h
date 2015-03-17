@@ -1,0 +1,1 @@
+#undef CONFIG_AR7100_LOW

@@ -1,0 +1,7 @@
+#! /bin/sh
+spapp=`find . -name "*.h" | awk '$1 != "CVS" {printf($1" ")}'`
+echo $spapp
+        for special_file  in $spapp  ; do
+        echo $special_file
+	cp -f $special_file ../test/
+        done

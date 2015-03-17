@@ -1,0 +1,5 @@
+#!/bin/sh
+# Generate a daily summary of process accounting.  Since this will probably
+# get kicked off in the morning, it would probably be better to run against
+# the previous days data.
+/home/shearer/Projects/WAP4410N/build/../build/rootfs.build/lib/sa/sa2 -A &

@@ -1,0 +1,799 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="utility.js"></script>
+
+<script language="javascript" type="text/javascript">
+
+parent.document.title=titl_wse;
+strHtml='<title>'+titl_wse+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!-- Start Script
+
+var secMethods = ["wep","wpa1","wpa2","psk_mixed","wpa_radius","wpa2_radius","wpa_radius_mixed","radius","disabled"];
+var secMethod = "";
+
+var keylength = 26;
+var hexkey = true;
+var keyLen = 10;
+var wepKey1;
+var wepKey2;
+var wepKey3;
+var wepKey4;
+var SecurityList = "@r_SecurityList#";
+//var SecurityList = "0 1 2 3 4 5 6 7 8";
+
+function saveLastKey()
+{
+    keyLen = (@r_keylength# == 40)? 10:26;
+    wepKey1 = "@r_keyvalue1#";
+    wepKey2 = "@r_keyvalue2#";
+    wepKey3 = "@r_keyvalue3#";
+    wepKey4 = "@r_keyvalue4#";
+
+}
+
+function setKeyType(isKeep)
+{
+	cf = document.forms[0];
+		keylength = (cf.keysize.selectedIndex==1)? 26 : 10;  
+    cf.wep_key1.size = cf.wep_key2.size = cf.wep_key3.size = cf.wep_key4.size = keylength;
+    cf.wep_key1.maxLength = cf.wep_key2.maxLength = cf.wep_key3.maxLength = cf.wep_key4.maxLength = keylength;
+	
+	if(!isKeep)
+	      clearKeys();
+	cf.passphrase.value = "";
+}
+function WEP_change()
+{
+    var cf = document.forms[0];
+
+    if(keyLen != keylength || wepKey1 != cf.wep_key1.value || 
+        wepKey2 != cf.wep_key2.value || wepKey3 != cf.wep_key3.value || 
+        wepKey4 != cf.wep_key4.value ||cf.h_wl_key_id.value!=cf.wl_key_id.value )
+        return true;
+    else
+        
+        return false;
+}
+function clearKeys()
+{
+    var cf = document.forms[0];
+    cf.wep_key1.value = cf.wep_key2.value = cf.wep_key3.value = cf.wep_key4.value = "";
+}
+
+function sync_to_wizard()
+{
+	var cf = document.forms[0];
+	var f = window.top.document.forms[0];
+	
+	if(cf.SSID_Setting[cf.SSID_Setting.selectedIndex].value=="0"){
+		f.elements['h_security_mode1'].value=cf.h_security_mode.value;
+		f.elements['h_wl_auth_mode1'].value=cf.h_wl_auth_mode.value;
+		f.elements['h_wl_key_id1'].value=cf.h_wl_key_id.value;
+		f.elements['h_keysize1'].value=cf.h_keysize.value;
+		f.elements['h_wpapsk_enc1'].value=cf.h_wpapsk_enc.value;
+		f.elements['c4_pradius1_ip_'].value=cf.c4_pradius_ip_.value;
+		f.elements['pradius_port1'].value=cf.pradius_port.value;
+		f.elements['pradius_psk1'].value=cf.pradius_psk.value;
+		f.elements['c4_bradius1_ip_'].value=cf.c4_bradius_ip_.value;
+		f.elements['bradius_port1'].value=cf.bradius_port.value;
+		f.elements['bradius_psk1'].value=cf.bradius_psk.value;
+		f.elements['wep_key11'].value=cf.wep_key1.value;
+		f.elements['wep_key21'].value=cf.wep_key2.value;
+		f.elements['wep_key31'].value=cf.wep_key3.value;
+		f.elements['wep_key41'].value=cf.wep_key4.value;
+		f.elements['wpa_psk1'].value=cf.wpa_psk.value;
+		f.elements['wpapsk_lifetime1'].value=cf.wpapsk_lifetime.value;
+		f.elements['wparadius_lifetime1'].value=cf.wparadius_lifetime.value;	
+	}
+	else if(cf.SSID_Setting[cf.SSID_Setting.selectedIndex].value=="1"){
+		f.elements['h_security_mode2'].value=cf.h_security_mode.value;
+		f.elements['h_wl_auth_mode2'].value=cf.h_wl_auth_mode.value;
+		f.elements['h_wl_key_id2'].value=cf.h_wl_key_id.value;
+		f.elements['h_keysize2'].value=cf.h_keysize.value;
+		f.elements['h_wpapsk_enc2'].value=cf.h_wpapsk_enc.value;
+		f.elements['c4_pradius2_ip_'].value=cf.c4_pradius_ip_.value;
+		f.elements['pradius_port2'].value=cf.pradius_port.value;
+		f.elements['pradius_psk2'].value=cf.pradius_psk.value;
+		f.elements['c4_bradius2_ip_'].value=cf.c4_bradius_ip_.value;
+		f.elements['bradius_port2'].value=cf.bradius_port.value;
+		f.elements['bradius_psk2'].value=cf.bradius_psk.value;
+		f.elements['wep_key12'].value=cf.wep_key1.value;
+		f.elements['wep_key22'].value=cf.wep_key2.value;
+		f.elements['wep_key32'].value=cf.wep_key3.value;
+		f.elements['wep_key42'].value=cf.wep_key4.value;
+		f.elements['wpa_psk2'].value=cf.wpa_psk.value;
+		f.elements['wpapsk_lifetime2'].value=cf.wpapsk_lifetime.value;
+		f.elements['wparadius_lifetime2'].value=cf.wparadius_lifetime.value;
+	}	
+	else if(cf.SSID_Setting[cf.SSID_Setting.selectedIndex].value=="2"){
+		f.elements['h_security_mode3'].value=cf.h_security_mode.value;
+		f.elements['h_wl_auth_mode3'].value=cf.h_wl_auth_mode.value;
+		f.elements['h_wl_key_id3'].value=cf.h_wl_key_id.value;
+		f.elements['h_keysize3'].value=cf.h_keysize.value;
+		f.elements['h_wpapsk_enc3'].value=cf.h_wpapsk_enc.value;
+		f.elements['c4_pradius3_ip_'].value=cf.c4_pradius_ip_.value;
+		f.elements['pradius_port3'].value=cf.pradius_port.value;
+		f.elements['pradius_psk3'].value=cf.pradius_psk.value;
+		f.elements['c4_bradius3_ip_'].value=cf.c4_bradius_ip_.value;
+		f.elements['bradius_port3'].value=cf.bradius_port.value;
+		f.elements['bradius_psk3'].value=cf.bradius_psk.value;
+		f.elements['wep_key13'].value=cf.wep_key1.value;
+		f.elements['wep_key23'].value=cf.wep_key2.value;
+		f.elements['wep_key33'].value=cf.wep_key3.value;
+		f.elements['wep_key43'].value=cf.wep_key4.value;
+		f.elements['wpa_psk3'].value=cf.wpa_psk.value;
+		f.elements['wpapsk_lifetime3'].value=cf.wpapsk_lifetime.value;
+		f.elements['wparadius_lifetime3'].value=cf.wparadius_lifetime.value;
+	}
+	else if(cf.SSID_Setting[cf.SSID_Setting.selectedIndex].value=="3"){
+		f.elements['h_security_mode4'].value=cf.h_security_mode.value;
+		f.elements['h_wl_auth_mode4'].value=cf.h_wl_auth_mode.value;
+		f.elements['h_wl_key_id4'].value=cf.h_wl_key_id.value;
+		f.elements['h_keysize4'].value=cf.h_keysize.value;
+		f.elements['h_wpapsk_enc4'].value=cf.h_wpapsk_enc.value;
+		f.elements['c4_pradius4_ip_'].value=cf.c4_pradius_ip_.value;
+		f.elements['pradius_port4'].value=cf.pradius_port.value;
+		f.elements['pradius_psk4'].value=cf.pradius_psk.value;
+		f.elements['c4_bradius4_ip_'].value=cf.c4_bradius_ip_.value;
+		f.elements['bradius_port4'].value=cf.bradius_port.value;
+		f.elements['bradius_psk4'].value=cf.bradius_psk.value;
+		f.elements['wep_key14'].value=cf.wep_key1.value;
+		f.elements['wep_key24'].value=cf.wep_key2.value;
+		f.elements['wep_key34'].value=cf.wep_key3.value;
+		f.elements['wep_key44'].value=cf.wep_key4.value;
+		f.elements['wpa_psk4'].value=cf.wpa_psk.value;
+		f.elements['wpapsk_lifetime4'].value=cf.wpapsk_lifetime.value;
+		f.elements['wparadius_lifetime4'].value=cf.wparadius_lifetime.value;
+	}
+}
+
+function init()
+{
+	parent.parent_menu_clk("2-2");
+    ScreenClean();
+    setSecurityList();
+	dataToVisible(document.forms[0]);
+	setTodisable();
+	setDivs();
+	saveLastKey();
+	setKeyType(true);
+	sync_to_wizard();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+function setTodisable()
+{
+    var cf = document.forms[0];
+    if(cf.r_apmode.value=="wds")
+        cf.wl_no_forward.disabled = true;
+    else
+        cf.wl_no_forward.disabled = false;
+}
+function keyGen()
+{
+	var min_size = 1;  // passphrase
+    var cf = document.forms[0];
+
+	if(cf.passphrase.value.length < min_size)
+	{	
+		//alert(msg_wep_pass);
+		ALERT(parent, "CON", ws_error, "WSecurity.htm&unit=0&vap=0", "Crit", msg_wep_pass, "", ABBtnOK, "");
+
+		return false;
+	}
+	cf.todo.value = "gen";
+	dataToHidden(cf);
+    return true;
+}
+
+function setDivs()
+{
+ 	var cf = document.forms[0];
+	secMethod = cf.security_mode.value;
+	show_hide("wepDIV", (secMethod == "wep" ));
+    show_hide("wepauth", (secMethod == "wep"));
+    
+	show_hide("wpa1DIV", (secMethod == "psk" || secMethod == "wpa_radius"));
+
+	show_hide("wpa2DIV", (secMethod == "psk2" || secMethod == "wpa2_radius"));
+    
+    show_hide("wpa3DIV", (secMethod == "psk_mixed" || secMethod == "wpa_radius_mixed"));	
+    show_hide("wpaDIV", (secMethod == "psk" || secMethod == "psk2" || secMethod == "psk_mixed"));
+    
+	show_hide("wparadiusDIV", (secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));
+	
+    show_hide("radiusDIV1", (secMethod == "radius" || secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed"));
+}
+function setSecurityList()
+{
+    var cf = document.forms[0];
+    var SecurityArray;
+    var newOpt;
+    SecurityArray = SecurityList.split(" ");
+
+    for(var i = 0; i < SecurityArray.length; i++) 
+	{ 
+	    newOpt = document.createElement("OPTION");
+    	cf.security_mode.options.add(newOpt); 
+    	cf.security_mode.options[i].text=ws_security_text[SecurityArray[i]]; 
+    	cf.security_mode.options[i].value=ws_security_value[SecurityArray[i]];
+    }
+    //cf.security_mode.options.length = SecurityArray.length;
+    	
+}
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg = ""; 
+    var key_index;
+    var m;
+    
+	var blankFlag = false;  var sizeOK = false; var i; 
+//	var secIndex = cf.security_mode.selectedIndex;
+//	var secMethod = cf.security_mode[secIndex].value;
+   secMethod = cf.security_mode.value;
+    
+    for(m=0; m<4; m++){
+        if(cf.wl_key_id[m].checked){
+	        key_index = m+1;
+	    }
+	}
+	if(secMethod == "wep")
+    {
+    	
+        if(WEP_change()){
+    //   if(!confirm(msg_r_wep_key))
+    //        return false;
+     	for(var k=1;k<5;k++)
+		{
+			if(eval("cf.wep_key" + k + ".value.length")>0 || k == key_index)
+			{
+				sizeOK =  (eval("(cf.wep_key" + k + ".value.length == keylength)"));
+				if (!sizeOK)
+				{
+					msg += (hexkey) ? addstr(msg_hexkey,k) : msg_asciikey;
+				}
+				if (hexkey)
+				{
+					if(eval("isHex(cf.wep_key" + k + ".value)"))
+						;
+					else 
+					{ 
+						msg += addstr(msg_hexkey,k);
+					}
+				}
+			}
+	 	}
+	 	if(msg.length > 1)
+		{
+			ALERT(parent, "CON", titl_warn, "WSecurity.htm&unit=0&vap=0", "Warn", msg, "", ABBtnOK, "");
+			return false;
+		}
+		dataToHidden(cf);
+        ALERT(parent, "CON", titl_confirm, "WSecurity.htm&unit=0&vap=0", "Warn", msg_r_wep_key, "", ABBtnSubmit,ABBtnCANCEL);
+	}
+	else{
+		if(msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "WSecurity.htm&unit=0&vap=0", "Warn", msg, "", ABBtnOK, "");
+
+		return false;
+	}
+    dataToHidden(cf);
+    cf.save.disabled=true;
+	cf.cancel.disabled=true;
+    cf.submit();
+    return true;
+	}
+	}
+	else
+		{	
+		 if (secMethod == "psk" || secMethod == "psk2" || secMethod == "psk_mixed")
+	{
+	    msg+=checkWpaPass(cf.wpa_psk.value, msg_wpa_key);
+		msg+= checkInt(cf.wpapsk_lifetime, msg_key_renew,600,36000,true);
+	}
+		else if(secMethod == "radius" || secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed")
+    { 	
+        var radius = 0;
+      	if((cf.pradius_ip_1.value.length >0 || cf.pradius_ip_2.value.length >0 || cf.pradius_ip_3.value.length >0 || cf.pradius_ip_4.value.length >0) && 
+            !(cf.pradius_ip_1.value =="0" && cf.pradius_ip_2.value =="0" && cf.pradius_ip_3.value =="0" && cf.pradius_ip_4.value =="0") )
+        {
+            radius = 1;
+            msg+= checkIp(cf.pradius_ip_1,cf.pradius_ip_2,cf.pradius_ip_3,cf.pradius_ip_4,msg_radius_server1, false);
+            msg+= checkInt(cf.pradius_port, msg_radius_port1, 1, 65534,true);
+            msg+= checkBlank(cf.pradius_psk,msg_r_login_key1); 
+            msg+= checkRadiusKey(cf.pradius_psk.value, msg_r_login_key1);
+
+        }
+        if((cf.bradius_ip_1.value.length >0 || cf.bradius_ip_2.value.length >0 || cf.bradius_ip_3.value.length >0 || cf.bradius_ip_4.value.length >0) && 
+            !(cf.bradius_ip_1.value =="0" && cf.bradius_ip_2.value =="0" && cf.bradius_ip_3.value =="0" && cf.bradius_ip_4.value =="0") )
+        {
+            radius = 1;
+            msg+= checkIp(cf.bradius_ip_1,cf.bradius_ip_2,cf.bradius_ip_3,cf.bradius_ip_4,msg_radius_server2, false);
+            msg+= checkInt(cf.bradius_port, msg_radius_port2, 1, 65534,true);
+            msg+= checkBlank(cf.bradius_psk,msg_r_login_key2);	
+            msg+= checkRadiusKey(cf.bradius_psk.value, msg_r_login_key2);
+        }
+        if(radius != 1)
+            msg += msg_radius;
+        if(secMethod == "wpa_radius" || secMethod == "wpa2_radius" || secMethod == "wpa_radius_mixed")
+            msg+= checkInt(cf.wparadius_lifetime, msg_key_renew,600,36000,true);
+	}
+	
+	if(msg.length > 1)
+	{
+		ALERT(parent, "CON", titl_warn, "WSecurity.htm&unit=0&vap=0", "Warn", msg, "", ABBtnOK, "");
+
+		return false;
+	}
+    dataToHidden(cf);
+    cf.save.disabled=true;
+	cf.cancel.disabled=true;
+    cf.submit();
+    return true;
+	}
+	
+}
+
+function SSIDSelected()
+{
+    var cf = document.forms[0];
+    
+    cf.unit.value = 0;
+    cf.vap.value = cf.SSID_Setting[cf.SSID_Setting.selectedIndex].value;
+    cf.todo.value = "change";
+    cf.submit();
+}
+function channelUrl()
+{
+    var cf =  document.forms[0];
+    var url = "WSecurity.htm";
+    var unit = "@r_unit#";
+    var vap = "@r_vap#";
+    url += "&unit="+unit;
+    url += "&vap="+vap;
+
+    return url;
+}
+function showHelp()
+{
+	openHelpWin('help/h_WSecurity.htm');
+}
+
+
+// End Script -->
+</script>
+
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+<script language="javascript" type="text/javascript">
+    dw(ws_type);
+</script>
+</div>
+<br> 
+<form method="POST" action="setup.cgi?next_file=WSecurity.htm">
+<input type="hidden" name="h_wl_ssid_list" value="@h_wl_ssid_list#">	
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="top" width="50%">
+            <table border="0px" cellpadding="0" cellspacing="0" >
+    <tr>
+        <td width="196" nowrap class=ContentCrlHeight>
+        	<script language="javascript" type="text/javascript">
+   				 dw(wp_ssid);
+			</script>
+        	</td>
+        <td width="191" nowrap>
+            <select name="SSID_Setting" onChange="SSIDSelected()"  class="SelectStd" >
+                @SSID_List#
+            </select>
+        </td>
+    </tr>
+
+   <tr >
+        <td width="196" class=ContentCrlHeight>
+        	<script language="javascript" type="text/javascript">
+    			dw(ws_isobessid);
+			</script>
+        </td>
+        <td width="191" nowrap>
+        	
+        	<input name="wl_no_forward" value="1"  type="radio"  class="RadioLeftIE">
+            		<script language="javascript" type="text/javascript">
+						dw(enable);
+					</script>
+					  <input type=radio value="0" name="wl_no_forward"  class="RadioRightIE" >
+		 		<script language="javascript" type="text/javascript">
+				dw(disable);
+				</script>
+        
+	   </td>
+    </tr>
+</table>
+</td>
+	</tr>
+</table>
+    <hr class="stdHRCnt">
+ <table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td valign="top">
+ <table border="0px" cellpadding="0" cellspacing="0" >
+
+      <tr>
+              <td  width="196" nowrap class=ContentCrlHeight>
+              	<script language="javascript" type="text/javascript">
+    				dw(ws_semode);
+				</script>
+              	</td>
+              <td width="191" nowrap class=ContentCrlHeight>
+              
+      <select name="security_mode" onChange="setDivs(this.value);" class="SelectStd">
+          <!--	    <option value="wep"><script language="javascript" type="text/javascript">
+    dw(ws_s_wep);
+</script></option>
+              <option value="psk"><script language="javascript" type="text/javascript">
+    dw(ws_s_psk);
+</script></option>
+              <option value="psk2"><script language="javascript" type="text/javascript">
+    dw(ws_s_psk2);
+</script></option>
+			  <option value="psk_mixed"><script language="javascript" type="text/javascript">
+    dw(ws_s_psk_mixed);
+</script></option>
+              <option value="wpa_radius"><script language="javascript" type="text/javascript">
+    dw(ws_s_wpa_radius);
+</script></option>
+              <option value="wpa2_radius"><script language="javascript" type="text/javascript">
+    dw(ws_s_wpa2_radius);
+</script></option>
+			  <option value="wpa_radius_mixed"><script language="javascript" type="text/javascript">
+    dw(ws_s_wpa_radius_mixed);
+</script></option>
+              <option value="radius"><script language="javascript" type="text/javascript">
+    dw(ws_s_radius);
+</script></option>
+              <option value="disabled"><script language="javascript" type="text/javascript">
+    dw(ws_s_disabled);
+</script></option>  -->
+        </select>
+      
+        </td>
+      </tr>
+
+   <tr>
+              <td width="196" nowrap class=ContentCrlHeight>
+              	<script language="javascript" type="text/javascript">
+    				dw(ws_isoinssid);
+			</script>
+              	</td>
+              <td width="191" nowrap class=ContentCrlHeight>
+            <input name="wl_noforward_ssid" value="1"  type="radio"  class="RadioLeftIE">
+            		<script language="javascript" type="text/javascript" >
+						dw(enable);
+					</script>
+					  <input type=radio value="0" name="wl_noforward_ssid"  class="RadioRightIE" >
+		 		<script language="javascript" type="text/javascript">
+				dw(disable);
+				</script>
+	       </td>
+    </tr>
+    </table></td>
+
+    </tr>
+  <tr>
+    <td></td>
+  </tr>
+  
+  <tr>
+ <td valign="top"><div id="radiusDIV1" style="display:none">
+        <table  border="0px" cellpadding="0" cellspacing="0" >
+          <tr class=ContentCrlHeight>
+            <td width="196" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(wp_pserv);
+</script></td>
+            <td nowrap class=ContentCrlHeight>
+              <input type="text" name="pradius_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+              .
+              <input type="text" name="pradius_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+              .
+              <input type="text" name="pradius_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+              .
+              <input type="text" name="pradius_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pservp);
+</script></td>
+            <td nowrap><input type="text" class="num" name="pradius_port" size="5" maxlength="5" value="@pradius_port#" ></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pshsec);
+</script></td>
+            <td nowrap><input type="password" class="num" name="pradius_psk" size="32" maxlength="64" value="@pradius_psk#"  onSelect="textSelected=true"></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bserv);
+</script></td>
+            <td nowrap>
+              <input type="text" name="bradius_ip_1" value="" class="ipnum" maxlength="3" size="3" >
+              .
+              <input type="text" name="bradius_ip_2" value="" class="ipnum" maxlength="3" size="3" >
+              .
+              <input type="text" name="bradius_ip_3" value="" class="ipnum" maxlength="3" size="3" >
+              .
+              <input type="text" name="bradius_ip_4" value="" class="ipnum" maxlength="3" size="3"></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap>
+            	
+            	<script language="javascript" type="text/javascript">
+    dw(wp_bservp);
+</script></td>
+            <td nowrap><input type="text" class="num" name="bradius_port" size="5" maxlength="5" value="@bradius_port#" ></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bshsec);
+</script></td>
+            <td nowrap><input type="password" class="num" name="bradius_psk" size="32" maxlength="64" value="@bradius_psk#"  onSelect="textSelected=true"></td>
+          </tr>
+        </table>
+    </div></td>
+</tr>
+
+
+<tr>    
+    <td valign="top">
+        <div id="wepauth" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">
+          <tr class=ContentCrlHeight>
+            <td width="196" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_autype);
+</script></td>
+            <td nowrap class=ContentCrlHeight>
+            	<select name="wl_auth_mode"  class="SelectStd">
+                <option value="open"><script language="javascript" type="text/javascript">
+    dw(ws_s_open);
+</script></option>
+                <option value="shared"><script language="javascript" type="text/javascript">
+    dw(ws_s_share);
+</script></option>
+              </select>
+            </td>
+          </tr>
+        </table>
+    </div>
+        <div id="wepDIV" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">          
+          <tr class=ContentCrlHeight>
+            <td width="196" nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_deTrankey);
+</script></td>
+            <td nowrap class=ContentCrlHeight>
+              <input name="wl_key_id" value="key1" checked="checked" type="radio">
+              1&nbsp;
+              <input name="wl_key_id" value="key2" type="radio">
+              2&nbsp;
+              <input name="wl_key_id" value="key3" type="radio">
+              3&nbsp;
+              <input name="wl_key_id" value="key4" type="radio">
+              4&nbsp;</td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_encry);
+</script></td>
+            <td nowrap class=ContentCrlHeight>
+            	<select size="1" name="keysize" onChange = "setKeyType(false);" class="SelectStd">
+                <option value="40"><script language="javascript" type="text/javascript">
+    dw(ws_s_64b);
+</script></option>
+                <option value="104"><script language="javascript" type="text/javascript">
+    dw(ws_s_128b);
+</script></option>
+            </select></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_passph);
+</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" class="num" maxlength="30" size="22" name="passphrase" value="@passphrase#" onSelect="textSelected=true">
+&nbsp;&nbsp;
+                    <script language="javascript" type="text/javascript">
+                        dw('<input type="submit" name="keygen" value="');
+                        dw(ws_btn_gen);
+                        dw('"  onClick="return keyGen();">');
+                     </script>
+              </td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key1);
+</script></td>
+            <td nowrap><input type="text" name="wep_key1" value="@wep_key1#" class="num" maxlength="26" size="26"></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key2);
+</script></td>
+            <td nowrap><input type="text" name="wep_key2" value="@wep_key2#" class="num" maxlength="26" size="26"></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key3);
+</script></td>
+            <td nowrap><input type="text" name="wep_key3" value="@wep_key3#" class="num" maxlength="26" size="26"></td>
+          </tr>
+          <tr class=ContentCrlHeight>
+            <td height="18" nowrap><script language="javascript" type="text/javascript">
+    dw(ws_key4);
+</script></td>
+            <td nowrap><input type="text" name="wep_key4" value="@wep_key4#" class="num" maxlength="26" size="26"></td>
+          </tr>
+        </table>
+        </div>
+        <div id="wpa1DIV" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">
+            <tr class=ContentCrlHeight>
+            <td nowrap width="196"class=ContentCrlHeight> <script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+            <td nowrap class=ContentCrlHeight><select size="1" name="wpapsk_enc" class="SelectStd">
+                <option value="tkip"><script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script></option>
+                <option value="aes"><script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script></option>
+            </select></td>
+          </tr>
+        </table>
+    </div>
+        <div id="wpa2DIV" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">
+          <tr class=ContentCrlHeight>
+            <td nowrap width="196" class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+            <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script> </td>
+          </tr>
+        </table>
+    </div>
+    <div id="wpa3DIV" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">
+          <tr class=ContentCrlHeight>
+            <td nowrap width="196" class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(wp_algor);
+</script></td>
+            <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_s_tkip);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_or);
+</script> <script language="javascript" type="text/javascript">
+    dw(ws_s_aes);
+</script></td>
+          </tr>
+          </table>
+    </div>
+        <div id="wpaDIV" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">          
+          <tr class=ContentCrlHeight>
+            <td width="196" nowrap  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_prekey);
+</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" class="num" name="wpa_psk" size="32" maxlength="64" value="@wpa_psk#" onSelect="textSelected=true"></td>
+          </tr>
+          <tr>
+            <td nowrap class=ContentCrlHeight><script language="javascript" type="text/javascript">
+    dw(ws_keyren);
+</script></td>
+            <td nowrap class=ContentCrlHeight><input type="text" class="num" name="wpapsk_lifetime" size="5" maxlength="5" value="@wpapsk_lifetime#" style="margin-right: 8px">
+              <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td>
+          </tr>
+        </table>
+    </div>    
+    
+  <div ID="wparadiusDIV" style="display:none">
+        <table border="0px" cellpadding="0" cellspacing="0">
+            <tr class=ContentCrlHeight>            
+	  	<td nowrap width="196" class=ContentCrlHeight>
+	  		<script language="javascript" type="text/javascript">
+    dw(wp_timeout);
+</script></td>
+            <td nowrap class=ContentCrlHeight>
+            	<input type="text" class="num" size="5" maxlength="5"   name="wparadius_lifetime" value="@wparadius_lifetime#" style="margin-right: 8px">
+              <script language="javascript" type="text/javascript">
+    dw(wp_sec);
+</script></td> 	  
+         </tr>
+        </table>
+    </div>
+    
+    </td> 
+  </tr>
+   
+   
+
+  
+  
+ 
+</table>
+<br style="15px">
+
+<!--FormPane end-->
+</div>
+
+<div class="ButtonRow">
+  <script language="javascript" type="text/javascript">showButton("save",save,"return checkData();");</script>
+  <script language="javascript" type="text/javascript">showCancel(channelUrl());</script>
+</div>
+
+
+
+<input type="hidden" name="h_wl_no_forward" value="@h_wl_no_forward#">
+ <input type="hidden" name="h_SSID_Setting" value="@h_SSID_Setting#">
+ <input type="hidden" name="h_security_mode" value="@h_security_mode#">
+ <input type="hidden" name="h_wl_noforward_ssid" value="@h_wl_noforward_ssid#">
+ <input type="hidden" name="c4_pradius_ip_" value="@c4_pradius_ip_#">
+ <input type="hidden" name="c4_bradius_ip_" value="@c4_bradius_ip_#">
+ <input type="hidden" name="h_wl_auth_mode" value="@h_wl_auth_mode#">
+ <input type="hidden" name="h_wl_key_id" value="@h_wl_key_id#">
+ <input type="hidden" name="h_keysize" value="@h_keysize#">
+ <input type="hidden" name="h_wpapsk_enc" value="@h_wpapsk_enc#">
+  
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="unit" value="">
+<input type="hidden" name="vap" value="">
+<input type="hidden" name="r_apmode" value="@r_apmode#">
+<input type="hidden" name="this_file" value="WSecurity.htm">
+<input type="hidden" name="next_file" value="WSecurity.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+
+
+
+
+
+
+
+</form>
+<!--ContentArea end-->
+</div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>    
+</body>
+
+</html>

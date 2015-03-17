@@ -1,0 +1,163 @@
+<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<meta HTTP-EQUIV="Expires" CONTENT="Mon, 06 Jan 1990 00:00:01 GMT">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link REL="stylesheet" TYPE="text/css" HREF="./help_@sys_lang#/help.css">
+
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+	
+
+strHtml='<title>'+ad_pt+'</title>';
+dw(strHtml);
+
+<!-- hide script from old browsers
+/*
+var reqstatus = false;
+var reqdata = false;
+try {
+    reqstatus = new XMLHttpRequest();
+    reqdata = new XMLHttpRequest();
+} catch (trymicrosoft) {
+    try {
+        reqstatus = new ActiveXObject("Msxml2.XMLHTTP");
+        reqdata = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (othermicrosoft) {
+            try {
+                reqstatus = new ActiveXObject("Microsoft.XMLHTTP");
+                reqdata = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (failed) {
+                reqstatus = false;
+                reqdata = false;
+            }  
+    }
+}
+
+function init()
+{
+    dataToVisible(document.forms[0]);
+    var cf = document.forms[0];
+    var of = opener.document.forms[0];
+    
+    cf.pingurl.value = of.ping_ipaddr.value;
+    cf.pingsize.value = of.ping_size.value;
+    cf.pingtime.value = of.h_ping_number.value;
+    cf.submit();
+}
+*/
+function refresh()
+{
+    dataToVisible(document.forms[0]);
+    var t1 = parseInt(document.forms[0].h_ping_status.value);
+    if(t1>1)
+    	window.setTimeout("window.location.href='setup.cgi?next_file=Ping.htm'",4000);
+}
+/*
+function getPing() {
+    var url = "?todo=ping_status&this_file=Ping.htm" + new Date().getTime();
+ 	var cf = document.forms[0];
+    
+    if (!reqdata || !reqstatus)
+        alert("Error initializing XMLHttpRequest!");
+    reqdata.open("GET", url, true);
+    reqdata.onreadystatechange = updatePage;
+    reqdata.send(null);
+    
+    reqstatus.open("GET", url, true);
+    reqstatus.onreadystatechange = updatePage;
+    reqstatus.send(null);
+}
+
+function updatePage() {
+ 	var cf = document.forms[0];
+    
+    if (reqdata.readyState == 4) {
+        if (reqdata.status == 200) {
+            if(reqdata.responseText){
+                cf.h_ping_status.value=reqdata.responseText;
+            }else{
+                //cf.h_ping_status.value = "0";
+            }
+        } else{
+            //cf.h_ping_status.value = "0";
+        }
+    }
+    if (reqstatus.readyState == 4) {
+        if (reqstatus.status == 200) {
+            if(reqstatus.responseText){
+                cf.ping_output.value=reqstatus.responseText;
+            }else{
+                //cf.h_ping_status.value = "0";
+            }
+        } else{
+            //cf.h_ping_status.value = "0";
+        }
+    }
+
+}*/
+// 
+//-->	
+</script>
+</head>
+<body class="sbody" onLoad="refresh();">
+<form name="ping" method="POST" action="setup.cgi">
+	<table border="0" cellspacing="0" cellpadding="0" width="100%">
+		<tr>
+			<td>
+	<div  class="SFormPane" >
+            	<div class="TitleofGroupBox">
+            	<script language="javascript" type="text/javascript">
+				dw(ad_ping);
+			</script>
+		</div>
+	   
+    
+    <table border="0" cellspacing="0" cellpadding="0"  >
+        
+	<tr >
+		<td>
+			<textarea name="ping_result" class="num" cols="62" rows="20" wrap="off" readonly>@ping_output#
+			</textarea>
+		</td>
+	</tr>
+	
+</table>
+
+	</div>
+	</td>
+</tr>
+<tr >
+	<td >
+<div  class="ButtonRow">
+	
+    <script language="javascript" type="text/javascript">
+				dw('<input type="submit" name="close" value="');
+				dw(ad_bclose);
+				dw('" onClick="self.close();" class="stdbutton"');
+			</script>
+	</div>
+</td>
+
+</tr>
+
+</table>
+	
+	
+	
+        <input type="hidden" name="h_ping_status" value="@h_ping_status#">
+			
+	<input type="hidden" name="todo" value="ping_close">
+	<input type="hidden" name="this_file" value="Ping.htm">
+	<input type="hidden" name="next_file" value="Ping.htm">
+	<input type="hidden" name="message" value="@msg_text#">
+			
+</form>
+</body>
+</html>

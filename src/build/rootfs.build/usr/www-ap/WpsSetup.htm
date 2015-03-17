@@ -1,0 +1,639 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="ajax.js"></script>
+<script language="javascript" type="text/javascript">
+    
+parent.document.title=titl_wps;
+strHtml='<title>'+titl_wps+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);    
+
+<!-- Start Script
+var wps_search_device_pc=0;
+var wps_search_device_flag=false;
+var wps_connect_device_pc=0;
+var wps_connect_device_flag=false;
+//Searching for your client device
+
+var request = false;
+try {
+    request = new XMLHttpRequest();
+} catch (trymicrosoft) {
+    try {
+        request = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (othermicrosoft) {
+            try {
+                request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (failed) {
+                request = false;
+            }  
+    }
+}
+
+function init()
+{
+    var cf = document.forms[0];
+    
+    parent.parent_menu_clk("2-4");
+	dataToVisible(cf);
+    
+	if (cf.h_wps_cur_status.value=="pbc")
+      refreshWPSStatus();
+	//wps_search_device_timer();
+	//wps_connect_device_timer();
+	 cf.save.disabled=false;
+	cf.cancel.disabled=false;
+	
+}
+
+function getWPSStatus() {
+    var url = "?todo=wps_status&next_file=WpsSetup.htm&this_file=WpsSetup.htm&"+"uid=" + new Date().getTime();
+ 	var cf = document.forms[0];
+
+    if (!request)
+       // alert("Error initializing XMLHttpRequest!");
+    	 ALERT(parent, "CON", "Error", "WpsSetup.htm", "Crit", "Error initializing XMLHttpRequest!", "", ABBtnOK, "");
+
+    request.open("GET", url, true);
+    request.onreadystatechange = updatePage;
+    request.send(null);
+}
+
+function updatePage() {
+ 	var cf = document.forms[0];
+
+    if (request.readyState == 4) {
+        if (request.status == 200) {
+            if(request.responseText){
+                cf.h_wps_cur_status.value=request.responseText;
+            }else{
+                cf.wps_status.value = "";
+                //cf.h_wps_cur_status.value = "0";
+            }
+        } else{
+            cf.wps_status.value = "";
+            //cf.h_wps_cur_status.value = "0";
+        }
+    }
+
+}
+
+function resetWPS(status)
+{
+    var cf = document.forms[0];
+
+    if (status!="fail")
+        hide_wps_connect_device_successfully_div();
+    else
+        hide_wps_connect_device_failed_div();
+
+    cf.h_wps_cur_status.value=="";
+    window.location=' WpsSetup.htm';
+}
+
+function refreshWPSStatus() {
+    var cf = document.forms[0];
+    
+    if (cf.h_wps_cur_status.value=="1") // successful
+    {
+        hide_wps_search_device_div();
+        hide_wps_connect_device_div();
+        show_wps_connect_device_successfully_div();
+    }
+    else if (cf.h_wps_cur_status.value=="2") // fail
+    {
+        hide_wps_search_device_div();
+        hide_wps_connect_device_div();
+        show_wps_connect_device_failed_div();
+    }
+    else if (cf.h_wps_cur_status.value=="s" || cf.h_wps_cur_status.value=="pbc")
+    {
+        show_wps_search_device_div();
+        wps_search_device_timer();
+    }
+    else if (cf.h_wps_cur_status.value=="c")
+    {
+        hide_wps_search_device_div();
+        show_wps_connect_device_div();
+        wps_connect_device_timer();
+    }
+
+    if(cf.h_wps_cur_status.value!="2" && cf.h_wps_cur_status.value!="1"){
+        getWPSStatus();
+    	time = setTimeout("refreshWPSStatus()",6000);//unit: 6 second
+    }
+}    
+
+
+function checkPin()
+{
+    var cf = document.forms[0];
+    var value = cf.wl_enrolee_pin.value;
+    var accum = 0;
+    var msg="";
+        
+    value = cf.wl_enrolee_pin.value;
+    if(isInt(cf.wl_enrolee_pin) != true)
+    {
+    	ALERT(parent, "CON", titl_warn, "WpsSetup.htm", "Warn",  msg_invalid_pin_value, "", ABBtnOK, "");
+        return false;
+    }
+    if(cf.wl_enrolee_pin.value.length < 8)
+    {
+        ALERT(parent, "CON", titl_warn, "WpsSetup.htm", "Warn", msg_invalid_pin_length, "", ABBtnOK, "");
+        return false;
+    }
+
+    accum += 3 * (value.charAt(0) - '0'); 
+    accum += 1 * (value.charAt(1) - '0'); 
+    accum += 3 * (value.charAt(2) - '0'); 
+    accum += 1 * (value.charAt(3) - '0'); 
+    accum += 3 * (value.charAt(4) - '0'); 
+    accum += 1 * (value.charAt(5) - '0'); 
+    accum += 3 * (value.charAt(6) - '0'); 
+    accum += 1 * (value.charAt(7) - '0');
+    
+    if(0 == (accum % 10))
+    {
+        stdAction(document.forms[0], "set_enrolee_pin");
+        return true;
+    }
+    else
+    {
+        ALERT(parent, "CON", titl_warn, "WpsSetup.htm", "Warn", msg_invalid_pin_value, "", ABBtnOK, "");
+        return false;
+    }    
+}
+
+
+function showHelp()
+{
+    openHelpWin('help/h_WPS.htm');
+}
+
+function wps_search_device_timer()
+{
+    var cf = document.forms[0];
+	if (wps_search_device_pc < 95) 
+	{ 
+		wps_search_device_pc+=5;
+	} 
+    else
+    {    
+        cf.h_wps_cur_status.value = "2";
+        refreshWPSStatus();
+    }
+	setWidth(self.parent, "wps_search_device_lpc", wps_search_device_pc + "%");
+	setHTML(self.parent, "wps_search_device_percent", wps_search_device_pc + "%");
+	//time = setTimeout("wps_search_device_timer()",200);
+}
+//Connecting your client device to your network.
+function wps_connect_device_timer()
+{
+    var cf = document.forms[0];
+    
+	if (wps_connect_device_pc < 95) 
+	{ 
+		wps_connect_device_pc+=5;
+	} 
+    else
+    {    
+        cf.h_wps_cur_status.value = "2";
+        refreshWPSStatus();
+    }
+	setWidth(self.parent, "wps_connect_device_lpc", wps_connect_device_pc + "%");
+	setHTML(self.parent, "wps_connect_device_percent", wps_connect_device_pc + "%");
+}
+
+function show_wps_search_device_div()
+{
+    if (wps_search_device_flag==true)
+        return;
+   	ScreenConvert(); 
+	window.parent.document.getElementById("wps_search_device_div").style.display= "block";
+	with(window.parent.document.getElementById("wps_search_device_div").style)  
+	{  
+		if(width){
+			left   =   (window.parent.document.body.offsetWidth-parseInt(width))/2;  
+			top   =   (window.parent.document.body.offsetHeight-parseInt(height))/2;
+		}
+	}
+	wps_search_device_pc=0;
+	wps_search_device_flag=true;
+	//wps_search_device_timer();
+}
+function hide_wps_search_device_div()
+{
+    if (wps_search_device_flag==false)
+        return;
+    ScreenClean();
+	window.parent.document.getElementById("wps_search_device_div").style.display= "none";
+	wps_search_device_pc=0;
+	wps_search_device_flag=false;
+}
+function show_wps_connect_device_div()
+{
+    if (wps_connect_device_flag==true)
+        return;
+    ScreenConvert();
+	window.parent.document.getElementById("wps_connect_device_div").style.display= "block";
+	with(window.parent.document.getElementById("wps_connect_device_div").style)  
+	{  
+		if(width){
+			left   =   (window.parent.document.body.offsetWidth-parseInt(width))/2;
+			top   =   (window.parent.document.body.offsetHeight-parseInt(height))/2;
+		}
+	}
+	wps_connect_device_pc=0;
+	wps_connect_device_flag=true;
+	//wps_connect_device_timer();
+}
+function hide_wps_connect_device_div()
+{
+    if (wps_connect_device_flag==false)
+        return;
+    ScreenClean();
+	window.parent.document.getElementById("wps_connect_device_div").style.display= "none";
+	wps_connect_device_pc=0;
+	wps_connect_device_flag=false;
+}
+function show_wps_connect_device_successfully_div()
+{
+	ScreenConvert();
+	window.parent.document.getElementById("wps_connect_device_successfully_div").style.display= "block";
+	with(window.parent.document.getElementById("wps_connect_device_successfully_div").style)  
+	{  
+		if(width){
+			left   =   (window.parent.document.body.offsetWidth-parseInt(width))/2;  
+			top   =   (window.parent.document.body.offsetHeight-parseInt(height))/2;  
+		}
+	}
+}
+function hide_wps_connect_device_successfully_div()
+{
+	ScreenClean();
+	window.parent.document.getElementById("wps_connect_device_successfully_div").style.display= "none";
+}
+//connect device failed
+function show_wps_connect_device_failed_div()
+{
+	ScreenConvert();
+	window.parent.document.getElementById("wps_connect_device_failed_div").style.display= "block";
+	with(window.parent.document.getElementById("wps_connect_device_failed_div").style)  
+	{  
+		if(width){
+			left   =   (window.parent.document.body.offsetWidth-parseInt(width))/2 ; 
+			top   =   (window.parent.document.body.offsetHeight-parseInt(height))/2 ;
+		} 
+	}
+}
+function hide_wps_connect_device_failed_div()
+{
+	ScreenClean();
+	window.parent.document.getElementById("wps_connect_device_failed_div").style.display= "none";
+}
+
+function checkData()
+{
+    var cf = document.forms[0];
+	cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+    return true;
+}
+
+
+
+// End Script -->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init()" onUnload="hide_wps_search_device_div()">
+<!--ContentArea-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+     dw(wf_type);
+	</script>
+</div>
+<br>
+<form name="WpsSetup" method="POST" action="setup.cgi?next_file=WpsSetup.htm">
+
+<!-- data table-->
+<!--FormPane--> 
+<div id="formpane" class="RFormPane">
+	
+	
+<table border="0" cellpadding="0" cellspacing="0">
+
+
+	<tr>
+      <td>
+      	 <script language="javascript" type="text/javascript">
+    			dw(wf_wpsage);
+			</script>
+			
+      </td>
+    </tr>	
+    
+	<tr>
+      <td ><script language="javascript" type="text/javascript">
+   			 dw(wf_msg1);
+		</script></td>
+      <td align="center">
+      	<input name="Input" type="image"  src="wps_selectable.gif" onMouseOver="this.src='wps_mouseover.gif'" onMouseOut="this.src='wps_selectable.gif'" onClick="stdAction(this.form,'set_pbc');">
+      </td>
+      <td align="left" valign="bottom">
+      	<div style="display:none">
+      	<INPUT type="text" name="wps_status" class="cuesFormPane"  readonly maxLength="20" size="20" value="">
+   </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" align="center"  class=ContentTextHeight><B><script language="javascript" type="text/javascript">
+   			 dw(wf_or);
+				</script><B></b></b>   
+		</td>
+    </tr>
+    
+      <tr  class=ContentTextHeight>
+      <td colspan="3"><script language="javascript" type="text/javascript">
+   			 dw(wf_msg2_s1);
+			</script>
+          <INPUT type="text" name="wl_enrolee_pin" maxLength="8" size="8" value="@wl_enrolee_pin#" style="margin-left: 8px;margin-right: 8px">
+        <script language="javascript" type="text/javascript">
+    dw(wf_msg2_s2);
+</script>&nbsp;&nbsp;
+	<script language="javascript" type="text/javascript">
+    dw('<INPUT type="button" name="vw_register" value="');
+    dw(wf_breg);
+    dw('"  onClick="checkPin();">');
+</script>
+        </td>
+    </tr>
+    
+    <tr  class=ContentCrlHeight>
+      <td colspan="3" align="center"><B><script language="javascript" type="text/javascript">
+    dw(wf_or);
+</script><B></b></b>   
+    </tr>
+    <tr  class=ContentTextHeight>
+      <td colspan="3"><script language="javascript" type="text/javascript">
+    dw(wf_msg3_s1);
+	</script> 
+		<b>@wl_device_pin# </b> 
+	<script language="javascript" type="text/javascript">
+	    dw(wf_msg3_s2);
+	</script> </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tr  class=ContentTextHeight>
+    	<td>
+    	<table  border="0px" cellpadding="0" cellspacing="0" >
+    		 <tr  class=ContentTextHeight>
+      <td width="220"><B><script language="javascript" type="text/javascript">
+    dw(wf_status);
+</script></B></td>
+      <td colspan="2">@wl_wps_status#</td>
+    </tr>
+    
+     <tr  class=ContentTextHeight>
+      <td><B><script language="javascript" type="text/javascript">
+    dw(wf_ssid);
+</script></B></td>
+      <td colspan="2">@wl_ssid#</td>
+    </tr>
+    <tr  class=ContentTextHeight>
+      <td><B><script language="javascript" type="text/javascript">
+    dw(wf_ser);
+</script></B></td>
+      <td colspan="2">@wl_security#</td>
+    </tr>
+    <tr  class=ContentTextHeight>
+      <td><B><script language="javascript" type="text/javascript">
+    dw(wf_pase);
+</script></B></td>
+      <td colspan="2">@wl_passphrase#</td>
+    </table>
+</td>
+    </tr>
+    
+    
+    
+</table>
+<!--FormPane end-->
+</div>
+
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("WpsSetup.htm");
+  </script>
+</div>
+
+<!-- ServerStart --> 	 
+
+ <input type="hidden" name="h_wps_cur_status" value="@h_wps_cur_status#">
+ <!-- ServerEnd --> 	 
+  	 
+ <input type="hidden" name="todo" value="save"> 	 
+ <input type="hidden" name="this_file" value="WpsSetup.htm"> 	 
+ <input type="hidden" name="next_file" value="WpsSetup.htm"> 	 
+ <input type="hidden" name="message" value="@msg_text#"> 	 
+</form>
+
+
+  
+</div>
+<!--
+<div id=wps_search_device_div style="background-image:url(bodyimage.png); position:absolute; width:420; height:150; z-index:4; left: 200; top: 100;display:none ">
+<table bordercolor="#f5f9fd" border="0"  cellpadding="0" cellspacing="0" width="420" height="160">
+	<tr><td valign="top">
+<table class="std" align="center" width="350px">
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_serch);
+</script></td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_wait);
+</script></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_woring);
+</script></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr> 
+	<td width="270">
+		<table width="100%" align="left" bgcolor="#f5f9fd" cellpadding="0" cellspacing="0" bordercolor="#92b041" id="AutoNumber19" style="border-style: solid; border-width: 1px">
+			<tr>
+				<td align=left> 
+					<table id="wps_search_device_lpc" bgcolor="#92b041" height="17">
+						<tr><td></TD></TR>
+					</table> 
+			   	</TD>	
+			</TR>
+		</table> 
+    </TD>
+	<td id="wps_search_device_percent" width="40" align="center"></TD>
+</TR>
+<tr><td colspan="2">&nbsp;</td></tr>
+</table>
+</td></tr>
+</table>
+</div>
+End of Search Device div-->
+
+<!--Start of Connect Device div
+<div id=wps_connect_device_div style="background-image:url(bodyimage.png); position:absolute; width:350; ; z-index:4; left: 200; top: 100; display:none">
+<table bordercolor="#f5f9fd" border="0"  cellpadding="0" cellspacing="0" width="350" ><tr><td valign="top">
+<table  border="0" cellpadding="0" cellspacing="0" align="center" width="320px">
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_conn);
+</script></td></tr>
+<tr><td colspan="2" class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_wait);
+</script></td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+
+<tr> 
+	<td width="270">
+		<table width="100%" align="left" bgcolor="#f5f9fd" cellpadding="0" cellspacing="0" bordercolor="#92b041" id="AutoNumber19" style="border-style: solid; border-width: 1px">
+			<tr>
+				<td align=left> 
+					<table id="wps_connect_device_lpc" bgcolor="#92b041" height=17>
+						<tr><td></TD></TR>
+					</table> 
+			   	</TD>	
+			</TR>
+		</table> 
+    </TD>
+	<td id="wps_connect_device_percent" width="40" align="center"></TD>
+</TR>
+<tr><td colspan="2">&nbsp;</td></tr>
+</table>
+</td></tr>
+</table>
+</div>
+--> 
+<!--End of Connect Device div -->
+
+<!--Start of Connect Successful div
+<div id=wps_connect_device_successfully_div style="background-image:url(bodyimage.png); position:absolute; width:420; height:230; z-index:4; left: 200; top: 100;display:none"">
+<table  border="0"  cellpadding="0" cellspacing="0" width="420px" height="230px"><tr><td  valign="top">
+<table align="center" width="95%">
+	<tr><td colspan="2">&nbsp;</td></tr>
+
+<tr>
+	<td width="36"><img src="./cues_taglib/cues_icons/Status_success_icon.gif" width="32" height="32" border="0"></td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_succ);
+</script></td>
+</tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_connsucc);
+</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_refer);
+</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td class="wpsfont"><script language="javascript" type="text/javascript">
+    dw(wf_ok);
+</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td >&nbsp;</td>
+	<td  align="right">
+	<input type="button" name="wps_connect_ok" class="stdbutton" style="width:80px" value="OK" onClick="resetWPS('ok');return false;">
+	</td></tr>
+</table>
+</td></tr>
+</table>
+</div>
+ --> 
+<!--Start of Connect Fail div 
+<div id=wps_connect_device_failed_div align="center" style=" background-image:url(bodyimage.png);position:absolute; width:420; height:220; z-index:4; left: 200; top: 100;display:none">
+<table  border="0"  cellpadding="0" cellspacing="0" width="420px" height="220px"><tr><td  valign="top">
+<table align="center" width="95%">
+	<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td><img src="./cues_taglib/cues_icons/Status_criticalerror_icon.gif" width="32" height="32" border="0"></td>
+	<td ><script language="javascript" type="text/javascript">
+    dw(wf_fail);
+</script></td>
+</tr>
+<tr class=ContentTextHeight>
+	<td>&nbsp;</td>
+	<td ><script language="javascript" type="text/javascript">
+    dw(wf_connfail);
+</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td ><script language="javascript" type="text/javascript">
+    dw(wf_refer);
+</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr>
+	<td>&nbsp;</td>
+	<td ><script language="javascript" type="text/javascript">
+    dw(wf_ok);
+</script></td>
+</tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+<tr><td >&nbsp;</td>
+	<td  align="right">
+	<input type="button" name="wps_connect_failed" class="stdbutton" style="width:80px" value="OK" onClick="resetWPS('fail');return false;"></td></tr>
+</table>
+</td></tr>
+</table>
+</div>     
+-->
+
+
+
+
+<!--ContentArea end-->
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>    
+</body>
+</html>
+
+

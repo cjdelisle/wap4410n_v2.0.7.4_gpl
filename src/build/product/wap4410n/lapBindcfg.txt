@@ -1,0 +1,24 @@
+#===================================================#
+#   Upgrade Type:                                   #
+#       0x00: Auto Upgrade                   		#
+#       0x01: Upgrade Kernel                      	#
+#       0x02: Upgrade Rootfs						#
+#       0x10: Upgrade Bootrom                       #
+#       0x20: Upgrade Board Data                    #
+#===================================================#
+UPGRADE_TYPE=0x00
+
+#===================================================#
+#   File List:                                      #
+#       Specify the files name/path                 #
+#===================================================#
+PID_FILE=wap4410n.pid
+KERN_FILE=vmlinux.gz.uImage
+RTFS_FILE=rootfs.sqsh
+BOOT_FILE=u-boot.bin
+BOARDDATA_FILE=wap4410n.radio
+
+#===================================================#
+#   Driver Version:                                 #
+#===================================================#
+DRIVER_VER=1007

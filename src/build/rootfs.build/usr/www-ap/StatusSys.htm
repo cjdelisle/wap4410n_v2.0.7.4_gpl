@@ -1,0 +1,304 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+parent.document.title=titl_sys;
+strHtml='<title>'+titl_sys+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!--
+function showHelp()
+{
+	openHelpWin('help/h_Status.htm');
+}
+
+function refresh()
+{
+	var cf = document.forms[0];
+	return location.href=' StatusSys.htm';	
+}
+
+function init()
+{
+    var cf = document.forms[0];
+    
+    parent.parent_menu_clk("5-3");
+}
+-->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+<input type="hidden" name="wirestarts" value="@wired_name#">
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init()">
+
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;postion:relative;"  >
+<div width="100%" class="TitleofContent" align="left">
+	<script language="javascript" type="text/javascript">
+				dw(ss_type);
+			</script> 
+	</div>
+<br>
+<form method="POST" action="setup.cgi?next_file=StatusSys.htm">
+
+<div id="formpane" >
+
+<div class="TitleofGroupBox" style="height:25px;" align="left">
+	<script language="javascript" type="text/javascript">
+				dw(ss_subtype1);
+			</script>
+	
+	</div>
+
+<table border="0" cellpadding="0" cellspacing="0">
+<!-- @pre_statistics# -->
+
+<tr>
+ <td valign="top" >
+
+ <table align="center"   class=TableContentBorder  cellpadding="0px" cellspacing="0" border="0"> 
+<tr class=TableTitleBg >
+	<td class=TableRowBottomRight  align="left" width="272" height="25" ><script language="javascript" type="text/javascript">
+				dw(ss_name);
+			</script></td>
+	<td class=TableRowBottomleft  align="left"  width="362"  ><script language="javascript" type="text/javascript">
+				dw(ss_lan);
+			</script></td>
+</TR>
+    
+<tr>
+ 	
+	<td height="25" class=TableEvenRow  width="261" nowrap>
+		<script language="javascript" type="text/javascript">
+				dw(ss_addr);
+			</script>
+		 </TD>
+	<td class=TableEvenRow nowrap align="left" >@r_ip_address#</TD>
+</TR>
+
+<tr>
+	<td height="25" class=TableOddRow nowrap>
+		<script language="javascript" type="text/javascript">
+				dw(ss_mac);
+			</script>
+		 </TD>
+	<td class=TableOddRow nowrap align="left" >@r_mac_address#</TD>
+</TR>
+
+<tr>
+	<td height="25" class=TableEvenRow nowrap>
+		<script language="javascript" type="text/javascript">
+				dw(ss_conn);
+			</script> </TD>
+	<td class=TableEvenRow nowrap align="left" >@r_Connection_status#</TD>
+</TR>
+
+<tr>
+  <td height="25" class=TableOddRow  nowrap>
+  	<script language="javascript" type="text/javascript">
+				dw(ss_lprecv);
+			</script> </TD>
+  <td class=TableOddRow nowrap align="left" >@r_received_packet#</TD>
+</TR>
+<tr>
+  <td height="25" class=TableEvenRow nowrap>
+  	<script language="javascript" type="text/javascript">
+				dw(ss_lpsent);
+			</script> </TD>
+  <td class=TableEvenRow nowrap align="left" >@r_sent_packets#</TD>
+</TR>
+<tr>
+  <td height="25" class=TableOddRow nowrap>
+  	<script language="javascript" type="text/javascript">
+				dw(ss_lbrecv);
+			</script> </TD>
+  <td class=TableOddRow class=TableOddRow  nowrap align="left" >@r_received_bytes#</TD>
+</TR>
+<tr>
+  <td height="25" class=TableEvenRow nowrap>
+  	<script language="javascript" type="text/javascript">
+				dw(ss_lbsent);
+			</script> </TD>
+  <td class=TableEvenRow nowrap align="left" >@r_sent_bytes#</TD>
+</TR>
+<tr>
+  <td height="25" class=TableOddRow nowrap>
+  	<script language="javascript" type="text/javascript">
+				dw(ss_lerecv);
+			</script> </TD>
+  <td class=TableOddRow nowrap align="left" >@r_error_packets#</TD>
+</TR>
+
+<tr>
+  <td height="25" class=TableEvenRow nowrap>
+  	<script language="javascript" type="text/javascript">
+				dw(ss_ldrecv);
+			</script></TD>
+  <td class=TableEvenRow nowrap align="left" >@r_drop_packets#</TD>
+</TR>
+
+</table>
+</TD>
+</TR>
+
+</table>
+<HR class="stdHRGrp">
+
+
+<div class="TitleofGroupBox"  align="left">
+	<script language="javascript" type="text/javascript">
+				dw(ss_subtype2);
+			</script>
+	
+	</div>
+
+
+<!-- @pre_statistics# -->
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+ <td valign="top" >
+ <table  align="center"  class=TableContentBorder  cellpadding="0px" cellspacing="0" border="0"> 
+<tr  class=TableTitleBg>
+	 <td width="140" class=TableRowBottomRight height="25" ><script language="javascript" type="text/javascript">
+				dw(ss_name);
+			</script></td>
+    <td width="110" class=TableRowBottomCenter align="left"  ><script language="javascript" type="text/javascript">
+				dw(ss_ssid);
+			</script>1</td>
+    <td width="110" class=TableRowBottomCenter align="left"  ><script language="javascript" type="text/javascript">
+				dw(ss_ssid);
+			</script>2</td>
+    <td width="110" class=TableRowBottomCenter align="left"  ><script language="javascript" type="text/javascript">
+				dw(ss_ssid);
+			</script>3</td>
+    <td width="110" class=TableRowBottomleft align="left"  ><script language="javascript" type="text/javascript">
+				dw(ss_ssid);
+			</script>4</td>
+</TR>
+    
+<tr height="25" >
+    <td width="140" height="25" class=TableEvenRow nowrap><script language="javascript" type="text/javascript">
+				dw(ss_addr);
+			</script></td>
+    <td  colspan="4" align="left" class=TableEvenRow  nowrap class="stdbold">@r_ssid_ip_1#</td>
+  </tr>
+  <tr height="25" >
+    <td width="140" nowrap class=TableOddRow><script language="javascript" type="text/javascript">
+				dw(ss_wmac);
+			</script> </td>
+    <td width="110" align="left" nowrap class="TableOddRow">@r_mac_1#</td>
+    <td width="110" align="left" nowrap class="TableOddRow">@r_mac_2#</td>
+    <td width="110"  align="left" nowrap class="TableOddRow">@r_mac_3#</td>
+    <td width="110"  align="left" nowrap class="TableOddRow">@r_mac_4#</td>
+  </tr>
+  <tr height="25" >
+    <td height="25" class=TableEvenRow nowrap><script language="javascript" type="text/javascript">
+				dw(ss_conn);
+			</script></td>
+    <td  align="left" nowrap class=TableEvenRow>@r_connect1#</td>
+    <td  align="left" nowrap class=TableEvenRow>@r_connect2#</td>
+    <td  align="left" nowrap class="TableEvenRow">@r_connect3#</td>
+    <td  align="left" nowrap class="TableEvenRow">@r_connect4#</td>
+  </tr>
+  <tr height="25" >
+    <td  nowrap class="TableOddRow"><script language="javascript" type="text/javascript">
+				dw(ss_wprecv);
+			</script></td>
+    <td  nowrap class="TableOddRow" align="left">@r_Packs_r1#</td>
+    <td nowrap class="TableOddRow" align="left">@r_Packs_r2#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_Packs_r3#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_Packs_r4#</td>
+  </tr>
+  <tr height="25" >
+    <td  class="TableEvenRow" nowrap><script language="javascript" type="text/javascript">
+				dw(ss_wpsent);
+			</script></td>
+    <td  nowrap class="TableEvenRow" align="left">@r_Packs_s1#</td>
+    <td  nowrap class="TableEvenRow" align="left">@r_Packs_s2#</td>
+    <td  nowrap class="TableEvenRow" align="left">@r_Packs_s3#</td>
+    <td  nowrap class="TableEvenRow" align="left">@r_Packs_s4#</td>
+  </tr>
+  <tr height="25" >
+    <td  nowrap class="TableOddRow"><script language="javascript" type="text/javascript">
+				dw(ss_wbrecv);
+			</script></td>
+    <td  nowrap class="TableOddRow" align="left">@r_bytes_r1#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_bytes_r2#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_bytes_r3#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_bytes_r14#</td>
+  </tr>
+  <tr height="25" >
+    <td  nowrap class="TableEvenRow"><script language="javascript" type="text/javascript">
+				dw(ss_wbsent);
+			</script> </td>
+    <td  nowrap class="TableEvenRow" align="left">@r_bytes_s1#</td>
+    <td  nowrap class="TableEvenRow" align="left">@r_bytes_s2#</td>
+    <td  nowrap class="TableEvenRow" align="left">@r_bytes_s3#</td>
+    <td  nowrap class="TableEvenRow" align="left">@r_bytes_s4#</td>
+  </tr>
+  <tr height="25" >
+    <td  nowrap class="TableOddRow"><script language="javascript" type="text/javascript">
+				dw(ss_werecv);
+			</script></td>
+    <td  nowrap class="TableOddRow" align="left">@r_error_r1#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_error_r2#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_error_r3#</td>
+    <td  nowrap class="TableOddRow" align="left">@r_error_r4#</td>
+  </tr>
+  <tr height="25" >
+    <td  nowrap class=TableEvenRow><script language="javascript" type="text/javascript">
+				dw(ss_wdrecv);
+			</script></td>
+    <td align="left" nowrap class="TableEvenRow">@r_Drop_1#</td>
+    <td align="left" nowrap class="TableEvenRow">@r_Drop_2#</td>
+    <td align="left" nowrap class="TableEvenRow">@r_Drop_3#</td>
+    <td align="left" nowrap class="TableEvenRow">@r_Drop_4#</td>
+  </tr>
+
+</table>
+</TD>
+
+</TR>
+
+</table>	
+
+<br style="height:15px;">
+
+
+</div><!-- FormPane end     -->
+<!-- submit button -->
+<div class="ButtonRow">
+<script language="javascript" type="text/javascript">
+  showRefresh();
+  </script>
+</div>
+<input type="hidden" name="todo" value="">
+<INPUT type="hidden" name="this_file" value="Status.htm">
+<INPUT type="hidden" name="next_file" value="Status.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+
+</form>
+<!-- ContentArea end    -->
+</div>
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  </body>
+</html>

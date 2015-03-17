@@ -1,0 +1,38 @@
+# Set the toolchain path
+export TOOLCHAIN=gcc-3.4.4-2.16.1
+export TOOLPREFIX=mips-linux-uclibc-
+export TOOLARCH=build_mips_nofpu
+
+export KERNEL=mips-linux-2.6.15
+export KERNELVER=2.6.15
+export KERNELTARGET=vmlinux.bin
+export COMPRESSKERNEL=y
+export KERNELARCH=mips
+export TARGETFSSIZE=4194304
+
+export BUSYBOX=busybox-1.01
+export WIRELESSTOOLS=wireless_tools.28
+export WIRELESSTOOLSLIB=libiw.so.28
+
+export BUS=AHB
+export MADWIFITARGET=mipsisa32-be-elf
+export FUSIONTARGET=mipsisa32-be-elf
+
+# Set Phy Err Diagnostics (Radar detection) to be enabled for AP builds
+export ATH_CAP_PHYERR_DIAG=1
+
+export AR5416_G_MODE=1
+export AR9100=1
+export AH_DEBUG=1
+
+export AH_SUPPORT_AR5212=0
+export AH_SUPPORT_5111=0
+export AH_SUPPORT_5112=0
+export AH_SUPPORT_2413=0
+export AH_SUPPORT_5111=0
+export AH_SUPPORT_5112=0
+export AH_SUPPORT_2413=0
+export AH_SUPPORT_5413=0
+export AH_SUPPORT_2316=0
+export AH_SUPPORT_2317=0
+export AH_SUPPORT_2425=0

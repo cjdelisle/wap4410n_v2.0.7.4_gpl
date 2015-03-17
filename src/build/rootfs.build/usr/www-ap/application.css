@@ -1,0 +1,380 @@
+/* Copyright 2009 Cisco Systems. All rights reserved. */
+
+
+/* constains applicaton level style elements. */
+
+/* import the base styles. */
+@import url(base.css); 
+/* navigation elements. */
+@import url(navigator.css);
+/* standard table styles. */
+@import url(table.css); 
+/* wizard styles. */
+@import url(wizard.css); 
+
+a.tooltipped {
+	position: relative;
+	text-decoration:none;
+}
+a.tooltipped span.tip {
+	display: none;
+}
+a.tooltipped:hover span.tip {
+	background: #DFE5F3;
+	border:1px solid #acb2c0;
+	color:#000000;
+	cursor: pointer;
+	display:block;
+	position:absolute;
+	left: -11px;
+	top: -13px;
+	z-index: 99;
+	padding: 0px 5px 0px 2px;
+	text-align: center;
+	white-space: normal;
+}
+
+/* defines the default body backgound for an application. */
+body 
+{
+    /* background-image: url("cisco_pageBackground.jpg"); */
+    background-position: 0px -80px;
+    background-attachment: fixed;
+}
+
+/* contains all content between hearder and footer.  contained withing #content-container */
+#content {
+	width: 100%;
+}
+
+/* outer most container between header and footer. */
+#content-container {
+	width: 100%;
+}
+
+/* box surrounding main content.  contained by #content */
+.content-box {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: left;
+	vertical-align: top;
+	width: 100%;
+}
+
+/* default box container */
+.default-box {
+	border-color: #8499a2;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0px 3px 3px 3px;
+	vertical-align: top;
+}
+
+/* "about" box container */
+.about-box {
+	background: transparent;
+	border-color: #ffffff;
+	border-style: none;;
+	border-width: 1px;
+        height: 250px;
+        width: 430px;
+        margin: 155px 0px 20px 20px;
+        /* align: center; */
+	/* opacity:0.30; */   /* For Mozilla/Firefox */
+	/* filter: alpha(opacity=30); */
+}
+
+/* "about" product title */
+.about-product-title {
+	color: #FFFFFF;
+	font-size: 22px;
+	font-weight: normal;
+	font-family: arial;
+	vertical-align: bottom;
+        padding-bottom: 10px;
+}
+
+/* "about" version */
+.about-version {
+	color: #FFFFFF;
+	font-size: 11px;
+	font-weight: bold;
+	font-family: arial;
+	padding: 0px 0px 0px 0px;
+	vertical-align: top;
+}
+
+.about-udi {
+	color: #FFFFFF;
+	font-size: 10px;
+	font-weight: bold;
+	font-family: arial;
+	padding: 0px 0px 0px 0px;
+	vertical-align: top;
+}
+
+/* "about" copyright */
+.about-copyright {
+	color: #FFFFFF;
+	font-size: 10px;
+	font-weight: normal;
+	font-family: arial;
+	padding-bottom: 10px;
+	vertical-align: bottom;
+}
+
+/* collapsable panels */
+table.drop-box {
+	border-color: #acb2c0;
+	border-style: solid solid solid solid;
+	border-width: 1px;
+	width: 10px;
+}
+
+/* collapsable panel decoration */
+.drop-box-shade {
+	background-image: url(drop_shade1.gif);
+	background-repeat: repeat-x;
+	background-position: left top;
+}
+
+/* application footer */
+.footer {
+	height: 100%;
+	margin: 10px 0px 0px 0px;
+	padding: 0px;
+	padding-bottom: 14px;
+	width: 100%;
+}
+
+.footer-left {
+	color: #ffffff;
+	font-size: 12px;
+	font-family: arial;
+	margin: 0px;
+	padding-left: 15px;
+	text-align: left;
+	vertical-align: bottom;
+}
+
+.footer-right, .footer-right a:link, .footer-right a:visited {
+	color: #ffffff;
+	font-size: 12px;
+	font-family: arial;
+	margin: 0px;
+	padding-right: 15px;
+	text-align: right;
+	text-decoration: none;
+	vertical-align: bottom;
+}
+
+/* header box */
+.header-box {
+    width: 100%;
+}
+
+/* support, help, etc links. */
+.header-links {
+/*	color: #999999; */
+	line-height: 9pt;
+	height: 9pt;
+	margin: 0px;
+	padding: 8px;
+	text-align: right;
+	font-variant: small-caps;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
+.header-links a:link, .header-links a:visited {
+/*        color: #333333; */
+}
+
+.input-text-error {
+	font-size: 10px;
+	color: #cc0000;
+}
+
+.label {
+	color: #000000;
+	font-weight: normal;
+	white-space: nowrap;
+}
+.wizard-label {
+	font-family: arial;
+	font-size: 12px;
+	font-weight: normal;
+}
+.wizard-label-1 {
+	font-family: arial;
+	font-size: 8px;
+	font-weight: normal;
+}
+.wizard-small-label {
+	font-family: arial;
+	font-size: 11px;
+	font-weight: normal;
+}
+.wizard-value
+{
+	font-family: arial;
+	font-size: 12px;
+	font-weight: normal;
+}
+div.page-divider {
+	 background: #DFE5F3;
+	 font-size: 2px;
+	 height: 2px;
+	 line-height: 2px;
+	 margin: 3px 0px 3px 0px;
+	 width: 100%;
+}
+
+div.wiz-page-divider {
+	 background: #DFE5F3;
+	 font-size: 2px;
+	 height: 1px;
+	 line-height: 1px;
+	 margin: 3px 0px 3px 0px;
+	 width: 100%;
+}
+
+.page-header1 {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.page-header2 {
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.page-header3 {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.page-header4 {
+	font-size: 11px;
+	font-weight: bold;
+}
+
+/* help box styles */
+.page-help {
+	background: #DFE5F3;
+	border: 1px solid #acb2c0;
+	margin: 0px;
+	overflow: scroll;
+	padding: 4px 2px 4px 4px;
+	text-align: left;
+	vertical-align: text-top;
+}
+
+.page-note {
+	font-size: 10px;
+}
+
+/* functionality title */
+.page-title {
+	/* background: #DFE5F3; */
+	/* border: 1px solid #acb2c0; */
+	color: #acb2c0;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: normal;
+	margin: 0px 4px 6px 0px;
+	padding: 2px 2px 2px 0px;
+	text-align: left;
+	text-indent: 6px;
+	vertical-align: middle;
+}
+
+
+/* page warning box. */
+.page-warning {
+	background: #FFFFFF;
+	background-image: url(yield.gif);
+	background-position: 4px 4px;
+	background-repeat: no-repeat;
+	border: 1px solid #acb2c0;
+	padding: 4px;
+	text-align: left;
+	text-indent: 18px;
+	vertical-align: text-bottom;
+	margin: 4px 4px 4px 0px;
+	font-size: 10px;
+}
+
+/* product family title. */
+.product-family-title {
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: normal;
+	font-family: arial;
+	text-align: left;
+	vertical-align: text-top;
+}
+
+/* product title. */
+.product-title {
+	color: #FFFFFF;
+	font-size: 22px;
+	font-weight: normal;
+	font-family: arial;
+	/* padding: 27px 0px 0px 0px; */
+	padding: 0px 0px 40px 0px;
+	text-align: left;
+	vertical-align: text-top;
+}
+
+/* status information box. */
+.status-block {
+	background: #DFE5F3;
+	border: 1px solid #acb2c0;
+	margin-bottom: 4px;
+    padding: 4px 2px 4px 4px;
+}
+
+.status-region {
+}
+
+.status-text {
+}
+
+.top-box {
+    width: 100%;
+    height: 100px;
+}
+
+/* page progress bar */
+#page-progress-bar {
+	font-size: 10px;
+	background: #EFEFEF;
+	margin: 4px;
+	padding: 0px 4px 0px 4px;
+	border: 1px solid #acb2c0;
+	font-weight: bold;
+	white-space: nowrap;
+	height: 0%;
+	width: 0%;
+}
+
+select {
+        /* background: #60E4FB; */
+}
+
+option:hover {
+        background: #f35000;
+}
+#scrollArea {
+        height: 100%;
+        width: 100px;
+        overflow: auto;
+        position: relative;
+}
+
+#relative {
+	position: relative;
+}

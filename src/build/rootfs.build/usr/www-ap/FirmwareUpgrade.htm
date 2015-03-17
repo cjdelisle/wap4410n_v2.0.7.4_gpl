@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<meta name="description" content="Cisco WAP4410N">
+
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="ajax.js"></script>
+<script language="javascript" type="text/javascript">
+
+parent.document.title=titl_fir;
+strHtml='<title>'+titl_fir+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!-- hide script from old browsers
+
+// upgrade FW
+
+var  upload = @r_upld_status#;
+function init()
+{
+    var cf = document.forms[0];
+    
+    parent.parent_menu_clk("4-5");
+	dataToVisible(cf);
+	if(upload)
+    {
+        show_hide("uploading",true);
+    	show_hide("warning",false);
+    	ScreenConvert(); 
+    	setTimeout("window.location='galert.htm'", 70000);    
+    }
+    else
+    {
+    	ScreenClean();
+        show_hide("uploading",false);
+    	show_hide("warning",true);
+    }
+	return 0;
+}
+
+function checkData()
+{
+	var a;
+	
+	var cf = document.forms[0];
+	var msg="";
+	
+	var t_str = cf.FWupload.value;
+	if(t_str.split) 
+		a = t_str.split(".");
+	else
+		a = cdisplit(t_str,".");
+
+	if(t_str.length == 0)
+	{
+		 ALERT(parent, "CON", titl_warn, "FirmwareUpgrade.htm", "Warn", msg_nofile, "", ABBtnOK,"");
+		return false;
+	}
+	if(t_str.indexOf(';') >= 0)
+	{    
+		 ALERT(parent, "CON", titl_warn, "FirmwareUpgrade.htm", "Warn", msg_invalidpath, "", ABBtnOK,"");
+
+	    return false;
+	} 
+	if((a.length<2)||(a[0]=="")||
+	    ((a[a.length-1].toLowerCase()!="img") && (a[a.length-1].toLowerCase()!="bin")))
+	{    
+ 		ALERT(parent, "CON", titl_warn, "FirmwareUpgrade.htm", "Warn", msg_invalidfile, "", ABBtnOK,"");
+
+	    return false;
+	}
+	
+//	if (!confirm(msg_upgradefw))  
+	//   	return false;
+    ALERT(parent, "CON", titl_confirm, "FirmwareUpgrade.htm", "Warn", msg_upgradefw, "", ABBtnSubmit,ABBtnCANCEL);
+
+  //  show_hide("warning",false);
+  //  show_hide("uploading",true);
+    
+ //   ScreenConvert();
+	return true;		
+}
+
+function showHelp()
+{
+	openHelpWin('help/h_FUpgrade.htm');
+}
+
+
+
+//-->
+</script>
+<style type="text/css">
+BODY, P, TABLE, TD, UL, OL, LI, DD, INPUT, SELECT
+         { color:black; font: normal 8pt Arial,Helvetica,sans-serif; }
+.style1 {font-size: medium}
+.style2 {
+	font-size: large;
+	font-weight: bold;
+</style>
+</head>
+
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+
+<div width="100%" class="TitleofContent">
+	
+	<script language="javascript" type="text/javascript">
+				dw(au_subtype);
+			</script>
+	</div>
+<br> 
+
+<form name="upgrade" method="POST" action="upload.cgi?next_file=FirmwareUpgrade.htm" ENCTYPE="multipart/form-data">
+<!--FormPane begin-->
+<input type="hidden" name="uploadType" value="image">
+
+<div id="formpane" class="RFormPane">
+ 
+ <table border="0" cellpadding="0" cellspacing="0">
+ <tr>
+ <td valign="top" width="59%">
+ <table class="std_80">
+ <tr>
+  <td nowrap colspan="2" height="30">
+  	<div width="100%" class="NormalText">
+  		<script language="javascript" type="text/javascript">
+				dw(au_slfile);
+			</script></div>
+			</TD>
+	</TR>
+  <tr>
+  <td nowrap height="30" class="NormalText">
+  	<script language="javascript" type="text/javascript">
+				dw(au_file);
+			</script>
+  <input type="FILE" name="FWupload" value="" size="55" maxlength="128" style="width:360px;margin-left: 8px;"></TD>
+</TR>
+  <tr>
+  <td nowrap align="left"><br>
+  	<script language="javascript" type="text/javascript">
+      	dw('<INPUT type="BUTTON"  name="fw_upgrade" value="');
+      	dw(au_upgrade);
+      	dw('" onClick="return checkData();">');
+      	</script>  	
+  	</TD>
+</TR>
+ </table>
+  </TD>
+   </TR>
+   
+   <tr>
+  <td valign="top">
+ <div ID="warning" name="warning" style="">
+ <hr class="stdHRCnt">
+<table  border="0" cellpadding="0" cellspacing="0">
+<tr>
+ <td height="40"  valign="top" align="left" class="red">
+ 	<script language="javascript" type="text/javascript">
+				dw(au_war);
+			</script>
+ 	&nbsp;&nbsp;</TD>
+ <td valign="top" colspan="2" align="left" class="red">
+<script language="javascript" type="text/javascript">
+				dw(au_warning);
+			</script>
+</TD>
+</TR>
+</table>
+</div>
+	</td>
+</tr>
+<tr>
+  <td valign="top">
+ <div ID="uploading" name="uploading" style="display:none">
+<hr class="stdHRCnt">
+<table class="std" border="0" cellpadding="0" cellspacing="0">
+<tr height="25">
+   		  <td  align="center" class="blue" style="width:390px">
+   		  			<b><script language="javascript" type="text/javascript">
+				dw(au_uping);
+			</script></b>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+		<img src="./ProgressBar_indeterminate.gif"  height="17px" border="0">
+		</td>
+	</tr>
+	<tr height="25">
+		<td  align="center" class="red" nowrap>
+   		  	
+   		  			<b><script language="javascript" type="text/javascript">
+				dw(au_upmsg);
+			</script></b>
+   		</td>
+   		<tr>
+   	</table>
+</div>
+ </TD>
+</TR>
+
+
+</table>
+
+
+</div>
+<input type="hidden" name="todo" value="">
+<input type="hidden" name="this_file" value="FirmwareUpgrade.htm">
+<input type="hidden" name="next_file" value="FirmwareUpgrade.htm">
+<input type="hidden" name="message" value="@msg_text#">
+<!--FormPane end-->
+
+
+</form>
+<!--ContentArea end-->
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  </body>
+
+</html>

@@ -1,0 +1,105 @@
+H1 {
+	   FONT-SIZE: 14pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: Arial; COLOR: black; 
+}
+
+BODY.sbody {
+	FONT: 10pt Arial,Helvetica,sans-serif; COLOR: black;background-color: #D9E3E9;
+	/* background-image:url(../bodyimage.png);*/
+}
+BODY.hbody {
+	FONT: 10pt Arial,Helvetica,sans-serif; COLOR: black; background-image:url(../pageBackground.jpg) ;background-repeat: no-repeat;
+	background-color: #002142;
+}
+
+TABLE.hTable{
+	FONT: 10pt Arial,Helvetica,sans-serif; COLOR: black; width:80%
+}
+table.MsoNormalTable {
+    mso-style-parent:""; font-size:10.0pt; 
+	BORDER-RIGHT: medium none; BORDER-TOP: medium none; BORDER-LEFT: medium none;
+	BORDER-BOTTOM: medium none; BORDER-COLLAPSE: collapse;
+	FONT: 10pt Arial,Helvetica,sans-serif; COLOR: black; width:80%
+}
+
+caption {
+	FONT: bold 12pt Arial,Helvetica,sans-serif; COLOR: black; 
+	text-align: left;
+}
+TH {
+	FONT: bold 10pt Arial,Helvetica,sans-serif; COLOR: white; background-color: #FFFFFF;
+}
+th.bar {
+	background-color: #111111;
+}
+TD {
+	FONT: 10pt Arial,Helvetica,sans-serif; COLOR: black; background-color: transparent;;
+}
+td.blue {
+	background-color: #5A85D7;
+}
+td.gray {
+	background-color: #E7E7E7;
+}
+td.leftstyle {
+    BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: windowtext 1pt solid;
+	PADDING-LEFT: 5.4pt;  BORDER-LEFT: windowtext 1pt solid; WIDTH: 130pt;
+	 BORDER-BOTTOM: windowtext 1pt solid;
+}
+td.rightstyle {
+    BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: windowtext 1pt solid;
+	PADDING-LEFT: 5.4pt; BORDER-LEFT: medium none; WIDTH: 450pt;
+	BORDER-BOTTOM: windowtext 1pt solid;
+}
+B {
+	FONT-WEIGHT: bold;
+}
+.num {
+	FONT: 8pt Courier,serif; COLOR: black;
+}
+.tt {
+	FONT: 8pt Courier,serif; COLOR: black;
+}
+.headrow {
+	FONT: bold 8pt Arial,Helvetica,sans-serif; COLOR: black;
+}
+/*
+.slbutton  {
+    font-size:12px;
+    margin:0 0 0 0px;cursor:pointer; width:80px;height:22px;
+    }
+    */
+.slbutton  {font-size:12px; margin:5 0 0 0px;padding-left:3px;padding-right:3px;padding-top:1px;cursor:pointer; width:60px;height:22px; }
+
+.stdbutton  {font-size:12px;margin:0 0 0 0px;cursor:pointer; width:auto;height:22px}
+.delbutton  {font-size:12px;margin:5 5  5 0px;cursor:pointer; width:auto;height:22px}
+LI {
+	padding-bottom: 8px;
+}
+.num {color: black; font: normal 9pt "Courier New",Courier,serif;}
+
+div.morespace {
+	padding-top: 4px;
+}
+.TitleofGroupBox   {height:25px;font-family:Arial;font-size:12px;color:#000000;font-weight:bold;}
+
+.SFormPane  {
+	background-color:white;
+    margin-bottom:10px;padding:10px; position:relative;
+    border:1px solid #8499a2;
+    
+    }
+    
+.HFormPane  {
+   border:1px solid #8499a2;position:relative;
+  background-image:url(../ToolbarMain.png);
+    }
+.HAllPane{margin-left:15px;margin-right:15px;margin-top:15px;margin-bottom:10px;}
+
+.STYLE1 {color: #000000; text-align: left;margin-left:auto;
+    margin-right:auto;width:90%;width:100%; 
+    }	
+.SubWidHR {height:1px;color:#8499a2;opacity:.40;filter:alpha(opacity=40);}
+/* hr */
+.ButtonRow      {align:left;padding-bottom:15px;overflow:hidden;}
+.HCopyright   		{overflow:hidden;font-family:Arial;font-size:12px;padding-left:15px;color:#ffffff;font-weight:normal;margin-bottom:5px;}
+.XFormPane{margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:20px;}

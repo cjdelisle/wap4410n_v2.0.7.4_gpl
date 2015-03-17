@@ -1,0 +1,574 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+    
+parent.document.title=titl_wmac;
+strHtml='<title>'+titl_wmac+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);    
+
+<!-- Start Script
+var secMethods = ["local","radius","disabel"];
+var secMethod = "";
+function init()
+{
+	var cf = document.forms[0];
+	
+	parent.parent_menu_clk("2-3");
+	dataToVisible(document.forms[0]);
+	SetDiV();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+function SetDiV()
+{
+	var cf = document.forms[0];
+	var i;
+	for(i = 0; i < 3; i++) 
+	{
+		if(cf.wl_macfilter[i].checked)
+			secMethod = secMethods[i];
+	}	
+	if(secMethod == "local")
+		show_hide("disableDiV",1);
+	else if (secMethod == "radius")
+		show_hide("disableDiV",1);
+	else 
+		show_hide("disableDiV",0);
+	show_hide("localDiv0",(secMethod == "local"));
+	show_hide("localDiV1",(secMethod == "local"));
+	//show_hide("localDiv5",(secMethod == "local"));
+
+	show_hide("localDiV3",(secMethod == "local"));
+
+	show_hide("localDiV4",(secMethod == "local"));
+	
+
+	show_hide("radiusDiv",(secMethod == "radius"));
+	
+}
+function SSIDSelected()
+{
+    var cf = document.forms[0];
+    
+    cf.unit.value = 0;
+    cf.vap.value = cf.SSID_Setting[cf.SSID_Setting.selectedIndex].value;
+    cf.todo.value = "change";
+    cf.submit();
+}
+function openlistMac()
+{
+    var cf =  document.forms[0];
+    
+    var url = "WClientMACList.htm";
+    url += "&unit=0";
+    url += "&vap="+cf.h_SSID_Setting.value;
+    
+    openDataSubWin(url,prosub);
+    return 0;
+}
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg="";
+    
+    if(cf.wl_macfilter[0].checked) {
+        var MacAddr = new Array(cf.wl_mac0,cf.wl_mac1,cf.wl_mac2,cf.wl_mac3,cf.wl_mac4,
+                            cf.wl_mac5,cf.wl_mac6,cf.wl_mac7,cf.wl_mac8,
+                            cf.wl_mac9,cf.wl_mac10,cf.wl_mac11,cf.wl_mac12,
+                            cf.wl_mac13,cf.wl_mac14,cf.wl_mac15,cf.wl_mac16,
+                            cf.wl_mac17,cf.wl_mac18,cf.wl_mac19
+                            );
+        
+        for(var i=0;i<20;i++)
+        {
+        	if(MacAddr[i].value.length == 0)
+        		continue;
+        	msg += checkMAC(MacAddr[i],"MAC "+ (i + 1),false);
+        		for(var j=0; j<i; j++)
+		{
+        		if(MacAddr[j].value.length == 0)
+        			continue;
+			if(MacAddr[i].value == MacAddr[j].value)
+				msg += msg_exist_1 + (j+1) + msg_exist_2;
+		}
+        }
+    }
+    else if(cf.wl_macfilter[1].checked) {
+    	 var radius = 0;
+        if((cf.p_acct_ip_1.value.length >0 || cf.p_acct_ip_2.value.length >0 || cf.p_acct_ip_3.value.length >0 || cf.p_acct_ip_4.value.length >0) && 
+            !(cf.p_acct_ip_1.value =="0" && cf.p_acct_ip_2.value =="0" && cf.p_acct_ip_3.value =="0" && cf.p_acct_ip_4.value =="0") )
+        {
+        	radius = 1;
+            msg+= checkIp(cf.p_acct_ip_1,cf.p_acct_ip_2,cf.p_acct_ip_3,cf.p_acct_ip_4,msg_radius_server1,false);
+            msg+= checkInt(cf.p_acct_port, msg_radius_port1, 1, 65534,true);
+            msg+= checkBlank(cf.p_acct_key,msg_r_login_key1); 
+            msg+= checkRadiusKey(cf.p_acct_key.value, msg_r_login_key1);
+        }
+        if((cf.b_acct_ip_1.value.length >0 || cf.b_acct_ip_2.value.length >0 || cf.b_acct_ip_3.value.length >0 || cf.b_acct_ip_4.value.length >0) && 
+            !(cf.b_acct_ip_1.value =="0" && cf.b_acct_ip_2.value =="0" && cf.b_acct_ip_3.value =="0" && cf.b_acct_ip_4.value =="0") )
+        {
+        	radius = 1;
+            msg+= checkIp(cf.b_acct_ip_1,cf.b_acct_ip_2,cf.b_acct_ip_3,cf.b_acct_ip_4,msg_radius_server2,false);
+            msg+= checkInt(cf.b_acct_port, msg_radius_port2, 1, 65534,true);
+            msg+= checkBlank(cf.b_acct_key,msg_r_login_key2);	
+            msg+= checkRadiusKey(cf.b_acct_key.value, msg_r_login_key2);
+        }
+         if(radius != 1)
+            msg += msg_radius;
+    }
+    
+    if(msg.length>0)
+    {
+    	ALERT(parent, "CON", titl_warn, "WMACFilter.htm", "Warn", msg, "", ABBtnOK, "");
+
+	    return false;
+    }    
+    dataToHidden(cf);
+    cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+    return true;
+}
+function channelUrl()
+{
+    var cf =  document.forms[0];
+    var url = "WMACFilter.htm";
+    var unit = "@r_unit#";
+    var vap = "@r_vap#";
+    url += "&unit="+unit;
+    url += "&vap="+vap;
+
+    return url;
+}
+function showHelp()
+{
+	openHelpWin('help/h_WMACFilter.htm');
+}
+
+// End Script -->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init()">
+<!--ContentArea-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div class="TitleofContent">
+	<script language="javascript" type="text/javascript">
+    dw(wc_type);
+	</script>
+</div>
+<br>
+<form method="POST" action="setup.cgi?next_file=WMACFilter.htm&unit=0&vap=0">
+
+<!-- data table-->
+<!--FormPane--> 
+<div id="formpane" class="RFormPane">
+    
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td valign="center" width="50%">
+            <table border="0px" cellpadding="0" cellspacing="0" >
+                <tr>
+      <td width="164" nowrap height="25">
+      	<script language="javascript" type="text/javascript">
+    		dw(wp_ssid);
+		</script>
+      	</td>
+        <td width="191" nowrap>
+            <select name="SSID_Setting" onChange="SSIDSelected()" class="SelectStd">
+                @SSID_List#
+            </select>
+        </td>
+    </tr>
+    </table>
+    </td>
+    
+</tr>
+</table>
+<tr>
+    <td><hr class="stdHRGrp"></td>
+
+</tr>
+
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+    
+    
+
+<td >
+<div class="TitleofGroupBox" >
+	<script language="javascript" type="text/javascript">
+    dw(wc_type);
+	</script>
+	</div>
+	
+	 <table border="0" cellpadding="0" cellspacing="0" >
+    <tr>
+      <td  height="25" nowrap>
+        <INPUT type=radio value="1" name="wl_macfilter" onClick="SetDiV();" class="RadioLeftIE">
+      </td>
+      <td nowrap><strong style="margin-right: 20px;"><script language="javascript" type="text/javascript">
+    dw(wc_local);
+</script></strong></td>
+      <td  nowrap>
+        <INPUT type=radio value="2" name="wl_macfilter" onClick="SetDiV();" class="RadioLeftIE">
+      </td>
+        <td  nowrap><strong style="margin-right: 20px;"><script language="javascript" type="text/javascript">
+    dw(wc_radiu);
+</script></strong></td>
+		<td nowrap>
+        <INPUT type=radio value="0" name="wl_macfilter" onClick="SetDiV();" checked="1" class="RadioLeftIE"
+      </td>
+        <td  nowrap><strong style="margin-right: 20px;"><script language="javascript" type="text/javascript">
+    dw(disable);
+</script></strong></td>
+    </tr>
+    </table>
+   
+    
+    </td>
+
+</tr>
+</table>
+<tr>
+    <td><div  id="disableDiV" style="display:none">
+    		<hr class="stdHRGrp">
+    	</div></td>
+   
+</tr>
+
+
+<table border="0" cellpadding="0" cellspacing="0">
+<!-- radius table--> 
+
+
+<tr>
+	<td valign="center">
+<div id="radiusDiv" style="display:none">
+	<div class="TitleofGroupBox">
+		<script language="javascript" type="text/javascript">
+    		dw(wc_subradiu);
+	</script>
+	</div>
+  <TABLE name="table1" border="0" cellpadding="0" cellspacing="0">
+    <tr class=ContentCrlHeight>
+      <td width="164" nowrap>
+      	<script language="javascript" type="text/javascript">
+    dw(wp_pserv);
+		</script>
+		</td>
+      <td nowrap colspan="3"><input type="text" class="num" size="3" maxlength="3" name="p_acct_ip_1" value="0">
+        .
+          <input type="text" class="num" size="3" maxlength="3" name="p_acct_ip_2" value="0">
+        .
+        <input type="text" class="num" size="3" maxlength="3" name="p_acct_ip_3" value="0">
+        .
+        <input type="text" class="num" size="3" maxlength="3" name="p_acct_ip_4" value="0"></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pservp);
+</script></td>
+      <td nowrap><input type="text" class="num" name="p_acct_port" size="5" maxlength="5" value="@p_acct_port#"></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_pshsec);
+</script></td>
+      <td nowrap><input type="text" name="p_acct_key" size="24" maxlength="63" value="@p_acct_key#"></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td><script language="javascript" type="text/javascript">
+    dw(wp_bserv);
+</script></td>
+      <td nowrap colspan="3"><input type="text" class="num" size="3" maxlength="3" name="b_acct_ip_1" value="0">
+        .
+          <input type="text" class="num" size="3" maxlength="3" name="b_acct_ip_2" value="0">
+        .
+        <input type="text" class="num" size="3" maxlength="3" name="b_acct_ip_3" value="0">
+        .
+        <input type="text" class="num" size="3" maxlength="3" name="b_acct_ip_4" value="0"></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bservp);
+</script></td>
+      <td nowrap><input type="text" class="num" name="b_acct_port" size="5" maxlength="5" value="@b_acct_port#"></td>
+    </tr>
+    <tr class=ContentCrlHeight>
+      <td nowrap><script language="javascript" type="text/javascript">
+    dw(wp_bshsec);
+</script></td>
+      <td nowrap><input type="text" name="b_acct_key" size="24" maxlength="63" value="@b_acct_key#"></td>
+    </tr>
+  </table>
+    </div>
+<div id="localDiv0" style="display:none">
+    <table border="0" border="0" cellpadding="0" cellspacing="0">
+          <tr class=ContentTextHeight> 
+            <td  nowrap><input type="radio" name="wl_macmode" value="allow" class="RadioLeftIE"></td>
+            <td width="400"  ><script language="javascript" type="text/javascript">
+    			dw(wc_almac);
+			</script>
+			</td>
+          </tr>
+          <tr class=ContentTextHeight> 
+            <td nowrap><input type="radio" name="wl_macmode" value="prevent" class="RadioLeftIE"></td>
+            <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_premac);
+</script></td>
+          </tr>
+          <tr> 
+            <td nowrap></td>
+            <td nowrap></td>
+          </tr>
+    </table>
+    </div>
+	</td>
+</tr>
+</table>
+<tr>
+<td>
+    	<div id="localDiV4" style="display:none" >
+    		<hr class="stdHRCnt">
+    	</div>
+   </td> </tr>
+
+
+<div id="localDiV1"  style="display:none" >
+<table border="0" cellpadding="0" cellspacing="0">
+<!-- local table--> 
+<tr>
+	<td class="TitleofGroupBox">
+	<script language="javascript" type="text/javascript">
+   	 dw(wc_subcon);
+	</script>
+</td>
+</tr>
+
+<tr >
+<td valign="center">
+    <table  border="0px" cellpadding="0" cellspacing="0" >
+    <tr class=ContentCrlHeight>
+        <td nowrap>
+        	<script language="javascript" type="text/javascript">
+    dw('<INPUT type="button" name="MacFilterList" value="');
+    dw(wc_blist);
+    dw('" onClick="openlistMac()">');
+  
+</script>
+        </td>
+    </tr>
+   </table>
+	</td>
+</tr>
+</table>
+</div>
+<table border="0" cellpadding="0" cellspacing="0">
+
+<tr>
+<td valign="center">
+<div id="localDiV3" style="display:none">
+    <table  border="0px" cellpadding="0" cellspacing="0">
+    <br>
+    <tr class=ContentCrlHeight>
+        <td nowrap>
+        	<script language="javascript" type="text/javascript">
+    dw(wc_mac);
+	</script> 01:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac0" value="@wl_mac0#"  class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 11:</td>
+        <td>
+          <INPUT type="text" name="wl_mac10" value="@wl_mac10#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 02:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac1" value="@wl_mac1#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 12:</td>
+        <td>
+          <INPUT type="text" name="wl_mac11" value="@wl_mac11#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 03:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac2" value="@wl_mac2#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 13:</td>
+        <td>
+          <INPUT type="text" name="wl_mac12" value="@wl_mac12#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 04:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac3" value="@wl_mac3#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 14:</td>
+        <td>
+          <INPUT type="text" name="wl_mac13" value="@wl_mac13#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	 <tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 05:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac4" value="@wl_mac4#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 15:</td>
+        <td>
+          <INPUT type="text" name="wl_mac14" value="@wl_mac14#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 06:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac5" value="@wl_mac5#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;" ></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 16:</td>
+        <td>
+          <INPUT type="text" name="wl_mac15" value="@wl_mac15#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 07:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac6" value="@wl_mac6#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 17:</td>
+        <td>
+          <INPUT type="text" name="wl_mac16" value="@wl_mac16#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 08:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac7" value="@wl_mac7#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 18:</td>
+        <td>
+          <INPUT type="text" name="wl_mac17" value="@wl_mac17#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	<tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 09:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac8" value="@wl_mac8#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 19:</td>
+        <td>
+          <INPUT type="text" name="wl_mac18" value="@wl_mac18#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+	 <tr class=ContentCrlHeight>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 10:</td>
+        <td width="83">
+        <INPUT type="text" name="wl_mac9" value="@wl_mac9#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;"></td>
+        <td nowrap><script language="javascript" type="text/javascript">
+    dw(wc_mac);
+</script> 20:</td>
+        <td>
+          <INPUT type="text" name="wl_mac19" value="@wl_mac19#" class=num maxLength=17 size=17 style="margin-left: 8px;margin-right: 8px;">
+        </td>
+    </tr>
+    </table>
+    </div>
+    </td>
+</tr>
+<tr>
+	
+ 
+</tr>
+
+
+
+</table>
+<!--FormPane end-->
+
+
+</div>
+
+
+<div class="ButtonRow">
+<script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel(channelUrl());
+  </script>
+</div>
+
+<input type="hidden" name="h_SSID_Setting" value="@h_SSID_Setting#">
+<input type="hidden" name="h_wl_macfilter" value="@h_wl_macfilter#">
+<input type="hidden" name="h_wl_macmode" value="@h_wl_macmode#">
+<input type="hidden" name="c4_p_acct_ip_" value="@c4_p_acct_ip_#">
+<input type="hidden" name="c4_b_acct_ip_" value="@c4_b_acct_ip_#">
+<input type="hidden" name="unit" value="">
+<input type="hidden" name="vap" value="">
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="WMACFilter.htm">
+<input type="hidden" name="next_file" value="WMACFilter.htm">
+<input type="hidden" name="message" value="@msg_text#">
+</form>
+</div>
+<!--ContentArea end-->
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>    
+</body>
+</html>
+
+

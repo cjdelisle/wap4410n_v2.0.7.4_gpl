@@ -1,0 +1,1 @@
+#define CONFIG_AG7100_GE0_RGMII 1

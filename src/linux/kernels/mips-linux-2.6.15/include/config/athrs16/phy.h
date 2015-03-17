@@ -1,0 +1,1 @@
+#undef CONFIG_ATHRS16_PHY

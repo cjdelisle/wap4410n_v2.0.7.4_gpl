@@ -1,0 +1,4 @@
+#!/bin/sh
+
+rc mdns stop
+sleep 1

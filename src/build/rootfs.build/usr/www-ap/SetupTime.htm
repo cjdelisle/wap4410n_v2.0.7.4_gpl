@@ -1,0 +1,604 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="Cisco WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript">
+
+parent.document.title=titl_settime;
+strHtml='<title>'+titl_settime+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+
+<!--
+// var connMethods = ["bridgedonly","1483bridged","routed","ipoa","pppoe","pppoa"];
+// only used if options have no values
+
+function sync_to_wizard()
+{
+	var cf = document.forms[0];
+	var f = window.top.document.forms[0];
+	
+	f.elements['h_tod_enable'].value=cf.h_tod_enable.value;
+	f.elements['h_time_mon'].value=cf.h_time_mon.value;
+	f.elements['h_time_day'].value=cf.h_time_day.value;
+	f.elements['h_time_year'].value=cf.h_time_year.value;
+	f.elements['h_time_zone'].value=cf.h_time_zone.value;
+	f.elements['h_auto_dls'].value=cf.h_auto_dls.value;
+	f.elements['h_ntp_server_select'].value=cf.h_ntp_server_select.value;
+	f.elements['c4_ntp_server_ip_'].value=cf.c4_ntp_server_ip_.value;
+	f.elements['time_sec'].value=cf.time_sec.value;
+	f.elements['time_hour'].value=cf.time_hour.value;
+	f.elements['time_min'].value=cf.time_min.value;
+}
+
+function init()
+{
+	 var cf = document.forms[0];
+	 
+	parent.parent_menu_clk("1-2");
+	dataToVisible(document.forms[0]);
+	ChangeTimeMode();
+	sync_to_wizard();
+	cf.save.disabled=false;
+	cf.cancel.disabled=false;
+}
+
+function ChangeTimeMode()
+{
+    var cf = document.forms[0];
+    var stat = cf.tod_enable[0].checked;
+    
+    if( stat )
+    {
+        cf.time_mon.disabled = false;       //manually
+        cf.time_day.disabled = false;
+        cf.time_year.disabled = false;
+        cf.time_hour.disabled = false;
+        cf.time_min.disabled = false;
+        cf.time_sec.disabled = false;        
+        
+        cf.time_zone.disabled = true;      //Auto
+        cf.auto_dls.disabled = true;
+        cf.ntp_server_select[0].disabled = true;
+        cf.ntp_server_select[1].disabled = true;
+        cf.ntp_server_ip_1.disabled = true;
+        cf.ntp_server_ip_2.disabled = true;
+        cf.ntp_server_ip_3.disabled = true;
+        cf.ntp_server_ip_4.disabled = true;
+        
+    }
+    else
+    {
+        cf.time_mon.disabled = true;       //manually
+        cf.time_day.disabled = true;
+        cf.time_year.disabled = true;
+        cf.time_hour.disabled = true;
+        cf.time_min.disabled = true;
+        cf.time_sec.disabled = true;        
+        
+        cf.time_zone.disabled = false;      //Auto
+        cf.auto_dls.disabled = false;
+        cf.ntp_server_select[0].disabled = false;
+        cf.ntp_server_select[1].disabled = false;
+        
+        setDLS();
+        ChangeNTPStatus();
+    }
+}
+
+function ChangeNTPStatus()
+{
+    var cf = document.forms[0];
+     
+    if( cf.ntp_server_select[0].checked )
+    {
+        cf.ntp_server_ip_1.disabled = false;
+        cf.ntp_server_ip_2.disabled = false;
+        cf.ntp_server_ip_3.disabled = false;
+        cf.ntp_server_ip_4.disabled = false;
+    }
+    else
+    {
+        cf.ntp_server_ip_1.disabled = true;
+        cf.ntp_server_ip_2.disabled = true;
+        cf.ntp_server_ip_3.disabled = true;
+        cf.ntp_server_ip_4.disabled = true;
+    }
+}
+var dlArray_auto =  [0, 0, 0, 1, 1, 0, 1, 1, 0, 1,
+					 1, 0, 0, 1, 0, 1, 0, 1, 1, 1,
+					 0, 1, 1, 1, 0,	0, 1, 1, 1, 1,
+					 1, 0, 1, 1, 1,	0, 1, 0, 1, 0,
+					 1, 0, 1, 0, 1,	0, 1, 0, 0, 0,
+					 1, 0, 0, 0, 0,	1, 0, 1, 0, 0,
+					 0, 0, 0, 1, 1,	0, 0, 1, 0, 1,
+					 1, 0, 1, 0, 0];
+function setDLS() 
+{
+ 	var cf = document.forms[0];
+	var index = cf.time_zone.selectedIndex;
+	if (index > -1)
+	{
+		if (dlArray_auto[index] == 0)
+		{
+			cf.auto_dls.disabled = true;
+			cf.auto_dls.checked = false;
+		}
+		else
+		{
+			cf.auto_dls.disabled = false;
+			if(cf.h_auto_dls.value == "enable")
+			    cf.auto_dls.checked = true;
+		}
+	}
+	else
+		cf.auto_dls.disabled = false;
+}
+
+function maxday_for_month(month_num, year_str)
+{
+	var year_int;
+	var maxday;
+
+	year_int = parseInt(year_str);
+	var leap_year = ( Math.ceil(year_int/4.0) == Math.floor(year_int/4.0));
+	if ((month_num == 2) && (leap_year))
+			maxday = 29;
+	else if (month_num == 2)
+			maxday = 28;
+	else if ((month_num == 9)
+				 ||(month_num == 4)
+				 ||(month_num == 6)
+				 ||(month_num == 11))
+			maxday = 30;
+	else
+			maxday = 31;
+	return maxday;
+}
+function checkData()
+{
+    var cf = document.forms[0];
+    var msg = "";  
+    
+    if(cf.tod_enable[0].checked)
+    {
+    	var maxday=maxday_for_month(cf.time_mon.value,cf.time_year.value);
+        msg+= checkInt(cf.time_hour,msg_hour_invalid,0,23,true);
+        msg+= checkInt(cf.time_min,msg_min_invalid,0,59,true);
+        msg+= checkInt(cf.time_sec,msg_sec_invalid,0,59,true);
+        if(parseInt(cf.time_day.value) > maxday)
+        	msg+=msg_date_invalid;
+    }
+    else if(cf.ntp_server_select[0].checked)
+    {
+        msg+= checkIp(cf.ntp_server_ip_1, cf.ntp_server_ip_2, cf.ntp_server_ip_3, cf.ntp_server_ip_4, msg_ip_address,true);
+    }
+    
+	if(msg.length > 1)
+	{
+		ALERT(parent, "CON", ws_error, "SetupTime.htm", "Warn", msg, "", ABBtnOK, "");
+		return false;
+	}
+
+	dataToHidden(cf);
+	cf.save.disabled=true;
+	cf.cancel.disabled=true;
+	cf.submit();
+}
+
+function showHelp()
+{
+	openHelpWin('help/h_Time.htm');
+}
+// 
+//-->
+</script>
+<style type="text/css">
+<!--
+.style1 {color: #FFFFFF}
+-->
+</style>
+</head>
+
+<body link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF" onLoad="init();">
+<!--ContentArea begin-->
+<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+<div width="100%" class="TitleofContent">
+<script language="javascript" type="text/javascript">
+				dw(st_type);
+</script>
+</div>
+<br>
+<form name="time" method="POST" action="setup.cgi?next_file=SetupTime.htm">
+<!--FormPane begin-->
+<div id="formpane" class="RFormPane">
+	<table border="0" cellpadding="0" cellspacing="0">
+		<tr>
+		<td valign="top" width="50%">
+			<table border="0px" cellpadding="0" cellspacing="0" >
+		 <!--Manually -->
+		 	<tr>
+ 				<td  class=ContentTextHeight nowrap >
+ 				<input type="radio" class="RadioLeftIE"; name="tod_enable" value="enable" onClick="ChangeTimeMode()"  checked>
+			</td>
+			<td class=ContentTextHeight >
+				<B><script language="javascript" type="text/javascript">
+						dw(st_manu);
+					</script>
+				</B>
+			</td>
+			</tr>
+			<!--Manually-DATE -->
+			 <tr>
+			 	<td colspan="1">&nbsp;</td>
+			 	<td colspan="3">
+			 		<table border="0px" cellpadding="0" cellspacing="0">
+			 			<tr>
+		   
+		              <td width="150" class=ContentCrlHeight nowrap> 
+                        <script language="javascript" type="text/javascript">
+				dw(st_date);
+			</script>
+                      </td>
+		    <td  >
+		    	<table border="0px" cellpadding="0" cellspacing="0">
+		    		<tr>
+		    			<td>
+		    	<select name="time_mon" class="SelectStd" style=" margin-right: 10px;margin-left: 8px">
+                              <option value="1"><script language="javascript" type="text/javascript">
+				dw(st_mon_1);
+			</script></option>
+                              <option value="2"><script language="javascript" type="text/javascript">
+				dw(st_mon_2);
+			</script></option>
+                              <option value="3"><script language="javascript" type="text/javascript">
+				dw(st_mon_3);
+			</script></option>
+                              <option value="4"><script language="javascript" type="text/javascript">
+				dw(st_mon_4);
+			</script></option>
+
+                              <option value="5"><script language="javascript" type="text/javascript">
+				dw(st_mon_5);
+			</script></option>
+                              <option value="6"><script language="javascript" type="text/javascript">
+				dw(st_mon_6);
+			</script></option>
+                              <option value="7"><script language="javascript" type="text/javascript">
+				dw(st_mon_7);
+			</script></option>
+                              <option value="8"><script language="javascript" type="text/javascript">
+				dw(st_mon_8);
+			</script></option>
+                              <option value="9"><script language="javascript" type="text/javascript">
+				dw(st_mon_9);
+			</script></option>
+                              <option value="10"><script language="javascript" type="text/javascript">
+				dw(st_mon_10);
+			</script></option>
+
+                              <option value="11"><script language="javascript" type="text/javascript">
+				dw(st_mon_11);
+			</script></option>
+                              <option value="12"><script language="javascript" type="text/javascript">
+				dw(st_mon_12);
+			</script></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="time_day" class="SelectStd" style=" margin-right: 10px">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+
+                              <option value="10">10</option>
+                              <option value="11">11</option>
+                              <option value="12">12</option>
+                              <option value="13">13</option>
+                              <option value="14">14</option>
+                              <option value="15">15</option>
+
+                              <option value="16">16</option>
+                              <option value="17">17</option>
+                              <option value="18">18</option>
+                              <option value="19">19</option>
+                              <option value="20">20</option>
+                              <option value="21">21</option>
+
+                              <option value="22">22</option>
+                              <option value="23">23</option>
+                              <option value="24">24</option>
+                              <option value="25">25</option>
+                              <option value="26">26</option>
+                              <option value="27">27</option>
+
+                              <option value="28">28</option>
+                              <option value="29">29</option>
+                              <option value="30">30</option>
+                              <option value="31">31</option>
+                            </select>
+                        </td>
+                        <td>
+                            
+                            <select name="time_year" class="SelectStd" style="margin-right: 8px">
+                              <option value="2005">2005</option>
+
+                              <option value="2006">2006</option>
+                              <option value="2007">2007</option>
+                              <option value="2008">2008</option>
+                              <option value="2009">2009</option>
+                              <option value="2010">2010</option>
+                              <option value="2011">2011</option>
+
+                              <option value="2012">2012</option>
+                              <option value="2013">2013</option>
+                              <option value="2014">2014</option>
+                              <option value="2015">2015</option>
+              </select>
+            </td></tr>
+            </table>
+             </td>
+            </tr>
+        </table>
+    </td>
+		  </tr>
+			
+			<!--Manually-time -->
+
+			<tr>
+		    <td colspan="1">&nbsp;</td>
+		    
+		    <td colspan="3"  >
+		    	<table border="0px" cellpadding="0" cellspacing="0">
+			 			<tr>
+			 				  
+                      <td  width="150" class=ContentCrlHeight nowrap> 
+                        <script language="javascript" type="text/javascript">
+				dw(st_time);
+			</script>
+                      </td>
+		    <td class=ContentCrlHeight nowrap>
+		    	<table border="0px" cellpadding="0" cellspacing="0">
+		    		<tr>
+		    			<td>
+		    			<input class="num" maxlength="2" size="3" name="time_hour" value="@time_hour#" style="margin-left: 8px">
+					</td><td width="8px" align="center"  class="ContentCrlHeight">:</td>
+						
+						<td>
+<input class="num" maxlength="2" size="3" name="time_min" value="@time_min#">
+</td><td width="8px"  align="center"  class="ContentCrlHeight">:</td>
+<td>
+<input class="num" maxlength="2" size="3" name="time_sec" value="@time_sec#">
+</td></tr></table>
+
+</td>
+</tr>
+</table>
+</td>
+		  </tr>
+		  
+		  <!--Automatically  -->
+		  
+		  <tr>
+ 				<td  class=ContentTextHeight nowrap >
+ 				<input type="radio" name="tod_enable" value="disable" onClick="ChangeTimeMode()" class="RadioLeftIE" checked>
+			</td>
+			<td class=ContentTextHeight>
+				<B> <script language="javascript" type="text/javascript">
+						dw(st_auto);
+					</script>
+				</B>
+			</td>
+			</tr>
+		 
+		   <!--Automatically-Time Zone  -->
+		  
+		  <tr>
+		    <td colspan="1" nowrap>&nbsp;</td>
+		    <td width="104"  class=ContentCrlHeight >
+		        <script language="javascript" type="text/javascript">
+				dw(st_tzone);
+			</script>
+			</td>
+		    <td class=ContentCrlHeight colspan="3" nowrap>
+                  <select name="time_zone" class="SelectStd"  onChange="setDLS();">
+                    <option value="001-12:00"><script language="javascript" type="text/javascript">dw(st_zone_001); </script></option>
+                    <option value="002-11:00"><script language="javascript" type="text/javascript">dw(st_zone_002); </script></option>
+                    <option value="003-10:00"><script language="javascript" type="text/javascript">dw(st_zone_003); </script></option>
+                    <option value="004-09:00"><script language="javascript" type="text/javascript">dw(st_zone_004); </script></option>
+                    <option value="005-08:00"><script language="javascript" type="text/javascript">dw(st_zone_005); </script></option>
+                    <option value="006-07:00"><script language="javascript" type="text/javascript">dw(st_zone_006); </script></option>
+                    <option value="007-07:00"><script language="javascript" type="text/javascript">dw(st_zone_007); </script></option>
+                    <option value="008-07:00"><script language="javascript" type="text/javascript">dw(st_zone_008); </script></option>
+                    <option value="009-06:00"><script language="javascript" type="text/javascript">dw(st_zone_009); </script></option>
+                    <option value="010-06:00"><script language="javascript" type="text/javascript">dw(st_zone_010); </script></option>
+                    <option value="011-06:00"><script language="javascript" type="text/javascript">dw(st_zone_011); </script></option>
+                    <option value="012-06:00"><script language="javascript" type="text/javascript">dw(st_zone_012); </script></option>
+                    <option value="013-05:00"><script language="javascript" type="text/javascript">dw(st_zone_013); </script></option>
+                    <option value="014-05:00"><script language="javascript" type="text/javascript">dw(st_zone_014); </script></option>
+                    <option value="015-05:00"><script language="javascript" type="text/javascript">dw(st_zone_015); </script></option>
+                    <option value="016-04:00"><script language="javascript" type="text/javascript">dw(st_zone_016); </script></option>
+                    <option value="017-04:00"><script language="javascript" type="text/javascript">dw(st_zone_017); </script></option>
+                    <option value="018-04:00"><script language="javascript" type="text/javascript">dw(st_zone_018); </script></option>
+                    <option value="019-03:00"><script language="javascript" type="text/javascript">dw(st_zone_019); </script></option>
+                    <option value="020-03:00"><script language="javascript" type="text/javascript">dw(st_zone_020); </script></option>
+                    <option value="021-03:00"><script language="javascript" type="text/javascript">dw(st_zone_021); </script></option>
+                    <option value="022-03:00"><script language="javascript" type="text/javascript">dw(st_zone_022); </script></option>
+                    <option value="023-02:00"><script language="javascript" type="text/javascript">dw(st_zone_023); </script></option>
+                    <option value="024-01:00"><script language="javascript" type="text/javascript">dw(st_zone_024); </script></option>
+                    <option value="025-01:00"><script language="javascript" type="text/javascript">dw(st_zone_025); </script></option>
+                    <option value="026+00:00"><script language="javascript" type="text/javascript">dw(st_zone_026); </script></option>
+                    <option value="027+00:00"><script language="javascript" type="text/javascript">dw(st_zone_027); </script></option>
+                    <option value="028+01:00"><script language="javascript" type="text/javascript">dw(st_zone_028); </script></option>
+                    <option value="029+01:00"><script language="javascript" type="text/javascript">dw(st_zone_029); </script></option>
+                    <option value="030+01:00"><script language="javascript" type="text/javascript">dw(st_zone_030); </script></option>
+                    <option value="031+01:00"><script language="javascript" type="text/javascript">dw(st_zone_031); </script></option>
+                    <option value="032+01:00"><script language="javascript" type="text/javascript">dw(st_zone_032); </script></option>
+                    <option value="033+02:00"><script language="javascript" type="text/javascript">dw(st_zone_033); </script></option>
+                    <option value="034+02:00"><script language="javascript" type="text/javascript">dw(st_zone_034); </script></option>
+                    <option value="035+02:00"><script language="javascript" type="text/javascript">dw(st_zone_035); </script></option>
+                    <option value="036+02:00"><script language="javascript" type="text/javascript">dw(st_zone_036); </script></option>
+                    <option value="037+02:00"><script language="javascript" type="text/javascript">dw(st_zone_037); </script></option>
+                    <option value="038+02:00"><script language="javascript" type="text/javascript">dw(st_zone_038); </script></option>
+                    <option value="039+03:00"><script language="javascript" type="text/javascript">dw(st_zone_039); </script></option>
+                    <option value="040+03:00"><script language="javascript" type="text/javascript">dw(st_zone_040); </script></option>
+                    <option value="041+03:00"><script language="javascript" type="text/javascript">dw(st_zone_041); </script></option>
+                    <option value="042+03:00"><script language="javascript" type="text/javascript">dw(st_zone_042); </script></option>
+                    <option value="043+03:30"><script language="javascript" type="text/javascript">dw(st_zone_043); </script></option>
+                    <option value="044+04:00"><script language="javascript" type="text/javascript">dw(st_zone_044); </script></option>
+                    <option value="045+04:00"><script language="javascript" type="text/javascript">dw(st_zone_045); </script></option>
+                    <option value="046+04:30"><script language="javascript" type="text/javascript">dw(st_zone_046); </script></option>
+                    <option value="047+05:00"><script language="javascript" type="text/javascript">dw(st_zone_047); </script></option>
+                    <option value="048+05:00"><script language="javascript" type="text/javascript">dw(st_zone_048); </script></option>
+                    <option value="049+05:30"><script language="javascript" type="text/javascript">dw(st_zone_049); </script></option>
+                    <option value="050+05:45"><script language="javascript" type="text/javascript">dw(st_zone_050); </script></option>
+                    <option value="051+06:00"><script language="javascript" type="text/javascript">dw(st_zone_051); </script></option>
+                    <option value="052+06:00"><script language="javascript" type="text/javascript">dw(st_zone_052); </script></option>
+                    <option value="053+06:00"><script language="javascript" type="text/javascript">dw(st_zone_053); </script></option>
+                    <option value="054+06:00"><script language="javascript" type="text/javascript">dw(st_zone_054); </script></option>
+                    <option value="055+07:00"><script language="javascript" type="text/javascript">dw(st_zone_055); </script></option>
+                    <option value="056+07:00"><script language="javascript" type="text/javascript">dw(st_zone_056); </script></option>
+                    <option value="057+08:00"><script language="javascript" type="text/javascript">dw(st_zone_057); </script></option>
+                    <option value="058+08:00"><script language="javascript" type="text/javascript">dw(st_zone_058); </script></option>
+                    <option value="059+08:00"><script language="javascript" type="text/javascript">dw(st_zone_059); </script></option>
+                    <option value="060+08:00"><script language="javascript" type="text/javascript">dw(st_zone_060); </script></option>
+                    <option value="061+08:00"><script language="javascript" type="text/javascript">dw(st_zone_061); </script></option>
+                    <option value="062+09:00"><script language="javascript" type="text/javascript">dw(st_zone_062); </script></option>
+                    <option value="063+09:00"><script language="javascript" type="text/javascript">dw(st_zone_063); </script></option>
+                    <option value="064+09:00"><script language="javascript" type="text/javascript">dw(st_zone_064); </script></option>
+                    <option value="065+09:30"><script language="javascript" type="text/javascript">dw(st_zone_065); </script></option>
+                    <option value="066+09:30"><script language="javascript" type="text/javascript">dw(st_zone_066); </script></option>
+                    <option value="067+10:00"><script language="javascript" type="text/javascript">dw(st_zone_067); </script></option>
+                    <option value="068+10:00"><script language="javascript" type="text/javascript">dw(st_zone_068); </script></option>
+                    <option value="069+10:00"><script language="javascript" type="text/javascript">dw(st_zone_069); </script></option>
+                    <option value="070+10:00"><script language="javascript" type="text/javascript">dw(st_zone_070); </script></option>
+                    <option value="071+10:00"><script language="javascript" type="text/javascript">dw(st_zone_071); </script></option>
+                    <option value="072+11:00"><script language="javascript" type="text/javascript">dw(st_zone_072); </script></option>
+                    <option value="073+12:00"><script language="javascript" type="text/javascript">dw(st_zone_073); </script></option>
+                    <option value="074+12:00"><script language="javascript" type="text/javascript">dw(st_zone_074); </script></option>
+                    <option value="075+13:00"><script language="javascript" type="text/javascript">dw(st_zone_075); </script></option>
+			</select> 
+			</td>
+			 </tr>
+              <!--Automatically-dls-->
+            <tr>
+              <td colspan="1" nowrap >&nbsp;</td>
+              <td colspan="2" class=ContentCrlHeight  nowrap>
+              	<input type="checkbox" name="auto_dls"  class="CheckboxIE" >
+           		 <script language="javascript" type="text/javascript">
+				dw(st_autoday);
+				</script>
+				</td>
+            </tr>
+
+            <!--Automatically-ntp-->
+             <tr>
+              <td colspan="1" nowrap>&nbsp;</td>
+              <td  class=ContentCrlHeight width="150">
+              	<script language="javascript" type="text/javascript">
+				dw(st_udentp);
+				</script>
+				</td>
+              <td class=ContentCrlHeight>
+			  <input name="ntp_server_select" value="enable" onClick="ChangeNTPStatus();" type="radio" class="RadioLeftIE"> 
+          			 <script language="javascript" type="text/javascript">
+				dw(enable);
+			</script>
+          	<input name="ntp_server_select" value="disable" onClick="ChangeNTPStatus();" type="radio" checked="true" class="RadioRightIE">
+       		 <script language="javascript" type="text/javascript">
+					dw(disable);
+			</script>
+			</td>
+            </tr>
+            
+           
+			 <tr>
+              <td colspan="1" nowrap>&nbsp;</td>
+              <td  class=ContentCrlHeight><script language="javascript" type="text/javascript">
+				dw(st_ntpip);
+			</script>
+			 </td>
+              <td class=ContentCrlHeight >
+			  <input class="num" maxlength="3" size="3" name="ntp_server_ip_1" value="0" >
+			  .
+			  <input class="num" maxlength="3" size="3" name="ntp_server_ip_2" value="0">
+			  .
+		      <input class="num" maxlength="3" size="3" name="ntp_server_ip_3" value="0" >
+			  .
+			  <input class="num" maxlength="3" size="3" name="ntp_server_ip_4" value="0">
+			  </td>
+            </tr>
+           
+            <tr>
+              <td colspan="1" nowrap>&nbsp;</td>
+              <td  class=ContentTextHeight ><script language="javascript" type="text/javascript">dw(st_ctime);</script> </td>
+              <td nowrap class=ContentTextHeight>@current_time#</td>
+            </tr>
+         
+			
+
+			 </table>
+		</td>
+		</tr>
+	</table>
+
+
+	</div>   <!-- end of FormPane -->
+
+
+
+
+<div class="ButtonRow">
+ <script language="javascript" type="text/javascript">
+  showSave();
+  </script>
+  <script language="javascript" type="text/javascript">
+  showCancel("SetupTime.htm");
+  </script>
+ </div>
+
+<input type="hidden" name="h_tod_enable" value="@h_tod_enable#">
+<input type="hidden" name="h_time_mon" value="@h_time_mon#">
+<input type="hidden" name="h_time_day" value="@h_time_day#">
+<input type="hidden" name="h_time_year" value="@h_time_year#">
+
+<input type="hidden" name="h_time_zone" value="@h_time_zone#">
+<input type="hidden" name="h_auto_dls" value="@h_auto_dls#">
+<input type="hidden" name="h_ntp_server_select" value="@h_ntp_server_select#">
+<input type="hidden" name="c4_ntp_server_ip_" value="@c4_ntp_server_ip_#">
+
+
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="SetupTime.htm">
+<input type="hidden" name="next_file" value="SetupTime.htm">
+<input type="hidden" name="message" value="@msg_text#">
+
+</form>
+<br>
+	<!-- Content Area End -->
+	</div>
+
+<script>
+	if (document.addEventListener) 
+		 window.addEventListener('resize', CntOnresizeHandler, false);
+	 else if (document.attachEvent) 
+	 	 window.attachEvent('onresize', CntOnresizeHandler);
+	 	 	ResizeContent(null);
+	 	 </script>  
+  </body>
+</html>

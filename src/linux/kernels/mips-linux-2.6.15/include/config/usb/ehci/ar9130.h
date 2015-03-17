@@ -1,0 +1,1 @@
+#define CONFIG_USB_EHCI_AR9130 1

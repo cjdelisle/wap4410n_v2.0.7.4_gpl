@@ -1,0 +1,37 @@
+#!/bin/sh
+
+echo "*********************************************************************"
+echo "build toolchain"
+cd ./toolchain/
+make BOARD_TYPE=ap83fus BUILD_TYPE=jffs2 toolchain_build || exit
+
+echo "*********************************************************************"
+echo "build u-boot"
+cd ../u-boot
+./build.sh
+cp -af u-boot.bin ../build/product/wap4410n/
+
+echo "*********************************************************************"
+echo "build wap4410n.img"
+cd ../build/
+cd util/src/squashfs
+make || exit
+cp mksquashfs ../..
+cd ../../..
+cp ../rootfs-ap83fus.build/lib/* rootfs.build/lib/ -a
+cp ../toolchain/gcc-3.4.4-2.16.1/build_mips_nofpu/lib/libutil-0.9.28.so rootfs.build/lib/ -a
+cp ../toolchain/gcc-3.4.4-2.16.1/build_mips_nofpu/lib/libresolv-0.9.28.so rootfs.build/lib/ -a
+cd rootfs.build/lib/
+ln -s libresolv-0.9.28.so libresolv.so.0
+cd -
+make || exit
+
+rm -rf ../rootfs-ap83fus.build
+
+echo "*********************************************************************"
+echo "copy wap4410n.img to Result"
+cp wap4410n.img ../Result/WAP4410N_v2.0.7.4_gpl.img || exit
+
+echo "*********************************************************************"
+#make clean || exit
+echo "****************** build end, enjoy the Result/ :-) *****************"

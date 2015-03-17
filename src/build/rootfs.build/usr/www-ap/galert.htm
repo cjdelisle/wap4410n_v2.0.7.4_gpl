@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+
+<head>
+	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="WAP4410N">
+<META http-equiv="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<script language="javascript" type="text/javascript" src="msg_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="lang_@sys_lang#.js"></script>
+<script language="javascript" type="text/javascript" src="func.js"></script>
+<script language="javascript" type="text/javascript" src="linux.js"></script>
+<script language="javascript" type="text/javascript" src="ajax.js"></script>
+
+<script language="javaScript" type="text/javascript">
+<!-- Start Script
+
+strHtml='<title>'+titl_galert+'</title>';
+dw(strHtml);
+strHtml='<LINK REL="stylesheet" TYPE="text/css" HREF="'+css_type+'">';
+dw(strHtml);
+var r_delayTime = @r_delayTime#;
+function resetProcess()
+{
+    var delayTime;
+    var cf = document.forms[0];
+    delayTime=r_delayTime;
+     ScreenConvert();
+    setTimeout("change_ui()",delayTime);    
+}
+function change_ui()
+{
+    var cf = document.forms[0];
+	var nextfile="@r_nextfile#";
+	var str_location=0;
+    ScreenClean();
+    str_location=nextfile.indexOf("index.htm");
+    str2_location=nextfile.indexOf("login.htm");
+    if(str_location > 0 || str2_location > 0)
+    	parent.location=nextfile;
+    else
+    	window.location=nextfile;
+}
+// End Script -->
+</script>
+</head>
+<body  link="#FFFFFF" vlink="#FFFFFF" alink="#FFFFFF"  onload='resetProcess();'>
+	<div id="RightContentArea" style="width:100%;height:100%;overflow:auto;position:relative;">
+
+<form name="alert" method="get">
+<table border="0" cellpadding="4" cellspacing="3" width="100%">
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+
+<tr>
+<td	align="center"><b>
+	<script language="javaScript" type="text/javascript">dw(rebmsg);</script>
+	</b></td>
+
+</tr>
+<tr>
+	<td align="center">
+		<img src="./ProgressBar_indeterminate.gif"  height="17px" border="0">
+		</td>
+	
+</tr>
+</table>
+<input type="hidden" name="todo" value="save">
+<input type="hidden" name="this_file" value="galert.htm">
+<input type="hidden" name="next_file" value="galert.htm">
+</form>
+</div>
+</body>
+</html>
