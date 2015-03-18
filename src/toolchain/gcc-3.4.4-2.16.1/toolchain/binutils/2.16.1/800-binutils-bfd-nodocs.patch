@@ -5,11 +5,19 @@
  CSEARCH = -I. -I$(srcdir) -I$(INCDIR)
  MKDEP = gcc -MM
 -SUBDIRS = doc po
-+
-+### SUBDIRS = doc po ### doc is causing build errors
 +SUBDIRS = po
-+
  docdir = doc
  bfdlib_LTLIBRARIES = libbfd.la
  AM_CFLAGS = $(WARN_CFLAGS)
+--- binutils-2.16.90.0.2-dist/gas/Makefile	2015-03-18 02:10:38.664334624 +0100
++++ binutils-2.16.90.0.2/gas/Makefile	2015-03-18 02:16:26.540272251 +0100
+@@ -243,7 +243,7 @@
+ target_vendor = unknown
+ te_file = tmips
+ AUTOMAKE_OPTIONS = 1.8 cygnus dejagnu
+-SUBDIRS = doc po
++SUBDIRS = po
+ # Automake should figure this out on its own.  It doesn't, because
+ # of the "cygnus" option.  But distclean still wants it.
+ DIST_SUBDIRS = $(SUBDIRS)
 
