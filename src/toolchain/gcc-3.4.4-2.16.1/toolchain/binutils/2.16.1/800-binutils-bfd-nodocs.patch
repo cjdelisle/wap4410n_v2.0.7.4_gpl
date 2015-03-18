@@ -22,13 +22,13 @@
  DIST_SUBDIRS = $(SUBDIRS)
 --- binutils-2.16.90.0.2-dist/ld/Makefile.in	2015-03-18 02:46:53.672139442 +0100
 +++ binutils-2.16.90.0.2/ld/Makefile.in2	2015-03-18 02:47:12.731786085 +0100
-@@ -125,7 +125,7 @@
+@@ -1082,7 +1082,7 @@
+ install-exec-am: install-exec-local
+ install-exec: install-exec-recursive
  
- AUTOMAKE_OPTIONS = cygnus dejagnu
+-install-data-am: install-man install-data-local
++install-data-am: install-data-local
+ install-data: install-data-recursive
  
--SUBDIRS = po
-+SUBDIRS =
- 
- tooldir = $(exec_prefix)/$(target_alias)
- 
+ install-am: all-am
 
