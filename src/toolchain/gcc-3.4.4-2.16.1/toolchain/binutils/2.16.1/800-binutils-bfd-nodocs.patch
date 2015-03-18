@@ -1,0 +1,15 @@
+--- binutils-2.16.90.0.2-dist/bfd/Makefile.in	2005-06-12 20:58:55.000000000 +0200
++++ binutils-2.16.90.0.2/bfd/Makefile.in	2015-03-18 02:00:26.526785694 +0100
+@@ -254,7 +254,10 @@
+ INCDIR = $(srcdir)/../include
+ CSEARCH = -I. -I$(srcdir) -I$(INCDIR)
+ MKDEP = gcc -MM
+-SUBDIRS = doc po
++
++### SUBDIRS = doc po ### doc is causing build errors
++SUBDIRS = po
++
+ docdir = doc
+ bfdlib_LTLIBRARIES = libbfd.la
+ AM_CFLAGS = $(WARN_CFLAGS)
+
